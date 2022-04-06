@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 /**
  * Sample React Native App
  * https://github.com/facebook/react-native
@@ -19,15 +20,11 @@ import {
   View,
   Button
 } from 'react-native';
+import Logo from './src/config/logo';
 
 function HomeScreen(props) {
   return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Text>Home Screen</Text>
-      <Button onPress={() => {
-        props.navigation.navigate("Screen2")
-      }} title = {'CLick'}></Button>
-    </View>
+    <Logo />
   );
 }
 function Screen2() {
