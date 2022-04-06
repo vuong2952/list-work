@@ -5,10 +5,15 @@
  * @format
  * @flow strict-local
  */
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import React, { useState } from 'react';
 
- import { NavigationContainer } from '@react-navigation/native';
- import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import React from 'react';
+import Login from './src/view/Login'
+import SignUp from './src/view/SignUp'
+import ListWork from './src/view/ListWork'
+import Profile from './src/view/Profile'
+
 import {
   SafeAreaView,
   ScrollView,
@@ -20,34 +25,28 @@ import {
   Button
 } from 'react-native';
 
-function HomeScreen(props) {
-  return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Text>Home Screen</Text>
-      <Button onPress={() => {
-        props.navigation.navigate("Screen2")
-      }} title = {'CLick'}></Button>
-    </View>
-  );
-}
-function Screen2() {
-  return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Text>Screen2</Text>
-    </View>
-  );
-}
-
-const Stack = createNativeStackNavigator(); 
+const Stack = createNativeStackNavigator();
 
 function App() {
+
+  const [isLogin, setIsLogin] = useState(true)
+
   return (
-    <NavigationContainer>
-      <Stack.Navigator initialRouteName="Home">
-        <Stack.Screen name="Home" component={HomeScreen} />
-        <Stack.Screen name="Screen2" component={Screen2} />
-      </Stack.Navigator>
-    </NavigationContainer>
+      <NavigationContainer>
+        {
+        isLogin ? (
+          <Stack.Navigator initialRouteName='Login'>
+           <Stack.Screen name="Login" component={Login}/>
+           <Stack.Screen name="SignUp" component={SignUp} />
+          </Stack.Navigator>
+        ) : (
+          <Stack.Navigator initialRouteName='ListWork'>
+           <Stack.Screen name="ListWork" component={ListWork} />
+           <Stack.Screen name="Profile" component={Profile} />
+          </Stack.Navigator>
+        )
+        }
+      </NavigationContainer>
   );
 }
 
