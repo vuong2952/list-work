@@ -16,8 +16,8 @@ const Login = props => {
                 <Text style={styles.textTitle}>Welcome Gara</Text>
                 <Text style={styles.textBody}>Log in to your existant account</Text>
                 <View style={{marginTop: 20}} />
-                <Inputs name="Email"  />
-                <Inputs name="Password" pass={true} />
+                <Inputs name="Email" icon="user"/>
+                <Inputs name="Password" pass={true} icon="lock"/>
                 {/* <View style={{width: '90%'}}>
                     <Text style={[styles.textBody], {alignSelf: 'center'}}>Forgot Password?</Text>
                 </View> */}

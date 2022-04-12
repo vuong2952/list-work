@@ -24,29 +24,17 @@ import {
   View,
   Button
 } from 'react-native';
+import Route from './src/navigation/Route';
 
 const Stack = createNativeStackNavigator();
 
 function App() {
 
-  const [isLogin, setIsLogin] = useState(true)
-
   return (
-      <NavigationContainer>
-        {
-        isLogin ? (
-          <Stack.Navigator initialRouteName='Login'>
-           <Stack.Screen name="Login" component={Login}/>
-           <Stack.Screen name="SignUp" component={SignUp} />
-          </Stack.Navigator>
-        ) : (
-          <Stack.Navigator initialRouteName='ListWork'>
-           <Stack.Screen name="ListWork" component={ListWork} />
-           <Stack.Screen name="Profile" component={Profile} />
-          </Stack.Navigator>
-        )
-        }
-      </NavigationContainer>
+    <NavigationContainer>
+      <Route/>
+    </NavigationContainer>
+    
   );
 }
 
