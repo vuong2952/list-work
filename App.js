@@ -6,10 +6,18 @@
  * @format
  * @flow strict-local
  */
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import React, { useState } from 'react';
 
- import { NavigationContainer } from '@react-navigation/native';
- import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import React from 'react';
+// import Login from './src/view/LoginView/Login';
+// import Login from './src/view/LoginView/Login';
+import LoginScreen from './src/view/LoginView/Login3';
+import ListWork from './src/view/LoginView/ListWork';
+import Profile from './src/view/LoginView/Profile';
+import Register from './src/view/LoginView/Register';
+import RegisterScreen from './src/view/LoginView/RegisterScreen';
+
 import {
   SafeAreaView,
   ScrollView,
@@ -20,30 +28,50 @@ import {
   View,
   Button
 } from 'react-native';
-import Logo from './src/config/logo';
 
-function HomeScreen(props) {
-  return (
-    <Logo />
-  );
-}
-function Screen2() {
-  return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Text>Screen2</Text>
-    </View>
-  );
-}
-
-const Stack = createNativeStackNavigator(); 
+const Stack = createNativeStackNavigator();
 
 function App() {
+
+  const [isLogin, setIsLogin] = useState(true)
+
+
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Home">
-        <Stack.Screen name="Home" component={HomeScreen} />
-        <Stack.Screen name="Screen2" component={Screen2} />
-      </Stack.Navigator>
+      {
+        isLogin ? (
+          <Stack.Navigator initialRouteName='Login'>
+            <Stack.Screen
+              name="Login"
+              component={LoginScreen}
+              options={({ navigation }) => ({
+                title: '',
+                headerStyle: {
+                  backgroundColor: '#f9fafd',
+                  shadowColor: '#f9fafd',
+                  elevation: 0,
+                }
+              })} />
+            {/* <Stack.Screen name="Register" component={Register}/> */}
+            <Stack.Screen
+              name="Register"
+              component={RegisterScreen}
+              options={({ navigation }) => ({
+                title: '',
+                headerStyle: {
+                  backgroundColor: '#f9fafd',
+                  shadowColor: '#f9fafd',
+                  elevation: 0,
+                }
+              })} />
+          </Stack.Navigator>
+        ) : (
+          <Stack.Navigator initialRouteName='ListWork'>
+            <Stack.Screen name="ListWork" component={ListWork} />
+            <Stack.Screen name="Profile" component={Profile} />
+          </Stack.Navigator>
+        )
+      }
     </NavigationContainer>
   );
 }
