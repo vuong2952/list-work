@@ -10,14 +10,22 @@ import {
     View,
     Button
 } from 'react-native';
+import Profile from './Profile';
+import CustomHeader from '../../components/CustomHeader';
+
 
 const ListWork = props => {
-    return <ScrollView>
-        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-            <Text>Screen2</Text>
-        </View>
+    return (
+        <ScrollView>
+            {/* <CustomHeader title="List Work" isHome={true} /> */}
 
-    </ScrollView>
+            <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+                <Text>Screen2</Text>
+            </View>
+
+        </ScrollView>
+    )
+
 }
 
 export default ListWork

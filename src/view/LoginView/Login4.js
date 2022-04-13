@@ -34,7 +34,7 @@ const Login = ({ navigation }) => {
             setUserValid(false);
         }
         else {
-            setCheckUser(null);
+            setCheckUser("none");
             setUserValid(true);
         }
     }
@@ -154,10 +154,10 @@ const Login = ({ navigation }) => {
             }
             <FormButton
                 buttonTitle="Sign In"
-            // onPress={() => login(email, password)}
+                onPress={() => navigation.navigate('ListWork')}
             />
 
-            <TouchableOpacity style={styles.forgotButton} onPress={() => { }}>
+            {/* <TouchableOpacity style={styles.forgotButton} onPress={() => { }}>
                 <Text style={styles.navButtonText}>Forgot Password?</Text>
             </TouchableOpacity>
             <TouchableOpacity
@@ -167,7 +167,7 @@ const Login = ({ navigation }) => {
                 <Text style={styles.navButtonText}>
                     Don't have an acount? Create here
                 </Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
         </ScrollView>
     );
 };
