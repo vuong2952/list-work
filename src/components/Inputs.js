@@ -1,36 +1,39 @@
-import React, {Component} from 'react';
-import {View, StyleSheet, ScrollView} from 'react-native';
+/* eslint-disable prettier/prettier */
+import React, { Component, useState } from 'react';
+import { View, StyleSheet, ScrollView } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import {Input} from '@rneui/themed';
+import { Input } from '@rneui/themed';
 
-class Inputs extends Component {
-    state = {isFocused: false};
+const Inputs = (props) => {
+    const [focused, isFocused] = useState(false)
 
-    onFocusChange = () => {
-        this.setState({isFocused: true})
-    }
-
-    render() {
-        return(
-            <View style={[styles.container, {borderColor: this.state.isFocused ? '#0779ef': '#eee'}]}>
-                <Input 
-                    placeholder={this.props.name}
-                    onFocus={this.onFocusChange}
-                    inputContainerStyle={styles.inputContainer}
-                    inputStyle={styles.inputText}
-                    secureTextEntry={this.props.pass}
-                    leftIcon= {
-                        <Icon 
-                            name={this.props.icon}
-                            size={22}
-                            color={this.state.isFocused ? '#0779e4' : 'grey'}
-                        />
-                    }
-                />
-            </View>
-        );
+    const onFocusChange = () => {
+        isFocused(true)
     };
-};
+
+    return (
+        <View
+            style={[
+                styles.container,
+                { borderColor: focused ? '#0779ef' : '#eee' },
+            ]}>
+            <Input
+                placeholder={props.name}
+                onFocus={onFocusChange}
+                inputContainerStyle={styles.inputContainer}
+                inputStyle={styles.inputText}
+                secureTextEntry={props.pass}
+                leftIcon={
+                    <Icon
+                        name={props.icon}
+                        size={22}
+                        color={focused ? '#0779e4' : 'grey'}
+                    />
+                }
+            />
+        </View>
+    );
+}
 
 const styles = StyleSheet.create({
     container: {
@@ -47,8 +50,8 @@ const styles = StyleSheet.create({
     inputText: {
         color: '#0779e4',
         fontWeight: 'bold',
-        marginLeft: 5
-    }
+        marginLeft: 5,
+    },
 });
 
 export default Inputs;
