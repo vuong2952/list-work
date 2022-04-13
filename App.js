@@ -12,6 +12,7 @@ import React, { useState } from 'react';
 
 // import Login from './src/view/LoginView/Login';
 // import Login from './src/view/LoginView/Login';
+import Login from './src/view/LoginView/Login4';
 import LoginScreen from './src/view/LoginView/Login3';
 import ListWork from './src/view/LoginView/ListWork';
 import Profile from './src/view/LoginView/Profile';
@@ -43,7 +44,7 @@ function App() {
           <Stack.Navigator initialRouteName='Login'>
             <Stack.Screen
               name="Login"
-              component={LoginScreen}
+              component={Login}
               options={({ navigation }) => ({
                 title: '',
                 headerStyle: {
@@ -52,6 +53,17 @@ function App() {
                   elevation: 0,
                 }
               })} />
+            {/* <Stack.Screen
+              name="Login"
+              component={LoginScreen}
+              options={({ navigation }) => ({
+                title: '',
+                headerStyle: {
+                  backgroundColor: '#f9fafd',
+                  shadowColor: '#f9fafd',
+                  elevation: 0,
+                }
+              })} /> */}
             {/* <Stack.Screen name="Register" component={Register}/> */}
             <Stack.Screen
               name="Register"
