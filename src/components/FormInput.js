@@ -1,17 +1,21 @@
 /* eslint-disable prettier/prettier */
-import React from 'react';
-import { View, TextInput, StyleSheet, Text } from 'react-native';
+import React, { useState } from 'react';
+import { View, TextInput, StyleSheet, Text, TouchableOpacity } from 'react-native';
 import { windowHeight, windowWidth } from '../utils/Dimension';
 import * as Animatable from 'react-native-animatable';
 
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import Feather from 'react-native-vector-icons/Feather';
 
-const FormInput = ({ labelValue, placeholderText, iconType, iconRight, isTextValid, isPassValid, ...rest }) => {
+const FormInput = ({ labelValue, placeholderText, iconType, iconRight, isTextValid, isPassValid, isSecure, ...rest }) => {
+  
+  console.log(isSecure);
   return (
     <View style={styles.container}>
       <View style={styles.inputContainer}>
         <View style={styles.iconStyle}>
-          <AntDesign name={iconType} size={25} color="#666" />
+          {/* <AntDesign name={iconType} size={25} color="#666" /> */}
+          <Feather name={iconType} size={25} color="#666" />
         </View>
         <TextInput
           value={labelValue}
@@ -19,27 +23,47 @@ const FormInput = ({ labelValue, placeholderText, iconType, iconRight, isTextVal
           numberOfLines={1}
           placeholder={placeholderText}
           placeholderTextColor="#666"
+          secureTextEntry={isSecure}
           {...rest}
         />
-        <View style={styles.iconStyleRight}>
-          <AntDesign name={iconRight} size={25} color="#666" />
-        </View>
+
+        {
+          iconType == 'lock' ? (
+            < TouchableOpacity >
+              <View style={styles.iconStyleRight}>
+                <Feather name={iconRight} size={25} color="#666" />
+                {/* <AntDesign name={iconRight} size={25} color="#666" /> */}
+              </View>
+            </TouchableOpacity>
+          )
+            :
+            (
+              <View style={styles.iconStyleRight}>
+                <Feather name={iconRight} size={25} color="#666" />
+                {/* <AntDesign name={iconRight} size={25} color="#666" /> */}
+              </View>
+            )
+
+        }
+
+
       </View>
-      {isTextValid ?
-        <Animatable.View animation="fadeInLeft" duration={500}>
-          <Text style={styles.errorMsg}>is not email</Text>
-        </Animatable.View>
-        : null
+      {
+        isTextValid ?
+          <Animatable.View animation="fadeInLeft" duration={500}>
+            <Text style={styles.errorMsg}>Phải có ít nhất 1 ký tự</Text>
+          </Animatable.View>
+          : null
       }
       {
         isPassValid ?
           <Animatable.View animation="fadeInLeft" duration={500}>
-            <Text style={styles.errorMsg}>is not Pass</Text>
+            <Text style={styles.errorMsg}>Phải chứa ít nhất 4 ký tự</Text>
           </Animatable.View>
           : null
       }
 
-    </View>
+    </View >
 
   );
 };
