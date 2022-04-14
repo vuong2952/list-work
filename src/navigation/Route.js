@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 
 
 import Login from '../view/LoginView/Login4'
-// import Register from '../view/LoginView/Register'
+import ListWorkScreen from '../view/LoginView/ListWorkScreen'
 import ListWork from '../view/LoginView/ListWork'
 import Profile from '../view/LoginView/Profile'
 
@@ -14,9 +14,10 @@ const Route = () => {
     return (
         <Stack.Navigator initialRouteName='Login'>
             <Stack.Screen name="Login" component={Login} options={{headerShown: false}}/>
-            {/* <Stack.Screen name="Register" component={Register} options={{headerShown: false}}/> */}
+            <Stack.Screen name="ListWorkScreen" component={ListWorkScreen} options={{headerTitle: ''}}/>
             <Stack.Screen name="ListWork" component={ListWork} options={{headerShown: false}}/>
             <Stack.Screen name="Profile" component={Profile} />
+            
         </Stack.Navigator>
     )
 }
