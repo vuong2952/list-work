@@ -12,15 +12,27 @@ import React, { useState } from 'react';
 
 // import Login from './src/view/LoginView/Login';
 // import Login from './src/view/LoginView/Login';
-import Login from './src/view/LoginView/Login4';
-import LoginScreen from './src/view/LoginView/Login3';
+// import Login from './src/view/LoginView/Login4';
+// import LoginScreen from './src/view/LoginView/Login3';
 import ListWork from './src/view/LoginView/ListWork';
 import Profile from './src/view/LoginView/Profile';
-import Register from './src/view/LoginView/Register';
-import RegisterScreen from './src/view/LoginView/RegisterScreen';
+// import Register from './src/view/LoginView/Register';
+// import RegisterScreen from './src/view/LoginView/RegisterScreen';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 // import Tabs from './src/navigation/taps';
 
+
+import {
+  SafeAreaView,
+  ScrollView,
+  StatusBar,
+  StyleSheet,
+  Text,
+  useColorScheme,
+  View,
+  Button
+} from 'react-native';
+import Route from './src/navigation/Route';
 
 const Stack = createNativeStackNavigator();
 
@@ -49,10 +61,10 @@ const Tab = createBottomTabNavigator();
 function App() {
   return (
     <NavigationContainer>
-      <Tab.Navigator>
+      {/* <Tab.Navigator>
         <Tab.Screen name="ListWork" component={ListWorkScreen} options={navOptionHandler}/>
         <Tab.Screen name="Profile" component={ProfileScreen} options={navOptionHandler}/>
-      </Tab.Navigator>
+      </Tab.Navigator> */}
       {/* <Stack.Navigator initialRouteName="Login">
         <Stack.Screen
           name="Login"
@@ -91,7 +103,9 @@ function App() {
       {/* <Stack.Screen name="Profile" component={Profile} /> */}
       {/* <Stack.Screen name="ListWork" component={ListWork} />
       </Stack.Navigator> */}
+      <Route/>
     </NavigationContainer>
+    
   );
 }
 

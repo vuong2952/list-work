@@ -34,7 +34,7 @@ const Login = ({ navigation }) => {
             setUserValid(false);
         }
         else {
-            setCheckUser("none");
+            setCheckUser(null);
             setUserValid(true);
         }
     }
@@ -154,7 +154,8 @@ const Login = ({ navigation }) => {
             }
             <FormButton
                 buttonTitle="Sign In"
-                onPress={() => navigation.navigate('ListWork')}
+            // onPress={() => login(email, password)}
+            onPress={() => navigation.navigate('HomeApp')}
             />
 
             {/* <TouchableOpacity style={styles.forgotButton} onPress={() => { }}>
