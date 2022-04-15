@@ -56,13 +56,11 @@ const ListWork = ({ navigation }) => {
 
     return <View style={Style.container}>
         <View style={Style.badge}>
-            <Badge textStyle={{ fontSize: 19 }} badgeStyle={{ backgroundColor: 'gray', height: 25 }} value='Chưa xác nhận'></Badge>
-            <Badge textStyle={{ fontSize: 19 }} badgeStyle={{ backgroundColor: 'blue', height: 25 }} value='Đang thực hiện'></Badge>
-            <Badge textStyle={{ fontSize: 19 }} badgeStyle={{ backgroundColor: 'orange', height: 25 }} value='Tạm dừng'></Badge>
-        </View>
-        <View style={Style.badge}>
-            <Badge textStyle={{ fontSize: 19 }} badgeStyle={{ backgroundColor: 'red', height: 25 }} value='Gặp sự cố'></Badge>
-            <Badge textStyle={{ fontSize: 19 }} badgeStyle={{ backgroundColor: 'green', height: 25 }} value='Hoàn thành'></Badge>
+            <Badge textStyle={{ fontSize: 12 }} badgeStyle={{ backgroundColor: 'gray', height: 20 }} value='Chưa xác nhận'></Badge>
+            <Badge textStyle={{ fontSize: 12 }} badgeStyle={{ backgroundColor: 'blue', height: 20 }} value='Đang thực hiện'></Badge>
+            <Badge textStyle={{ fontSize: 12 }} badgeStyle={{ backgroundColor: 'orange', height: 20 }} value='Tạm dừng'></Badge>
+            <Badge textStyle={{ fontSize: 12 }} badgeStyle={{ backgroundColor: 'red', height: 20 }} value='Gặp sự cố'></Badge>
+            <Badge textStyle={{ fontSize: 12 }} badgeStyle={{ backgroundColor: 'green', height: 20 }} value='Hoàn thành'></Badge>
         </View>
         <ScrollView >
             <View>
@@ -73,16 +71,13 @@ const ListWork = ({ navigation }) => {
                             <Badge textStyle={{ fontSize: 14, textAlign: 'center', textAlign: 'center' }} value={i.status}></Badge>
                             {
                                 list2.map((k, l) => (
-                                    <View style={Style.listItemInnerContentView} backgroundColor={k.status === 0 ? 'gray' : k.status === '1' ? 'blue' : k.status === '2' ? 'orange' : k.status === '3' ? 'red' : 'green'} >
-                                        <TouchableOpacity onPress={() => navigation.navigate('ListWorkScreen')}>
+                                    <View style={Style.listItemInnerContentView} backgroundColor={k.status === 0 ? color.grey4 : k.status === '1' ? color.blue1 : k.status === '2' ? color.orange1 : k.status === '3' ? 'red' : color.secondary2} >
+                                        <TouchableOpacity onPress={() => navigation.navigate('ListWorkScreen')} style={{width: '100%', alignItems: 'center'}}>
                                             <Text style={Style.TextStyle} >{k.title}</Text>
                                         </TouchableOpacity>
                                     </View>
                                 ))
                             }
-
-
-
                         </Card>
                     ))}
             </View>

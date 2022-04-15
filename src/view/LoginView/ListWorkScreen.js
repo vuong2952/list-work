@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, Image, ScrollView, TextInput, TouchableOpacity, Dimensions, Platform } from 'react-native';
 import { Input, Icon, Text } from '@rneui/themed';
 import { windowHeight, windowWidth } from '../../utils/Dimension';
+import color from '../../config/color';
 
 const ListWorkScreen = ({ navigation }) => {
     const list3 = [
@@ -15,6 +16,10 @@ const ListWorkScreen = ({ navigation }) => {
         {
             name: 'Nhúng',
             status: '3'
+        },
+        {
+            name: 'Bào',
+            status: '0'
         }
     ]
 
@@ -23,12 +28,12 @@ const ListWorkScreen = ({ navigation }) => {
             <View>
                 {
                     list3.map((i, e) => (
-                        <Card key={e} containerStyle={{ borderColor: 'black', borderRadius: 10 }} wrapperStyle={{}}>
-                            <Text h4 style={{ textAlign: 'center' }}>{i.name}</Text>
+                        <Card key={e} containerStyle={{ borderColor: 'black', borderRadius: 10, }} wrapperStyle={{}} >
+                            <Text h4 style={{ textAlign: 'center', backgroundColor: (i.status === '0'? color.grey4 : i.status === '1'? color.blue1 : i.status === '2' ? color.orange1 : i.status === '3' ? 'red' : color.secondary2)}}>{i.name}</Text>
                             <View style={Style.listItemInnerContentView}>
                                 {i.status === '1' ? null : <Button title="Bắt đầu thực hiện"
                                     buttonStyle={{
-                                        backgroundColor: 'blue',
+                                        backgroundColor: color.blue1,
                                         borderRadius: 3,
                                     }}
                                     containerStyle={{
@@ -38,7 +43,7 @@ const ListWorkScreen = ({ navigation }) => {
                                     }} />}
                                 {i.status === '2' ? null : <Button title="Tạm dừng"
                                     buttonStyle={{
-                                        backgroundColor: 'orange',
+                                        backgroundColor: color.orange1,
                                         borderRadius: 3,
                                     }}
                                     containerStyle={{
@@ -58,7 +63,7 @@ const ListWorkScreen = ({ navigation }) => {
                                     }}/>}
                                 {i.status === '4' ? null : <Button title="Hoàn thành"
                                     buttonStyle={{
-                                        backgroundColor: 'green',
+                                        backgroundColor: color.secondary2,
                                         borderRadius: 3,
                                     }}
                                     containerStyle={{
@@ -88,7 +93,6 @@ const Style = StyleSheet.create({
     listItemInnerContentView: {
         marginTop: 18,
         width: '100%',
-        height: windowHeight / 3,
         padding: 10,
         alignItems: 'center',
         justifyContent: 'center',

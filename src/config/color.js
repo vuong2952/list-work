@@ -15,4 +15,6 @@ export default {
   dkGreyBg: '#232323',
   greyOutline: '#cbd2d9',
   orange: '#ff7700',
+  blue1: '#0066ff',
+  orange1: '#ffcc00',
 };
