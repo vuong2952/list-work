@@ -19,6 +19,8 @@ import SocialButton from '../../components/SocialButton';
 import { windowHeight, windowWidth } from '../../utils/Dimension';
 import * as Animatable from 'react-native-animatable';
 import Feather from 'react-native-vector-icons/Feather';
+import { setStorage } from '../../navigation/Apis'
+import axios from 'axios';
 
 const Login = ({ navigation }) => {
     const [username, setUsername] = useState('');
@@ -39,13 +41,6 @@ const Login = ({ navigation }) => {
         }
     }
 
-    console.log(isPassValid);
-
-    // const showPassword = (val) => {
-    //     // console.log(val);
-    //     setShowPass(!val);
-    // }
-
     const handleChangePassWord = (val) => {
         if (val.length < 4) {
             setIsPassValid(true);
@@ -53,6 +48,21 @@ const Login = ({ navigation }) => {
         else {
             setIsPassValid(false);
         }
+    }
+    const handleLogin = () => {
+        axios.post('http://nk.ors.vn/mobile/api/login', {
+            username: username,
+            password: password
+        })
+            .then((response) => {
+                console.log('res', response.data.data.token,)
+                setStorage(response.data.data.token)
+                if (response.data.data.token.length > 0) navigation.navigate("HomeApp")
+                else alert("Lỗi không đăng nhập được!");
+            })
+            .catch((error) => {
+                console.log("Lỗi không đăng nhập được!")
+            });
     }
 
     return (
@@ -135,13 +145,6 @@ const Login = ({ navigation }) => {
                                 style={styles.iconRightStyle}
                             />
                     }
-                    {/* <Feather
-                        onPress={() => setShowPass(!showPass)}
-                        name="eye-off"
-                        color="#ccc"
-                        size={25}
-                        style={styles.iconRightStyle}
-                    /> */}
                 </TouchableOpacity>
 
             </View>
@@ -154,21 +157,10 @@ const Login = ({ navigation }) => {
             }
             <FormButton
                 buttonTitle="Sign In"
-            // onPress={() => login(email, password)}
-            onPress={() => navigation.navigate('HomeApp')}
+                onPress={() => handleLogin()}
+            // onPress={() => navigation.navigate('HomeApp')}
             />
 
-            {/* <TouchableOpacity style={styles.forgotButton} onPress={() => { }}>
-                <Text style={styles.navButtonText}>Forgot Password?</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-                style={styles.forgotButton}
-                onPress={() => navigation.navigate('Register')}
-            >
-                <Text style={styles.navButtonText}>
-                    Don't have an acount? Create here
-                </Text>
-            </TouchableOpacity> */}
         </ScrollView>
     );
 };
