@@ -5,9 +5,21 @@ export const getToken = () => {
   return AsyncStorage.getItem("token")
 }
 
+export const getName = () => {
+  return AsyncStorage.getItem("name")
+}
+
+export const getAddress = () => {
+  return AsyncStorage.getItem("address")
+}
+
+export const getUsername = () => {
+  return AsyncStorage.getItem("username")
+}
+
 export const removeUserSession = () => {
-  sessionStorage.removeItem('token')
-  sessionStorage.removeItem('username')
+  AsyncStorage.removeItem('token')
+  AsyncStorage.removeItem('username')
 }
 // export const token = "?token=" + getToken()
 

@@ -56,7 +56,7 @@ const Login = ({ navigation }) => {
         })
             .then((response) => {
                 console.log('res', response.data.data.token,)
-                setStorage(response.data.data.token)
+                setStorage(response.data.data.token, response.data.data.name, response.data.data.username, response.data.data.address)
                 if (response.data.data.token.length > 0) navigation.navigate("HomeApp")
                 else alert("Lỗi không đăng nhập được!");
             })
