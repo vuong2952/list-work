@@ -19,6 +19,8 @@ import SocialButton from '../../components/SocialButton';
 import { windowHeight, windowWidth } from '../../utils/Dimension';
 import * as Animatable from 'react-native-animatable';
 import Feather from 'react-native-vector-icons/Feather';
+import { AuthContext } from '../../context/AuthContext';
+// import Spinner from 'react-native-loading-spinner-overlay/lib';
 
 const Login = ({ navigation }) => {
     const [username, setUsername] = useState('');
@@ -27,6 +29,7 @@ const Login = ({ navigation }) => {
     const [userValid, setUserValid] = useState(false);
     const [isPassValid, setIsPassValid] = useState(false);
     const [showPass, setShowPass] = useState(true);
+    const {isLoading, login} = useContext(AuthContext)
 
     const textInputChange = (val) => {
         if (val.length !== 0) {
@@ -57,6 +60,7 @@ const Login = ({ navigation }) => {
 
     return (
         <ScrollView contentContainerStyle={styles.container}>
+            {/* <Spinner visible={isLoading} /> */}
             <View style={styles.headerContainer}>
                 <Image
                     source={require('../../components/img/NamKhanh.png')}
@@ -155,7 +159,10 @@ const Login = ({ navigation }) => {
             <FormButton
                 buttonTitle="Sign In"
             // onPress={() => login(email, password)}
-            onPress={() => navigation.navigate('HomeApp')}
+            // onPress={() => navigation.navigate('HomeApp')}
+            onPress={() => {
+                Login(username, password);
+            }}
             />
 
             {/* <TouchableOpacity style={styles.forgotButton} onPress={() => { }}>

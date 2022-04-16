@@ -59,17 +59,17 @@ const ListWork = ({ navigation }) => {
 
     return <View style={Style.container}>
         <View style={Style.badge}>
-            <Badge textStyle={{ fontSize: 12 }} badgeStyle={{ backgroundColor: 'gray', height: 20 }} value='Chưa xác nhận'></Badge>
-            <Badge textStyle={{ fontSize: 12 }} badgeStyle={{ backgroundColor: 'blue', height: 20 }} value='Đang thực hiện'></Badge>
-            <Badge textStyle={{ fontSize: 12 }} badgeStyle={{ backgroundColor: 'orange', height: 20 }} value='Tạm dừng'></Badge>
-            <Badge textStyle={{ fontSize: 12 }} badgeStyle={{ backgroundColor: 'red', height: 20 }} value='Gặp sự cố'></Badge>
-            <Badge textStyle={{ fontSize: 12 }} badgeStyle={{ backgroundColor: 'green', height: 20 }} value='Hoàn thành'></Badge>
+            <Badge textStyle={{ fontSize: 12 }} badgeStyle={{ backgroundColor: 'gray', height: 20}} value='Chưa xác nhận'></Badge>
+            <Badge textStyle={{ fontSize: 12 }} badgeStyle={{ backgroundColor: 'blue', height: 20}} value='Đang thực hiện'></Badge>
+            <Badge textStyle={{ fontSize: 12 }} badgeStyle={{ backgroundColor: 'orange', height: 20}} value='Tạm dừng'></Badge>
+            <Badge textStyle={{ fontSize: 12 }} badgeStyle={{ backgroundColor: 'red', height: 20}} value='Gặp sự cố'></Badge>
+            <Badge textStyle={{ fontSize: 12 }} badgeStyle={{ backgroundColor: 'green', height: 20}} value='Hoàn thành'></Badge>
         </View>
         <ScrollView style={{ marginBottom: 60}}>
             <View>
                 {
                     list1.map((i, e) => (
-                        <Card containerStyle={{ borderColor: 'black', borderRadius: 10 }} wrapperStyle={{}} key={e}>
+                        <Card containerStyle={{ borderColor: 'black', borderRadius: 10, backgroundColor: color.grey4 }} wrapperStyle={{}} key={e}>
                             <Text h4 style={{ textAlign: 'center' }}>{i.title}</Text>
                             <Badge textStyle={{ fontSize: 14, textAlign: 'center', textAlign: 'center' }} value={i.status}></Badge>
                             {
@@ -113,6 +113,7 @@ const Style = StyleSheet.create({
         borderRadius: 10,
         flex: 1,
         alignContent: 'center',
+        borderColor: color.grey1
     },
     TextStyle: {
         fontSize: 22,
