@@ -10,10 +10,13 @@ import {
     ScrollView,
     StatusBar,
     StyleSheet,
+    TouchableOpacity,
     useColorScheme,
     View,
-    TouchableOpacity
 } from 'react-native';
+import Profile from './Profile';
+import CustomHeader from '../../components/CustomHeader';
+
 
 const ListWork = ({ navigation }) => {
 
@@ -51,8 +54,8 @@ const ListWork = ({ navigation }) => {
         {
             title: 'Rửa xe',
             status: '3',
-        }
-    ]
+        },
+    ];
 
     return <View style={Style.container}>
         <View style={Style.badge}>
@@ -62,7 +65,7 @@ const ListWork = ({ navigation }) => {
             <Badge textStyle={{ fontSize: 12 }} badgeStyle={{ backgroundColor: 'red', height: 20 }} value='Gặp sự cố'></Badge>
             <Badge textStyle={{ fontSize: 12 }} badgeStyle={{ backgroundColor: 'green', height: 20 }} value='Hoàn thành'></Badge>
         </View>
-        <ScrollView >
+        <ScrollView style={{ marginBottom: 60}}>
             <View>
                 {
                     list1.map((i, e) => (
@@ -84,9 +87,9 @@ const ListWork = ({ navigation }) => {
         </ScrollView >
     </View >
 
-}
+};
 
-export default ListWork
+export default ListWork;
 
 const Style = StyleSheet.create({
     container: {
