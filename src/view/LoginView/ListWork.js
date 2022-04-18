@@ -18,6 +18,7 @@ import Profile from './Profile';
 import CustomHeader from '../../components/CustomHeader';
 import * as Async from '../../navigation/Apis'
 import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 const ListWork = ({ navigation }) => {
@@ -26,15 +27,16 @@ const ListWork = ({ navigation }) => {
     const [work, setWork] = useState([])
 
     useEffect(() => {
-        Async.instance.post("/process/list")
-            .then((res) => {
-                console.log('res2', res)
-                setCar(res.data.data.car)
-                setWork(res.data.data.stages)
+        axios.post("/process/list")
+            .then(res => {
+                setCar(res.data.data[0].car)
+                setWork(res.data.data[0].stages)
             }).catch((err) => {
-                // alert("ERROR")
+                alert("ERROR")
             })
     }, [car, work])
+
+    console.log('car', car)
 
     return <View style={Style.container}>
         <View style={Style.badge}>
@@ -47,15 +49,15 @@ const ListWork = ({ navigation }) => {
         <ScrollView style={{ marginBottom: 60 }}>
             <View>
                 {
-                    car.map((i, e) => (
+                    car !== null && car.map((i, e) => (
                         <Card containerStyle={{ borderColor: 'black', borderRadius: 10 }} wrapperStyle={{}} key={e}>
                             <Text h4 style={{ textAlign: 'center' }}>{i.plate}</Text>
                             <Badge textStyle={{ fontSize: 14, textAlign: 'center', textAlign: 'center' }} value={i.attribute[0].name + ' - ' + i.customer.name}></Badge>
                             {
-                                work.map((k, l) => (
-                                    <View style={Style.listItemInnerContentView} backgroundColor={k.status === 0 ? color.grey4 : k.status === '1' ? color.blue1 : k.status === '2' ? color.orange1 : k.status === '3' ? 'red' : color.secondary2} >
+                                work !== null && work.map((k, l) => (
+                                    <View style={Style.listItemInnerContentView} backgroundColor={k.status_process === '0' ? color.grey4 : k.status_process === '1' ? color.blue1 : k.status_process === '2' ? color.orange1 : k.status_process === '3' ? 'red' : color.secondary2} >
                                         <TouchableOpacity onPress={() => navigation.navigate('ListWorkScreen')} style={{ width: '100%', alignItems: 'center' }}>
-                                            <Text style={Style.TextStyle} >{k.title}</Text>
+                                            <Text style={Style.TextStyle} >{k.name}</Text>
                                         </TouchableOpacity>
                                     </View>
                                 ))
