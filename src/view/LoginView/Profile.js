@@ -1,14 +1,20 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable react-native/no-inline-styles */
 import { Image } from "@rneui/themed";
-import React from "react";
+import React, { useContext } from "react";
 import { ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import AntDesign from "react-native-vector-icons/AntDesign"
 import SimpleLineIcons from "react-native-vector-icons/SimpleLineIcons"
 import { windowHeight, windowWidth } from "../../utils/Dimension";
+import * as Async from "../../navigation/Apis"
+// import { AuthContext } from "../../context/AuthContext";
 
 
 const Profile = ({ navigation}) => {
+    // const {userInfo} = useContext(AuthContext)
+    console.log(navigation)
+    console.log("123",Async.getName())
+    const {getName} = useContext(Async)
     return (
         <View>
             <ScrollView contentContainerStyle={styles.container}>
@@ -46,7 +52,7 @@ const Profile = ({ navigation}) => {
 
                         <TextInput
                             placeholder="name"
-                            value="ABCC"
+                            value={getName()}
                             // defaultValue={props.name}
                             style={styles.textInput}
                         />

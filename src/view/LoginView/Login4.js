@@ -5,7 +5,6 @@ import {
     Text,
     TouchableOpacity,
     Image,
-    Platform,
     StyleSheet,
     ScrollView,
     TextInput,
@@ -14,13 +13,15 @@ import {
 import FormInput from '../../components/FormInput';
 import color from '../../config/color';
 import FormButton from '../../components/FormButton';
-import FormCheckBox from '../../components/FromCheckBox';
-import SocialButton from '../../components/SocialButton';
 import { windowHeight, windowWidth } from '../../utils/Dimension';
 import * as Animatable from 'react-native-animatable';
 import Feather from 'react-native-vector-icons/Feather';
 import { AuthContext } from '../../context/AuthContext';
 // import Spinner from 'react-native-loading-spinner-overlay/lib';
+import { getName, setStorage } from '../../navigation/Apis'
+import axios from 'axios';
+import Spinner from 'react-native-loading-spinner-overlay/lib';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Login = ({ navigation }) => {
     const [username, setUsername] = useState('');
@@ -29,7 +30,8 @@ const Login = ({ navigation }) => {
     const [userValid, setUserValid] = useState(false);
     const [isPassValid, setIsPassValid] = useState(false);
     const [showPass, setShowPass] = useState(true);
-    const {isLoading, login} = useContext(AuthContext)
+    const [userInfo, setUserInfo] = useState({});
+    // const {signIn} = useContext(AuthContext);
 
     const textInputChange = (val) => {
         if (val.length !== 0) {
@@ -42,13 +44,6 @@ const Login = ({ navigation }) => {
         }
     }
 
-    console.log(isPassValid);
-
-    // const showPassword = (val) => {
-    //     // console.log(val);
-    //     setShowPass(!val);
-    // }
-
     const handleChangePassWord = (val) => {
         if (val.length < 4) {
             setIsPassValid(true);
@@ -57,10 +52,32 @@ const Login = ({ navigation }) => {
             setIsPassValid(false);
         }
     }
+    // console.log(val);
+    const handleLogin = () => {
+        axios.post('http://nk.ors.vn/mobile/api/login', {
+            username: username,
+            password: password,
+        })
+            .then((response) => {
+                console.log('res', response.data,);
+                setUserInfo(response.data);
+                // AsyncStorage.setItem('userInfo', JSON.stringify(userInfo));
+                setStorage(userInfo);
+
+                
+                if (response.data.data.token.length > 0) navigation.navigate("HomeApp",userInfo)
+                else alert("Lỗi không đăng nhập được!");
+            })
+            .catch((error) => {
+                console.log("Lỗi không đăng nhập được!");
+                navigation.push("Login")
+            });
+    }
 
     return (
         <ScrollView contentContainerStyle={styles.container}>
             {/* <Spinner visible={isLoading} /> */}
+            
             <View style={styles.headerContainer}>
                 <Image
                     source={require('../../components/img/NamKhanh.png')}
@@ -139,13 +156,6 @@ const Login = ({ navigation }) => {
                                 style={styles.iconRightStyle}
                             />
                     }
-                    {/* <Feather
-                        onPress={() => setShowPass(!showPass)}
-                        name="eye-off"
-                        color="#ccc"
-                        size={25}
-                        style={styles.iconRightStyle}
-                    /> */}
                 </TouchableOpacity>
 
             </View>
@@ -158,24 +168,11 @@ const Login = ({ navigation }) => {
             }
             <FormButton
                 buttonTitle="Sign In"
-            // onPress={() => login(email, password)}
+                onPress={() => handleLogin()}
+                // onPress={()=> {signIn(username, password)}}
             // onPress={() => navigation.navigate('HomeApp')}
-            onPress={() => {
-                Login(username, password);
-            }}
             />
 
-            {/* <TouchableOpacity style={styles.forgotButton} onPress={() => { }}>
-                <Text style={styles.navButtonText}>Forgot Password?</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-                style={styles.forgotButton}
-                onPress={() => navigation.navigate('Register')}
-            >
-                <Text style={styles.navButtonText}>
-                    Don't have an acount? Create here
-                </Text>
-            </TouchableOpacity> */}
         </ScrollView>
     );
 };

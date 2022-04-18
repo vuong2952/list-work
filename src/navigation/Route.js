@@ -3,7 +3,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { StyleSheet, TouchableOpacity, View, Text } from 'react-native';
 
 import Login from '../view/LoginView/Login4'
@@ -11,6 +11,7 @@ import ListWorkScreen from '../view/LoginView/ListWorkScreen'
 import ListWork from '../view/LoginView/ListWork'
 import Profile from '../view/LoginView/Profile'
 import color from '../config/color';
+// import { AuthContext } from '../context/AuthContext';
 
 
 const Stack = createNativeStackNavigator();
@@ -64,11 +65,11 @@ const TabNavigation = () => {
                         </View>
                     ),
                     tabBarShowLabel: false
-                    
+
 
                 }} />
             <Tab.Screen
-                name="Profile"
+                name="ProfileScreen"
                 component={ProfileScreen}
                 options={{
                     tabBarIcon: ({ focused }) => (
@@ -87,13 +88,28 @@ const TabNavigation = () => {
 }
 
 const Route = () => {
+    // const {userInfo} = useContext(AuthContext);
 
     return (
+        <NavigationContainer>
+            <Stack.Navigator initialRouteName="Login">
+                <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
+                <Stack.Screen name="HomeApp" component={TabNavigation} options={{ headerShown: false }} />
+            </Stack.Navigator>
+        </NavigationContainer>
+        // <NavigationContainer>
+        //     <Stack.Navigator>
+        //         {
+        //             userInfo.data.token ? (
+        //                 <Stack.Screen name="HomeApp" component={TabNavigation} options={{ headerShown: false }} />
+        //             ) : (
+        //                 <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
+        //             )
+        //         }
+        //     </Stack.Navigator>
+        // </NavigationContainer>
+        
 
-        <Stack.Navigator initialRouteName="Login">
-            <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
-            <Stack.Screen name="HomeApp" component={TabNavigation} options={{ headerShown: false }} />
-        </Stack.Navigator>
     )
 }
 

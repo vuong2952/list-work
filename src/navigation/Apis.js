@@ -1,13 +1,25 @@
 /* eslint-disable prettier/prettier */
 import axios from "axios"
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const getToken = () => {
-    return sessionStorage.getItem("token") || null
+  return AsyncStorage.getItem("token")
 }
-const token = "?token=" + getToken()
 
+export const removeUserSession = () => {
+  sessionStorage.removeItem('token')
+  sessionStorage.removeItem('username')
+}
+// export const token = "?token=" + getToken()
+export const getName = async () => {
+  console.log("use",await AsyncStorage.getItem("userInfo"));
+  await AsyncStorage.getItem("userInfo");
+}
+export const setStorage = async (userInfo) => {
+  await AsyncStorage.setItem("userInfo", userInfo.data.name)
+}
 export const instance = axios.create({
-  baseURL: "http://127.0.0.1:8000",
+  baseURL: "http://nk.ors.vn/mobile/api",
   timeout: 1000,
-  headers: {"Authorization": "Bearer" + token}
+  headers: { "Authorization": "Bearer" + getToken() }
 })

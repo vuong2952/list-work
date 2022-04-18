@@ -7,7 +7,7 @@
  * @flow strict-local
  */
 import { NavigationContainer } from '@react-navigation/native';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import ListWork from './src/view/LoginView/ListWork';
 import Profile from './src/view/LoginView/Profile';
 
@@ -22,14 +22,23 @@ import {
   Button
 } from 'react-native';
 import Route from './src/navigation/Route';
+import AuthProvider from './src/context/AuthContext';
 
 
 function App() {
+  // const [isLoading, setIsLoading] = useState(true);
+  // const [userToken, setUserToken] = useState(null);
+
+  // useEffect(() => {
+  //   setTimeout(()=> {
+  //     setIsLoading(false);
+  //   }, 1000);
+  // }, []);
   return (
-    <NavigationContainer>
-      <Route/>
-    </NavigationContainer>
-    
+    // <AuthProvider>
+      <Route />
+    // </AuthProvider>
+
   );
 }
 

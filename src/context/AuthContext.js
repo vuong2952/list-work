@@ -3,17 +3,19 @@ import { View, Text } from 'react-native'
 import React, { createContext, useState } from 'react'
 import { instance } from '../navigation/Apis';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios';
 
 export const AuthContext = createContext();
 
-export const AuthProvider = ({ children }) => {
+const AuthProvider = ({ children }) => {
     const [userInfo, setUserInfo] = useState({});
     const [isLoading, setIsLoading] = useState(false);
 
-    const login = (username, password) => {
+    const signIn = (username, password) => {
         setIsLoading(true);
-        instance.post('/login', {
-            username, password
+        axios.post('http://nk.ors.vn/mobile/api/login', {
+            username,
+            password,
         }).then(res => {
             console.log(res.data);
             setUserInfo(res.data);
@@ -28,7 +30,10 @@ export const AuthProvider = ({ children }) => {
     return (
         <AuthContext.Provider value={{
             isLoading,
-            login
+            userInfo,
+            signIn,
         }} >{children}</AuthContext.Provider>
+        // <AuthContext.Provider value="child">{children}</AuthContext.Provider>
     )
 }
+export default AuthProvider;
