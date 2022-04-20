@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { Text, Badge, ListItem, Button, Card } from '@rneui/base';
+import { Text, Badge, ListItem, Button, Card, renderNode } from '@rneui/base';
 import React, { useEffect, useState } from 'react';
 import { windowHeight, windowWidth } from '../../utils/Dimension';
 import FormButton from '../../components/FormButton';
@@ -23,20 +23,18 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const ListWork = ({ navigation }) => {
 
-    const [car, setCar] = useState([])
-    const [work, setWork] = useState([])
+    const [data, setData] = useState([])
+    const [work, setWork] = useState({})
 
     useEffect(() => {
         axios.post("/process/list")
             .then(res => {
-                setCar(res.data.data[0].car)
-                setWork(res.data.data[0].stages)
-            }).catch((err) => {
+                setData(res.data.data)
+            }).catch(err => {
                 alert("ERROR")
+                console.log(err)
             })
-    }, [car, work])
-
-    console.log('car', car)
+    }, [])
 
     return <View style={Style.container}>
         <View style={Style.badge}>
@@ -48,22 +46,22 @@ const ListWork = ({ navigation }) => {
         </View>
         <ScrollView style={{ marginBottom: 60 }}>
             <View>
-                {
-                    car !== null && car.map((i, e) => (
-                        <Card containerStyle={{ borderColor: 'black', borderRadius: 10 }} wrapperStyle={{}} key={e}>
-                            <Text h4 style={{ textAlign: 'center' }}>{i.plate}</Text>
-                            <Badge textStyle={{ fontSize: 14, textAlign: 'center', textAlign: 'center' }} value={i.attribute[0].name + ' - ' + i.customer.name}></Badge>
-                            {
-                                work !== null && work.map((k, l) => (
-                                    <View style={Style.listItemInnerContentView} backgroundColor={k.status_process === '0' ? color.grey4 : k.status_process === '1' ? color.blue1 : k.status_process === '2' ? color.orange1 : k.status_process === '3' ? 'red' : color.secondary2} >
-                                        <TouchableOpacity onPress={() => navigation.navigate('ListWorkScreen')} style={{ width: '100%', alignItems: 'center' }}>
-                                            <Text style={Style.TextStyle} >{k.name}</Text>
-                                        </TouchableOpacity>
-                                    </View>
-                                ))
-                            }
-                        </Card>
-                    ))}
+                {data.map((item, index) => (
+                    <Card containerStyle={{ borderColor: 'black', borderRadius: 10 }} wrapperStyle={{}}>
+                        <Text h4 style={{ textAlign: 'center' }}>{(item.car.plate)}</Text>
+                        <Badge textStyle={{ fontSize: 14, textAlign: 'center' }}
+                            value={(item.car.attribute.name) + ' - ' + (item.car.customer.name)}></Badge>
+                        {
+                            Object.entries(item.stages).map(key => (
+                                <View style={Style.listItemInnerContentView} backgroundColor={key[1].status_process === '0' ? color.grey4 : key[1].status_process === 'nstarted' ? color.blue1 : key[1].status_process === '2' ? color.orange1 : key[1].status_process === '3' ? 'red' : color.secondary2} >
+                                    <TouchableOpacity onPress={() => navigation.navigate('ListWorkScreen')} style={{ width: '100%', alignItems: 'center' }}>
+                                        <Text style={Style.TextStyle} >{key[1].name}</Text>
+                                    </TouchableOpacity>
+                                </View>
+                            ))
+                        }
+                    </Card>
+                ))}
             </View>
         </ScrollView >
     </View >

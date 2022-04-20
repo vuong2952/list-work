@@ -6,9 +6,7 @@ import { ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 
 import AntDesign from "react-native-vector-icons/AntDesign"
 import SimpleLineIcons from "react-native-vector-icons/SimpleLineIcons"
 import { windowHeight, windowWidth } from "../../utils/Dimension";
-import * as Async from "../../navigation/Apis"
-import AsyncStorage from "@react-native-async-storage/async-storage";
-
+import { removeStorage } from "../../navigation/Apis";
 
 const Profile = ({ navigation }) => {
     return (
@@ -48,7 +46,7 @@ const Profile = ({ navigation }) => {
 
                         <TextInput
                             placeholder="name"
-                            value={Async.getName()}
+                            value="name"
                             // defaultValue={props.name}
                             style={styles.textInput}
                         />
@@ -70,7 +68,7 @@ const Profile = ({ navigation }) => {
 
                         <TextInput
                             placeholder="Username"
-                            defaultValue={Async.getUsername()}
+                            defaultValue="Username"
                             style={styles.textInput}
                         />
                     </View>
@@ -89,7 +87,7 @@ const Profile = ({ navigation }) => {
 
                         <TextInput
                             placeholder="Address"
-                            defaultValue={Async.getAddress()}
+                            defaultValue="Address"
                             style={styles.textInput}
                         />
                     </View>
@@ -97,7 +95,7 @@ const Profile = ({ navigation }) => {
                 <View style={{ alignItems: "center" }}>
                     <TouchableOpacity style={styles.logoutButton} onPress={() => {
                         navigation.navigate("Login")
-                        Async.removeUserSession()
+                        removeStorage()
                     }}>
                         <Text style={styles.logoutButtonText}>Đăng xuất</Text>
                     </TouchableOpacity>

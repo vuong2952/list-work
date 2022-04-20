@@ -37,7 +37,7 @@ const Login = ({ navigation }) => {
             setUserValid(false);
         }
         else {
-            setCheckUser(null);
+            setCheckUser('');
             setUserValid(true);
         }
     }
@@ -60,7 +60,7 @@ const Login = ({ navigation }) => {
                 navigation.navigate("HomeApp")
             })
             .catch((error) => {
-                console.log("Lỗi không đăng nhập được!")
+                console.log("Lỗi không đăng nhập được!", error)
             });
     }
 
@@ -92,12 +92,12 @@ const Login = ({ navigation }) => {
                         textInputChange(username);
                     }}
                 />
-                <Feather
+                {/* <Feather
                     name={checkUser}
                     color={color.secondary2}
                     size={25}
                     style={styles.iconRightStyle}
-                />
+                /> */}
             </View>
             {
                 userValid ?
