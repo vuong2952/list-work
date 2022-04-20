@@ -7,14 +7,10 @@ import AntDesign from "react-native-vector-icons/AntDesign"
 import SimpleLineIcons from "react-native-vector-icons/SimpleLineIcons"
 import { windowHeight, windowWidth } from "../../utils/Dimension";
 import * as Async from "../../navigation/Apis"
-// import { AuthContext } from "../../context/AuthContext";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 
-const Profile = ({ navigation}) => {
-    // const {userInfo} = useContext(AuthContext)
-    console.log(navigation)
-    console.log("123",Async.getName())
-    const {getName} = useContext(Async)
+const Profile = ({ navigation }) => {
     return (
         <View>
             <ScrollView contentContainerStyle={styles.container}>
@@ -52,7 +48,7 @@ const Profile = ({ navigation}) => {
 
                         <TextInput
                             placeholder="name"
-                            value={getName()}
+                            value="aa"
                             // defaultValue={props.name}
                             style={styles.textInput}
                         />
@@ -74,7 +70,7 @@ const Profile = ({ navigation}) => {
 
                         <TextInput
                             placeholder="Username"
-                            defaultValue="User 1"
+                            defaultValue={Async.getUsername()}
                             style={styles.textInput}
                         />
                     </View>
@@ -93,13 +89,16 @@ const Profile = ({ navigation}) => {
 
                         <TextInput
                             placeholder="Address"
-                            defaultValue="Le Hong Phong"
+                            defaultValue={Async.getAddress()}
                             style={styles.textInput}
                         />
                     </View>
                 </View>
                 <View style={{ alignItems: "center" }}>
-                    <TouchableOpacity style={styles.logoutButton} onPress={() => navigation.navigate("Login")}>
+                    <TouchableOpacity style={styles.logoutButton} onPress={() => {
+                        navigation.navigate("Login")
+                        Async.removeUserSession()
+                    }}>
                         <Text style={styles.logoutButtonText}>Đăng xuất</Text>
                     </TouchableOpacity>
                 </View>

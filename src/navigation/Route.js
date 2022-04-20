@@ -98,9 +98,9 @@ const Route = () => {
             </Stack.Navigator>
         </NavigationContainer>
         // <NavigationContainer>
-        //     <Stack.Navigator>
-        //         {
-        //             userInfo.data.token ? (
+        //     <Stack.Navigator initialRouteName="Login">
+        //         { 
+        //             userInfo.data?.token ? (
         //                 <Stack.Screen name="HomeApp" component={TabNavigation} options={{ headerShown: false }} />
         //             ) : (
         //                 <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
@@ -108,8 +108,6 @@ const Route = () => {
         //         }
         //     </Stack.Navigator>
         // </NavigationContainer>
-        
-
     )
 }
 

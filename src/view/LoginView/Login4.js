@@ -16,11 +16,13 @@ import FormButton from '../../components/FormButton';
 import { windowHeight, windowWidth } from '../../utils/Dimension';
 import * as Animatable from 'react-native-animatable';
 import Feather from 'react-native-vector-icons/Feather';
-import { AuthContext } from '../../context/AuthContext';
+// import { AuthContext } from '../../context/AuthContext';
 // import Spinner from 'react-native-loading-spinner-overlay/lib';
-import { getName, setStorage } from '../../navigation/Apis'
+import { setStorage } from '../../navigation/Apis'
 import axios from 'axios';
-import Spinner from 'react-native-loading-spinner-overlay/lib';
+// import Spinner from 'react-native-loading-spinner-overlay/lib';
+// import { setStorage, saveDataUser } from '../../navigation/Apis'
+// import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Login = ({ navigation }) => {
@@ -30,8 +32,8 @@ const Login = ({ navigation }) => {
     const [userValid, setUserValid] = useState(false);
     const [isPassValid, setIsPassValid] = useState(false);
     const [showPass, setShowPass] = useState(true);
-    const [userInfo, setUserInfo] = useState({});
-    // const {signIn} = useContext(AuthContext);
+    // const [userInfo, setUserInfo] = useState({});
+    // const {isLoading,signIn} = useContext(AuthContext);
 
     const textInputChange = (val) => {
         if (val.length !== 0) {
@@ -59,14 +61,9 @@ const Login = ({ navigation }) => {
             password: password,
         })
             .then((response) => {
-                console.log('res', response.data,);
-                setUserInfo(response.data);
-                // AsyncStorage.setItem('userInfo', JSON.stringify(userInfo));
-                setStorage(userInfo);
-
-                
-                if (response.data.data.token.length > 0) navigation.navigate("HomeApp",userInfo)
-                else alert("Lỗi không đăng nhập được!");
+                console.log(response.data.data.token)
+                setStorage(response.data.data.token)
+                navigation.navigate("HomeApp")
             })
             .catch((error) => {
                 console.log("Lỗi không đăng nhập được!");

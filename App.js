@@ -35,9 +35,9 @@ function App() {
   //   }, 1000);
   // }, []);
   return (
-    // <AuthProvider>
+    <AuthProvider>
       <Route />
-    // </AuthProvider>
+    </AuthProvider>
 
   );
 }

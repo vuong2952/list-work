@@ -17,9 +17,10 @@ const AuthProvider = ({ children }) => {
             username,
             password,
         }).then(res => {
-            console.log(res.data);
+            console.log("b",res.data);
             setUserInfo(res.data);
-            AsyncStorage.setItem('userInfo', JSON.stringify(userInfo));
+            AsyncStorage.setItem('userInfo', JSON.stringify(res.data));
+            AsyncStorage.setItem('token', JSON.stringify(res.data.data?.token));
             setIsLoading(false);
         }).catch(e => {
             console.log('login error ${e}');
@@ -33,7 +34,6 @@ const AuthProvider = ({ children }) => {
             userInfo,
             signIn,
         }} >{children}</AuthContext.Provider>
-        // <AuthContext.Provider value="child">{children}</AuthContext.Provider>
     )
 }
 export default AuthProvider;
