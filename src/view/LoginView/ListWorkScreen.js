@@ -26,19 +26,23 @@ const ListWorkScreen = ({ navigation }) => {
     return <View style={Style.container}>
         <View style={Style.badge}>
             <Badge textStyle={{ fontSize: 12 }} badgeStyle={{ backgroundColor: 'gray', height: 20 }} value='Chưa xác nhận'></Badge>
-            <Badge textStyle={{ fontSize: 12 }} badgeStyle={{ backgroundColor: 'blue', height: 20 }} value='Đang thực hiện'></Badge>
-            <Badge textStyle={{ fontSize: 12 }} badgeStyle={{ backgroundColor: 'orange', height: 20 }} value='Tạm dừng'></Badge>
-            <Badge textStyle={{ fontSize: 12 }} badgeStyle={{ backgroundColor: 'red', height: 20 }} value='Gặp sự cố'></Badge>
-            <Badge textStyle={{ fontSize: 12 }} badgeStyle={{ backgroundColor: 'green', height: 20 }} value='Hoàn thành'></Badge>
+            <Badge textStyle={{ fontSize: 12 }} badgeStyle={{ backgroundColor: color.started, height: 20 }} value='Đang thực thi'></Badge>
+            <Badge textStyle={{ fontSize: 12 }} badgeStyle={{ backgroundColor: color.paused, height: 20 }} value='Tạm dừng'></Badge>
+            <Badge textStyle={{ fontSize: 12 }} badgeStyle={{ backgroundColor: color.error, height: 20 }} value='Gặp sự cố'></Badge>
+            <Badge textStyle={{ fontSize: 12 }} badgeStyle={{ backgroundColor: color.finished, height: 20 }} value='Hoàn thành'></Badge>
         </View>
-        <ScrollView style={{ marginBottom: 60}}>
+        <ScrollView style={{ marginBottom: 60 }}>
             <View>
                 {
                     list3.map((i, e) => (
                         <Card key={e} containerStyle={{ borderColor: 'black', borderRadius: 10, }} wrapperStyle={{}} >
-                            <Text h4 style={{ padding: 5,height: 40,borderRadius: 10, textAlign: 'center', backgroundColor: (i.status === '0'? color.grey4 : i.status === '1'? color.blue1 : i.status === '2' ? color.orange1 : i.status === '3' ? 'red' : color.secondary2)}}>{i.name}</Text>
+                            <Text h4 style={{
+                                padding: 5, height: 40, borderRadius: 10, textAlign: 'center',
+                                backgroundColor: (i.status === '0' ? 'gray' : i.status === '1' ? color.started : i.status === '2'
+                                    ? color.paused : i.status === '3' ? color.error : color.finished)
+                            }}>{i.name}</Text>
                             <View style={Style.listItemInnerContentView}>
-                                {i.status === '1' ? null : <Button title="Bắt đầu thực hiện"
+                                {i.status === '1' ? null : <Button title="Bắt đầu thực thi"
                                     buttonStyle={{
                                         backgroundColor: color.blue1,
                                         borderRadius: 3,
@@ -50,34 +54,34 @@ const ListWorkScreen = ({ navigation }) => {
                                     }} />}
                                 {i.status === '2' ? null : i.status === '0' ? null : <Button title="Tạm dừng"
                                     buttonStyle={{
-                                        backgroundColor: color.orange1,
+                                        backgroundColor: color.paused,
                                         borderRadius: 3,
                                     }}
                                     containerStyle={{
                                         width: 200,
                                         marginHorizontal: 5,
                                         marginVertical: 5,
-                                    }}/>}
+                                    }} />}
                                 {i.status === '3' ? null : i.status === '0' ? null : <Button title="Gặp sự cố"
                                     buttonStyle={{
-                                        backgroundColor: 'red',
+                                        backgroundColor: color.error,
                                         borderRadius: 3,
                                     }}
                                     containerStyle={{
                                         width: 200,
                                         marginHorizontal: 5,
                                         marginVertical: 5,
-                                    }}/>}
+                                    }} />}
                                 {i.status === '4' ? null : i.status === '0' ? null : <Button title="Hoàn thành"
                                     buttonStyle={{
-                                        backgroundColor: color.secondary2,
+                                        backgroundColor: color.finished,
                                         borderRadius: 3,
                                     }}
                                     containerStyle={{
                                         width: 200,
                                         marginHorizontal: 5,
                                         marginVertical: 5,
-                                    }}/>}
+                                    }} />}
                             </View>
 
                         </Card>

@@ -4,6 +4,9 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 export const setStorage = async (token) => {
   await AsyncStorage.setItem("token", token)
 }
+export const setUser = async (data) => {
+  await AsyncStorage.setItem("user", JSON.stringify(data))
+}
 
 export const removeStorage = async () => {
   await AsyncStorage.removeItem("token")

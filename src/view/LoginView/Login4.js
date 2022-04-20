@@ -19,7 +19,7 @@ import SocialButton from '../../components/SocialButton';
 import { windowHeight, windowWidth } from '../../utils/Dimension';
 import * as Animatable from 'react-native-animatable';
 import Feather from 'react-native-vector-icons/Feather';
-import { setStorage, saveDataUser } from '../../navigation/Apis'
+import { setStorage, setUser } from '../../navigation/Apis'
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -51,12 +51,13 @@ const Login = ({ navigation }) => {
         }
     }
     const handleLogin = () => {
-        axios.post('http://nk.ors.vn/mobile/api/login', {
+        axios.post('http://nk.ors.vn/mobile/api/auth/login', {
             username: username,
             password: password
         })
             .then((response) => {
                 setStorage(response.data.data.token)
+                setUser(response.data.data)
                 navigation.navigate("HomeApp")
             })
             .catch((error) => {

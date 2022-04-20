@@ -1,14 +1,38 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable react-native/no-inline-styles */
 import { Image } from "@rneui/themed";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import AntDesign from "react-native-vector-icons/AntDesign"
 import SimpleLineIcons from "react-native-vector-icons/SimpleLineIcons"
 import { windowHeight, windowWidth } from "../../utils/Dimension";
 import { removeStorage } from "../../navigation/Apis";
+import AsyncStorage from "@react-native-async-storage/async-storage"
+import axios from "axios"
 
 const Profile = ({ navigation }) => {
+    const [data, setData] = useState([])
+
+    const handleLogout = () => {
+        axios.post("/auth/logout")
+            .then(res => {
+                removeStorage()
+                navigation.navigate("Login")
+            })
+            .catch(err => {
+                console.log(err)
+            })
+    }
+
+    useEffect(() => {
+        const storage = async () => {
+            let items = await AsyncStorage.getItem("user");
+            setData(JSON.parse(items))
+        }
+        storage()
+    }, [])
+
+    console.log('user', data)
     return (
         <View>
             <ScrollView contentContainerStyle={styles.container}>
@@ -46,8 +70,7 @@ const Profile = ({ navigation }) => {
 
                         <TextInput
                             placeholder="name"
-                            value="name"
-                            // defaultValue={props.name}
+                            value={data.name}
                             style={styles.textInput}
                         />
                     </View>
@@ -68,7 +91,7 @@ const Profile = ({ navigation }) => {
 
                         <TextInput
                             placeholder="Username"
-                            defaultValue="Username"
+                            value={data.username}
                             style={styles.textInput}
                         />
                     </View>
@@ -87,16 +110,16 @@ const Profile = ({ navigation }) => {
 
                         <TextInput
                             placeholder="Address"
-                            defaultValue="Address"
+                            value={data.address}
                             style={styles.textInput}
                         />
                     </View>
                 </View>
                 <View style={{ alignItems: "center" }}>
-                    <TouchableOpacity style={styles.logoutButton} onPress={() => {
-                        navigation.navigate("Login")
-                        removeStorage()
-                    }}>
+                    <TouchableOpacity style={styles.logoutButton}
+                        onPress={() => {
+                            handleLogout()
+                        }}>
                         <Text style={styles.logoutButtonText}>Đăng xuất</Text>
                     </TouchableOpacity>
                 </View>

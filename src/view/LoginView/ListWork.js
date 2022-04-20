@@ -17,8 +17,8 @@ import {
 import Profile from './Profile';
 import CustomHeader from '../../components/CustomHeader';
 import * as Async from '../../navigation/Apis'
-import axios from 'axios';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios'
+import data from './Login4'
 
 
 const ListWork = ({ navigation }) => {
@@ -36,13 +36,14 @@ const ListWork = ({ navigation }) => {
             })
     }, [])
 
+
     return <View style={Style.container}>
         <View style={Style.badge}>
             <Badge textStyle={{ fontSize: 12 }} badgeStyle={{ backgroundColor: 'gray', height: 20 }} value='Chưa xác nhận'></Badge>
-            <Badge textStyle={{ fontSize: 12 }} badgeStyle={{ backgroundColor: 'blue', height: 20 }} value='Đang thực hiện'></Badge>
-            <Badge textStyle={{ fontSize: 12 }} badgeStyle={{ backgroundColor: 'orange', height: 20 }} value='Tạm dừng'></Badge>
-            <Badge textStyle={{ fontSize: 12 }} badgeStyle={{ backgroundColor: 'red', height: 20 }} value='Gặp sự cố'></Badge>
-            <Badge textStyle={{ fontSize: 12 }} badgeStyle={{ backgroundColor: 'green', height: 20 }} value='Hoàn thành'></Badge>
+            <Badge textStyle={{ fontSize: 12 }} badgeStyle={{ backgroundColor: color.started, height: 20 }} value='Đang thực thi'></Badge>
+            <Badge textStyle={{ fontSize: 12 }} badgeStyle={{ backgroundColor: color.paused, height: 20 }} value='Tạm dừng'></Badge>
+            <Badge textStyle={{ fontSize: 12 }} badgeStyle={{ backgroundColor: color.error, height: 20 }} value='Gặp sự cố'></Badge>
+            <Badge textStyle={{ fontSize: 12 }} badgeStyle={{ backgroundColor: color.finished, height: 20 }} value='Hoàn thành'></Badge>
         </View>
         <ScrollView style={{ marginBottom: 60 }}>
             <View>
@@ -53,7 +54,11 @@ const ListWork = ({ navigation }) => {
                             value={(item.car.attribute.name) + ' - ' + (item.car.customer.name)}></Badge>
                         {
                             Object.entries(item.stages).map(key => (
-                                <View style={Style.listItemInnerContentView} backgroundColor={key[1].status_process === '0' ? color.grey4 : key[1].status_process === 'nstarted' ? color.blue1 : key[1].status_process === '2' ? color.orange1 : key[1].status_process === '3' ? 'red' : color.secondary2} >
+                                <View style={Style.listItemInnerContentView}
+                                    backgroundColor={key[1].status_process === 'undefined' || 'nstarted' ? color.undefined
+                                        : key[1].status_process === 'started' ? color.started
+                                            : key[1].status_process === 'paused' ? color.paused
+                                                : key[1].status_process === 'error' ? color.error : color.finished} >
                                     <TouchableOpacity onPress={() => navigation.navigate('ListWorkScreen')} style={{ width: '100%', alignItems: 'center' }}>
                                         <Text style={Style.TextStyle} >{key[1].name}</Text>
                                     </TouchableOpacity>
