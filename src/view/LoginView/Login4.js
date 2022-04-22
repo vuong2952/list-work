@@ -51,12 +51,14 @@ const Login = ({ navigation }) => {
         }
     }
     const handleLogin = () => {
-        axios.post('http://nk.ors.vn/mobile/api/auth/login', {
+        // axios.post('http://nk.ors.vn/mobile/api/auth/login', {
+        axios.post('http://192.168.1.10:8000/mobile/api/auth/login', {
             username: username,
             password: password
         })
             .then((response) => {
                 setStorage(response.data.data.token)
+                console.log(response.data.data.token)
                 setUser(response.data.data)
                 navigation.navigate("HomeApp")
             })

@@ -5,23 +5,28 @@ import { View, StyleSheet, Image, ScrollView, TextInput, TouchableOpacity, Dimen
 import { Input, Icon, Text, Badge } from '@rneui/themed';
 import { windowHeight, windowWidth } from '../../utils/Dimension';
 import color from '../../config/color';
+import axios from 'axios'
 
-const ListWorkScreen = ({ navigation }) => {
-    const list3 = [
-        {
-            name: 'Non',
-            status: '1'
+const ListWorkScreen = ({ navigation, route }) => {
+    // const [data, setData] = useState(route.params)
+    // const [stage, setStage] = useState({})
+    const data = route.params
+    const stage = data.stages
 
-        },
-        {
-            name: 'Nhúng',
-            status: '3'
-        },
-        {
-            name: 'Bào',
-            status: '0'
-        }
-    ]
+    const handleUpdate = (bill_id, stage_id, equipment_id, code) => {
+        axios.post('/process/list/update', {
+            bill_id: bill_id,
+            stage_id: stage_id,
+            equipment_id: equipment_id,
+            code: code
+        }).then(res => {
+            console.log("Updated success")
+            navigation.navigate("ListWork")
+        })
+    }
+    // useEffect(() => {
+    //     setStage(data.stages)
+    // }, [navigation, route])
 
     return <View style={Style.container}>
         <View style={Style.badge}>
@@ -34,58 +39,81 @@ const ListWorkScreen = ({ navigation }) => {
         <ScrollView style={{ marginBottom: 60 }}>
             <View>
                 {
-                    list3.map((i, e) => (
-                        <Card key={e} containerStyle={{ borderColor: 'black', borderRadius: 10, }} wrapperStyle={{}} >
-                            <Text h4 style={{
-                                padding: 5, height: 40, borderRadius: 10, textAlign: 'center',
-                                backgroundColor: (i.status === '0' ? 'gray' : i.status === '1' ? color.started : i.status === '2'
-                                    ? color.paused : i.status === '3' ? color.error : color.finished)
-                            }}>{i.name}</Text>
-                            <View style={Style.listItemInnerContentView}>
-                                {i.status === '1' ? null : <Button title="Bắt đầu thực thi"
-                                    buttonStyle={{
-                                        backgroundColor: color.blue1,
-                                        borderRadius: 3,
-                                    }}
-                                    containerStyle={{
-                                        width: 200,
-                                        marginHorizontal: 5,
-                                        marginVertical: 5,
-                                    }} />}
-                                {i.status === '2' ? null : i.status === '0' ? null : <Button title="Tạm dừng"
-                                    buttonStyle={{
-                                        backgroundColor: color.paused,
-                                        borderRadius: 3,
-                                    }}
-                                    containerStyle={{
-                                        width: 200,
-                                        marginHorizontal: 5,
-                                        marginVertical: 5,
-                                    }} />}
-                                {i.status === '3' ? null : i.status === '0' ? null : <Button title="Gặp sự cố"
-                                    buttonStyle={{
-                                        backgroundColor: color.error,
-                                        borderRadius: 3,
-                                    }}
-                                    containerStyle={{
-                                        width: 200,
-                                        marginHorizontal: 5,
-                                        marginVertical: 5,
-                                    }} />}
-                                {i.status === '4' ? null : i.status === '0' ? null : <Button title="Hoàn thành"
-                                    buttonStyle={{
-                                        backgroundColor: color.finished,
-                                        borderRadius: 3,
-                                    }}
-                                    containerStyle={{
-                                        width: 200,
-                                        marginHorizontal: 5,
-                                        marginVertical: 5,
-                                    }} />}
-                            </View>
+                    stage && Object.entries(stage).map(item =>
+                        Object.entries(item[1].equipment).map(key => (
+                            <Card containerStyle={{ borderColor: 'black', borderRadius: 10, }} wrapperStyle={{}} >
+                                <Text h4 style={{
+                                    padding: 5, height: 40, borderRadius: 10, textAlign: 'center',
+                                    backgroundColor: (key[1].status_process === undefined ? 'gray' :
+                                        key[1].status_process === 'start' ? color.started :
+                                            key[1].status_process === 'pause' ? color.paused :
+                                                key[1].status_process === 'error' ? color.error :
+                                                    key[1].status_process === 'resume' ? color.started : color.finished)
+                                }}>{key[1].name}</Text>
+                                <View style={Style.listItemInnerContentView}>
+                                    {key[1].status_process === 'start' ? null : key[1].status_process === 'pause' ? null :
+                                        key[1].status_process === 'error' ? null : key[1].status_process === 'resume' ? null :
+                                            < Button title="Bắt đầu thực thi"
+                                                buttonStyle={{
+                                                    backgroundColor: color.started,
+                                                    borderRadius: 3,
+                                                }}
+                                                containerStyle={{
+                                                    width: 200,
+                                                    marginHorizontal: 5,
+                                                    marginVertical: 5,
+                                                }} onPress={() => handleUpdate(data.bill_id, item[0], key[1].id, 'start')} />}
 
-                        </Card>
-                    ))
+                                    {key[1].status_process === 'pause' ? null : key[1].status_process === undefined ? null :
+                                        key[1].status_process === 'error' ? null : <Button title="Tạm dừng"
+                                            buttonStyle={{
+                                                backgroundColor: color.paused,
+                                                borderRadius: 3,
+                                            }}
+                                            containerStyle={{
+                                                width: 200,
+                                                marginHorizontal: 5,
+                                                marginVertical: 5,
+                                            }} onPress={() => handleUpdate(data.bill_id, item[0], key[1].id, 'pause')} />}
+
+                                    {key[1].status_process === 'start' ? null : key[1].status_process === undefined ? null :
+                                        key[1].status_process === 'finish' ? null : key[1].status_process === 'resume' ? null :
+                                            <Button title="Tiếp tục"
+                                                buttonStyle={{
+                                                    backgroundColor: color.started,
+                                                    borderRadius: 3,
+                                                }}
+                                                containerStyle={{
+                                                    width: 200,
+                                                    marginHorizontal: 5,
+                                                    marginVertical: 5,
+                                                }} onPress={() => handleUpdate(data.bill_id, item[0], key[1].id, 'resume')} />}
+
+                                    {key[1].status_process === 'error' ? null : key[1].status_process === undefined ? null :
+                                        key[1].status_process === 'pause' ? null : <Button title="Gặp sự cố"
+                                            buttonStyle={{
+                                                backgroundColor: color.error,
+                                                borderRadius: 3,
+                                            }}
+                                            containerStyle={{
+                                                width: 200,
+                                                marginHorizontal: 5,
+                                                marginVertical: 5,
+                                            }} onPress={() => handleUpdate(data.bill_id, item[0], key[1].id, 'error')} />}
+                                    {key[1].status_process === 'finish' ? null : key[1].status_process === undefined ? null : <Button title="Hoàn thành"
+                                        buttonStyle={{
+                                            backgroundColor: color.finished,
+                                            borderRadius: 3,
+                                        }}
+                                        containerStyle={{
+                                            width: 200,
+                                            marginHorizontal: 5,
+                                            marginVertical: 5,
+                                        }} onPress={() => handleUpdate(data.bill_id, item[0], key[1].id, 'finish')} />}
+                                </View>
+
+                            </Card>
+                        )))
                 }
             </View>
         </ScrollView>

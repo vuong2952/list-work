@@ -12,7 +12,8 @@ export const removeStorage = async () => {
   await AsyncStorage.removeItem("token")
 }
 
-axios.defaults.baseURL = 'http://nk.ors.vn/mobile/api'
+// axios.defaults.baseURL = 'http://nk.ors.vn/mobile/api'
+axios.defaults.baseURL = 'http://192.168.1.10:8000/mobile/api'
 axios.defaults.timeout = 1000
 
 axios.interceptors.request.use(

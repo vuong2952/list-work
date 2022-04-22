@@ -16,7 +16,7 @@ const Profile = ({ navigation }) => {
     const handleLogout = () => {
         axios.post("/auth/logout")
             .then(res => {
-                removeStorage()
+                // removeStorage()
                 navigation.navigate("Login")
             })
             .catch(err => {
@@ -36,7 +36,7 @@ const Profile = ({ navigation }) => {
     return (
         <View>
             <ScrollView contentContainerStyle={styles.container}>
-                <View style={{ padding: 20, alignItems: 'center' }}>
+                <View style={{ padding: 10, alignItems: 'center' }}>
                     <TouchableOpacity>
                         <Image
                             source={require('../../components/img/user.png')}
@@ -134,7 +134,6 @@ export default Profile;
 const styles = StyleSheet.create({
     container: {
         width: '100%',
-        height: '100%',
         backgroundColor: 'white',
     },
     textInput: {
