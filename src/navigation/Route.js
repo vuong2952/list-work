@@ -6,10 +6,10 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import React, { useContext, useState } from 'react';
 import { StyleSheet, TouchableOpacity, View, Text } from 'react-native';
 
-import Login from '../view/LoginView/Login4'
-import ListWorkScreen from '../view/LoginView/ListWorkScreen'
-import ListWork from '../view/LoginView/ListWork'
-import Profile from '../view/LoginView/Profile'
+import Login from '../view/LoginView/Login4';
+import ListWorkScreen from '../view/LoginView/ListWorkScreen';
+import ListWork from '../view/LoginView/ListWork';
+import Profile from '../view/LoginView/Profile';
 import color from '../config/color';
 // import { AuthContext } from '../context/AuthContext';
 
@@ -22,7 +22,7 @@ const LWScreen = () => {
     return (
         <HomeStack.Navigator initialRouteName="ListWork">
             <HomeStack.Screen name="ListWork" component={ListWork} options={{ headerShown: false }} />
-            <HomeStack.Screen name="ListWorkScreen" component={ListWorkScreen} options={{ headerShown: false }} />
+            <HomeStack.Screen name="ListWorkScreen" component={ListWorkScreen} options={{ title: ''  }} />
         </HomeStack.Navigator>
     )
 }

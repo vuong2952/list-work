@@ -1,26 +1,30 @@
 /* eslint-disable prettier/prettier */
-import React, { useContext, useEffect, useState } from 'react';
-import { StackActions } from '@react-navigation/native'
+import React, { useContext, useState } from 'react';
 import {
     View,
     Text,
     TouchableOpacity,
     Image,
-    Platform,
     StyleSheet,
     ScrollView,
     TextInput,
-    ActivityIndicator,
+    KeyboardAvoidingView,
 } from 'react-native';
-import color from '../../config/color';
-import FormButton from '../../components/FormButton';
-import { windowHeight, windowWidth } from '../../utils/Dimension';
+
+import FormInput from '../components/FormInput';
+import color from '../config/color';
+import FormButton from '../components/FormButton';
+import { windowHeight, windowWidth } from '../utils/Dimension';
 import * as Animatable from 'react-native-animatable';
 import Feather from 'react-native-vector-icons/Feather';
-import { setStorage, setUser } from '../../navigation/Apis'
+import { setStorage, setUser } from '../navigation/Apis'
 import axios from 'axios';
-import Spinner from 'react-native-loading-spinner-overlay/lib';
+// import Spinner from 'react-native-loading-spinner-overlay/lib';
+// import { setStorage, saveDataUser } from '../../navigation/Apis'
+// import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Spinner from 'react-native-loading-spinner-overlay/lib';
+import { StackActions } from '@react-navigation/native';
 
 const Login = ({ navigation }) => {
     const [username, setUsername] = useState('');
@@ -29,8 +33,9 @@ const Login = ({ navigation }) => {
     const [userValid, setUserValid] = useState(false);
     const [isPassValid, setIsPassValid] = useState(false);
     const [showPass, setShowPass] = useState(true);
-    const [isLoading, setIsLoading] = useState(false);
-
+    const [isLoading, setIsLoading] = useState(true);
+    // const [userInfo, setUserInfo] = useState({});
+    // const {isLoading,signIn} = useContext(AuthContext);
 
     const textInputChange = (val) => {
         if (val.length !== 0) {
@@ -51,43 +56,46 @@ const Login = ({ navigation }) => {
             setIsPassValid(false);
         }
     }
+    // console.log(val);
     const handleLogin = () => {
         setIsLoading(true);
-        // axios.post('http://nk.ors.vn/mobile/api/auth/login', {
         axios.post('http://192.168.1.10:8000/mobile/api/auth/login', {
             username: username,
-            password: password
+            password: password,
         })
             .then((response) => {
-                setIsLoading(false)
-                setStorage(response.data.data.token)
-                console.log(response.data.data.token)
-                setUser(response.data.data);
-                if (response.data.data.token !== undefined) navigation.dispatch(StackActions.replace("HomeApp"))
+                setIsLoading(false);
+                console.log('login token', response.data.data.token);
+                setStorage(response.data.data.token);
+                AsyncStorage.setItem('userInfo', JSON.stringify(response.data.data));
+                {
+                    response.data.data.token ? navigation.dispatch(StackActions.replace("HomeApp")) : (
+                        navigation.navigate("Login"),
+                        setUsername(''),
+                        setPassword(''),
+                        alert('Sai tài khoản hoặc mật khẩu')
+                    )
+
+                }
+                setIsLoading(false);
+                setUsername('');
+                setPassword('');
             })
             .catch((error) => {
+                console.log("Lỗi không đăng nhập được!", error);
+                navigation.navigate("Login");
                 setIsLoading(false);
-                console.log("Lỗi không đăng nhập được!", error)
             });
     }
-    useEffect(() => {
-        console.log(isLoading);
-      const timer = setTimeout(() => {setIsLoading(true)}, 2000);
-    
-      return () => {
-        clearTimeout(timer)
-      }
-    }, [])
-    
 
     return (
         <ScrollView contentContainerStyle={styles.container}>
-            
+            <Spinner visible={isLoading} />
             <View style={styles.headerContainer}>
                 <Image
                     source={require('../../components/img/NamKhanh.jpg')}
                     style={styles.logo}
-                /><Spinner visible={isLoading}/>
+                />
                 <Text style={styles.text}>Madocar</Text>
             </View>
             <View style={styles.inputContainer}>
@@ -108,13 +116,14 @@ const Login = ({ navigation }) => {
                         setUsername(username);
                         textInputChange(username);
                     }}
+                    returnKeyType="next"
                 />
-                {/* <Feather
+                <Feather
                     name={checkUser}
                     color={color.secondary2}
                     size={25}
                     style={styles.iconRightStyle}
-                /> */}
+                />
             </View>
             {
                 userValid ?
@@ -142,6 +151,7 @@ const Login = ({ navigation }) => {
                         setPassword(password);
                         handleChangePassWord(password);
                     }}
+                    returnKeyType="go"
                 />
                 <TouchableOpacity>
                     {
@@ -173,11 +183,7 @@ const Login = ({ navigation }) => {
             }
             <FormButton
                 buttonTitle="Sign In"
-                onPress={() => {
-                    handleLogin();
-                    setIsLoading(true);
-                }}
-            // onPress={() => navigation.navigate('HomeApp')}
+                onPress={() => handleLogin()}
             />
 
         </ScrollView>
@@ -263,6 +269,6 @@ const styles = StyleSheet.create({
     errorMsg: {
         color: '#FF0000',
         fontSize: 14,
-        justifyContent: "flex-start",
+        justifyContent: "flex-start"
     },
 })

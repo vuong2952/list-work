@@ -1,224 +1,62 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable react-native/no-inline-styles */
-import { Image } from '@rneui/themed';
-import React, { useContext, useEffect, useState } from 'react';
-import { KeyboardAvoidingView, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
-import AntDesign from 'react-native-vector-icons/AntDesign';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import { windowHeight, windowWidth } from '../../utils/Dimension';
-import { removeStorage } from '../../navigation/Apis';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import axios from 'axios';
+import { Image } from "@rneui/themed";
+import React, { useEffect, useState } from "react";
+import { ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import AntDesign from "react-native-vector-icons/AntDesign"
+import { windowHeight, windowWidth } from "../../utils/Dimension";
+import AsyncStorage from "@react-native-async-storage/async-storage"
+import axios from "axios"
+import FontAwesome from "react-native-vector-icons/FontAwesome";
+import color from "../../config/color";
+import { StackActions } from "@react-navigation/native";
 
 const Profile = ({ navigation }) => {
-    const [userIn, setUserIn] = useState({});
+    const [data, setData] = useState([])
 
     const handleLogout = () => {
-        axios.post('/auth/logout')
+        axios.post("/auth/logout")
             .then(res => {
-                removeStorage();
-                navigation.navigate('Login');
+                // removeStorage()
+                navigation.dispatch(StackActions.replace("Login"))
             })
             .catch(err => {
-                console.log('ERROR', err);
-            });
-    };
+                console.log(err)
+            })
+    }
 
     useEffect(() => {
-        const getUserInfo = async () => {
-            try {
-                setUserIn(JSON.parse(await AsyncStorage.getItem('userInfo')));
-            } catch (e) {
-                console.log('ERROR', e);
-            }
-        };
-        getUserInfo();
-    }, []);
+        const storage = async () => {
+            let items = await AsyncStorage.getItem("user");
+            setData(JSON.parse(items))
+        }
+        storage()
+    }, [])
+
+    console.log('user', data)
     return (
-        <ScrollView contentContainerStyle={styles.container}>
-            <View style={{ padding: 20, alignItems: 'center' }}>
-                <TouchableOpacity>
-                    <Image
-                        source={require('../../components/img/user.png')}
-                        style={styles.image}
-// import { Image } from "@rneui/themed";
-// import React, { useEffect, useState } from "react";
-// import { ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
-// import AntDesign from "react-native-vector-icons/AntDesign"
-// import SimpleLineIcons from "react-native-vector-icons/SimpleLineIcons"
-// import { windowHeight, windowWidth } from "../../utils/Dimension";
-// import { removeStorage } from "../../navigation/Apis";
-// import AsyncStorage from "@react-native-async-storage/async-storage"
-// import axios from "axios"
+        <View>
+            <ScrollView contentContainerStyle={styles.container}>
+                <View style={styles.containerHeader}>
+                    <TouchableOpacity>
+                        <Image
+                            source={require('../../components/img/user.jpg')}
+                            style={styles.image}
 
-// const Profile = ({ navigation }) => {
-//     const [data, setData] = useState([])
-
-//     const handleLogout = () => {
-//         axios.post("/auth/logout")
-//             .then(res => {
-//                 // removeStorage()
-//                 navigation.navigate("Login")
-//             })
-//             .catch(err => {
-//                 console.log(err)
-//             })
-//     }
-
-//     useEffect(() => {
-//         const storage = async () => {
-//             let items = await AsyncStorage.getItem("user");
-//             setData(JSON.parse(items))
-//         }
-//         storage()
-//     }, [])
-
-//     console.log('user', data)
-//     return (
-//         <View>
-//             <ScrollView contentContainerStyle={styles.container}>
-//                 <View style={{ padding: 10, alignItems: 'center' }}>
-//                     <TouchableOpacity>
-//                         <Image
-//                             source={require('../../components/img/user.png')}
-//                             style={styles.image}
-
-                    />
-                </TouchableOpacity>
-                <Text
-                    style={{
-                        color: '#3493D9',
-                    }} />
-            </View>
-
-            <View style={{ padding: 20 }}>
-                <View style={{ paddingVertical: 15 }}>
-                    <View style={{ flexDirection: 'row', marginBottom: -5 }}>
-                        <AntDesign
-                            name="user"
-                            size={20}
-                            style={{ marginRight: 5 }}
                         />
-                        <Text
-                            style={{
-                                opacity: 0.5,
-                            }}>
-                            Name
-                        </Text>
-                    </View>
-
-                    <TextInput
-                        placeholder="name"
-                        value={userIn.name}
-                        // defaultValue={props.name}
-                        style={styles.textInput}
-                        editable={false}
-                    />
-                </View>
-                <View style={{ paddingVertical: 15 }}>
-                    <View style={{ flexDirection: 'row', marginBottom: -5 }}>
-                        <AntDesign
-                            name="mobile1"
-                            size={20}
-                            style={{ marginRight: 5 }}
-                        />
-                        <Text
-                            style={{
-                                opacity: 0.5,
-                            }}>
-                            Điện thoại
-                        </Text>
-                    </View>
-
-                    <TextInput
-                        placeholder="Trống"
-                        value={userIn.phone}
-                        style={styles.textInput}
-                        editable={false}
-                    />
-                </View>
-                <View style={{ paddingVertical: 15 }}>
-                    <View style={{ flexDirection: 'row', marginBottom: -5 }}>
-                        <FontAwesome
-                            name="transgender"
-                            size={20}
-                            style={{ marginRight: 5 }}
-                        />
-                        <Text
-                            style={{
-                                opacity: 0.5,
-                            }}>
-                            Giới tính
-                        </Text>
-                    </View>
-
-                    <TextInput
-                        placeholder="Trống"
-                        value={userIn.gender === 'male' ? 'nam' : 'nữ'}
-                        style={styles.textInput}
-                        editable={false}
-                    />
-                </View>
-                <View style={{ paddingVertical: 15 }}>
-                    <View style={{ flexDirection: 'row', marginBottom: -5 }}>
-                        <AntDesign
-                            name="mail"
-                            size={20}
-                            style={{ marginRight: 5 }}
-                        />
-                        <Text
-                            style={{
-                                opacity: 0.5,
-                            }}>
-                            Email
-                        </Text>
-                    </View>
-
-                    <TextInput
-                        placeholder="Trống"
-                        value={userIn.phone}
-                        style={styles.textInput}
-                        editable={false}
-                    />
-                </View>
-                <View style={{ paddingVertical: 15 }}>
-                    <View style={{ flexDirection: 'row', marginBottom: -5 }}>
-                        <AntDesign
-                            name="enviroment"
-                            size={20}
-                            style={{ marginRight: 5 }}
-                        />
-                        <Text
-                            style={{ opacity: 0.5 }}>
-                            Address
-                        </Text>
-                    </View>
-
-                    <TextInput
-                        placeholder="Address"
-                        value={userIn.address}
-                        style={styles.textInput}
-                        editable={false}
-                    />
+                    </TouchableOpacity>
+                    <Text
+                        style={{
+                            color: '#3493D9',
+                        }} />
                 </View>
 
-            </View>
-            <View style={{ alignItems: 'center', marginBottom: 60 }}>
-                <TouchableOpacity style={styles.logoutButton} onPress={() => {
-                    handleLogout();
-                }}>
-                    <Text style={styles.logoutButtonText}>Đăng xuất</Text>
-                </TouchableOpacity>
-            </View>
-        </ScrollView>
-    );
-};
-                {/* <View style={{ padding: 20 }}>
+                <View style={styles.containerBody}>
                     <View style={{ paddingVertical: 15 }}>
-                        <View style={{ flexDirection: "row", marginBottom: -5 }}>
+                        <View style={{ flexDirection: 'row', marginBottom: -5 }}>
                             <AntDesign
                                 name="user"
-                                size={22}
+                                size={20}
                                 style={{ marginRight: 5 }}
                             />
                             <Text
@@ -232,39 +70,86 @@ const Profile = ({ navigation }) => {
                         <TextInput
                             placeholder="name"
                             value={data.name}
+                            // defaultValue={props.name}
                             style={styles.textInput}
+                            editable={false}
                         />
                     </View>
                     <View style={{ paddingVertical: 15 }}>
-                        <View style={{ flexDirection: "row", marginBottom: -5 }}>
+                        <View style={{ flexDirection: 'row', marginBottom: -5 }}>
                             <AntDesign
-                                name="user"
-                                size={22}
+                                name="mobile1"
+                                size={20}
                                 style={{ marginRight: 5 }}
                             />
                             <Text
                                 style={{
                                     opacity: 0.5,
                                 }}>
-                                Username
+                                Điện thoại
                             </Text>
                         </View>
 
                         <TextInput
-                            placeholder="Username"
-                            value={data.username}
+                            placeholder="Trống"
+                            value={data.phone}
                             style={styles.textInput}
+                            editable={false}
                         />
                     </View>
                     <View style={{ paddingVertical: 15 }}>
-                        <View style={{ flexDirection: "row", marginBottom: -5 }}>
-                            <AntDesign
-                                name="enviroment"
-                                size={22}
+                        <View style={{ flexDirection: 'row', marginBottom: -5 }}>
+                            <FontAwesome
+                                name="transgender"
+                                size={20}
                                 style={{ marginRight: 5 }}
                             />
                             <Text
-                                style={{ opacity: 0.5, }}>
+                                style={{
+                                    opacity: 0.5,
+                                }}>
+                                Giới tính
+                            </Text>
+                        </View>
+
+                        <TextInput
+                            placeholder="Trống"
+                            value={data.gender === 'male' ? 'nam' : 'nữ'}
+                            style={styles.textInput}
+                            editable={false}
+                        />
+                    </View>
+                    <View style={{ paddingVertical: 15 }}>
+                        <View style={{ flexDirection: 'row', marginBottom: -5 }}>
+                            <AntDesign
+                                name="mail"
+                                size={20}
+                                style={{ marginRight: 5 }}
+                            />
+                            <Text
+                                style={{
+                                    opacity: 0.5,
+                                }}>
+                                Email
+                            </Text>
+                        </View>
+
+                        <TextInput
+                            placeholder="Trống"
+                            value={data.phone}
+                            style={styles.textInput}
+                            editable={false}
+                        />
+                    </View>
+                    <View style={{ paddingVertical: 15 }}>
+                        <View style={{ flexDirection: 'row', marginBottom: -5 }}>
+                            <AntDesign
+                                name="enviroment"
+                                size={20}
+                                style={{ marginRight: 5 }}
+                            />
+                            <Text
+                                style={{ opacity: 0.5 }}>
                                 Address
                             </Text>
                         </View>
@@ -273,36 +158,50 @@ const Profile = ({ navigation }) => {
                             placeholder="Address"
                             value={data.address}
                             style={styles.textInput}
+                            editable={false}
                         />
                     </View>
-                </View>
-                <View style={{ alignItems: "center" }}>
-                    <TouchableOpacity style={styles.logoutButton}
-                        onPress={() => {
-                            handleLogout()
-                        }}>
+
+                
+                <View style={{ alignItems: 'center', marginBottom: 60 }}>
+                    <TouchableOpacity style={styles.logoutButton} onPress={() => {
+                        handleLogout();
+                    }}>
                         <Text style={styles.logoutButtonText}>Đăng xuất</Text>
                     </TouchableOpacity>
-                </View>
+                </View></View>
             </ScrollView>
-
         </View>
     )
-} */}
+}
 
 export default Profile;
 
 const styles = StyleSheet.create({
     container: {
+        // flex: 1,
         width: '100%',
-        backgroundColor: '#eaeae1',
-
+        // backgroundColor: 'white',
+        backgroundColor: color.orange,
+    },
+    containerHeader: {
+        flex: 1,
+        padding: 20,
+        alignItems: 'center',
+        
+        
+    },
+    containerBody: {
+        flex: 3,
+        padding: 20,
+        borderTopLeftRadius: 30,
+        borderTopRightRadius: 30,
+        backgroundColor: 'white',
     },
     textInput: {
         fontSize: 18,
         borderBottomWidth: 1,
         borderColor: '#CDCDCD',
-        color: '#333333',
     },
     image: {
         width: 120,
@@ -311,7 +210,7 @@ const styles = StyleSheet.create({
     },
     logoutButton: {
         marginTop: 18,
-        position: 'relative',
+        position: "relative",
         bottom: 10,
         width: windowWidth / 2,
         height: windowHeight / 7,
@@ -326,5 +225,5 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         color: '#ffffff',
         fontFamily: 'Lato-Regular',
-    },
-});
+    }
+})
