@@ -29,8 +29,10 @@ export default {
   gold: 'gold',
   purple: 'purple',
   skyBlue: 'skyblue',
+  undefined: 'gray',
+  nstarted: 'gray',
   started: '#0dcaf0',
   paused: '#ffc107',
   error: '#dc3545',
-  finished: '#28a745',
+  finished: '#28a754'
 };

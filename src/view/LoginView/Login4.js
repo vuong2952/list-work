@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import {
     View,
     Text,
@@ -8,7 +8,6 @@ import {
     StyleSheet,
     ScrollView,
     TextInput,
-    KeyboardAvoidingView,
 } from 'react-native';
 
 import FormInput from '../../components/FormInput';
@@ -17,13 +16,8 @@ import FormButton from '../../components/FormButton';
 import { windowHeight, windowWidth } from '../../utils/Dimension';
 import * as Animatable from 'react-native-animatable';
 import Feather from 'react-native-vector-icons/Feather';
-// import { AuthContext } from '../../context/AuthContext';
-// import Spinner from 'react-native-loading-spinner-overlay/lib';
-import { setStorage, setUserInfo } from '../../navigation/Apis'
+import { setStorage, setUser } from '../../navigation/Apis'
 import axios from 'axios';
-// import Spinner from 'react-native-loading-spinner-overlay/lib';
-// import { setStorage, saveDataUser } from '../../navigation/Apis'
-// import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Spinner from 'react-native-loading-spinner-overlay/lib';
 
@@ -60,6 +54,7 @@ const Login = ({ navigation }) => {
     // console.log(val);
     const handleLogin = () => {
         setIsLoading(true);
+        // axios.post('http://nk.ors.vn/mobile/api/auth/login', {
         axios.post('http://192.168.1.10:8000/mobile/api/auth/login', {
             username: username,
             password: password,
@@ -80,6 +75,10 @@ const Login = ({ navigation }) => {
                 setIsLoading(false);
                 setUsername('');
                 setPassword('');
+                // setStorage(response.data.data.token)
+                // console.log(response.data.data.token)
+                // setUser(response.data.data)
+                // navigation.navigate("HomeApp")
             })
             .catch((error) => {
                 console.log("Lỗi không đăng nhập được!", error);
