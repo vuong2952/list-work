@@ -21,7 +21,7 @@ const LWScreen = () => {
     return (
         <HomeStack.Navigator initialRouteName="ListWork">
             <HomeStack.Screen name="ListWork" component={ListWork} options={{ headerShown: false }} />
-            <HomeStack.Screen name="ListWorkScreen" component={ListWorkScreen} options={{ headerShown: false }} />
+            <HomeStack.Screen name="ListWorkScreen" component={ListWorkScreen} options={{ title: ''  }} />
         </HomeStack.Navigator>
     )
 }

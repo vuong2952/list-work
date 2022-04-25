@@ -41,75 +41,47 @@ const ListWorkScreen = ({ navigation, route }) => {
                 {
                     stage && Object.entries(stage).map(item =>
                         Object.entries(item[1].equipment).map(key => (
-                            <Card containerStyle={{ borderColor: 'black', borderRadius: 10, }} wrapperStyle={{}} >
-                                <Text h4 style={{
+                            <Card containerStyle={{ borderColor: 'black', borderRadius: 10, backgroundColor: '#e8e7e6' }} wrapperStyle={{}} >
+                                <Card.Title h4 style={{
                                     padding: 5, height: 40, borderRadius: 10, textAlign: 'center',
                                     backgroundColor: (key[1].status_process === undefined ? 'gray' :
                                         key[1].status_process === 'start' ? color.started :
                                             key[1].status_process === 'pause' ? color.paused :
                                                 key[1].status_process === 'error' ? color.error :
                                                     key[1].status_process === 'resume' ? color.started : color.finished)
-                                }}>{key[1].name}</Text>
+                                }}>{key[1].name}</Card.Title>
                                 <View style={Style.listItemInnerContentView}>
                                     {key[1].status_process === 'start' ? null : key[1].status_process === 'pause' ? null :
                                         key[1].status_process === 'error' ? null : key[1].status_process === 'resume' ? null :
-                                            < Button title="Bắt đầu thực thi"
-                                                buttonStyle={{
-                                                    backgroundColor: color.started,
-                                                    borderRadius: 3,
-                                                }}
-                                                containerStyle={{
-                                                    width: 200,
-                                                    marginHorizontal: 5,
-                                                    marginVertical: 5,
-                                                }} onPress={() => handleUpdate(data.bill_id, item[0], key[1].id, 'start')} />}
+                                            key[1].status_process === 'finish' ? null :
+                                                < Button title="Bắt đầu thực thi"
+                                                    buttonStyle={{ backgroundColor: color.started }}
+                                                    containerStyle={Style.button}
+                                                    onPress={() => handleUpdate(data.bill_id, item[0], key[1].id, 'start')} />}
 
                                     {key[1].status_process === 'pause' ? null : key[1].status_process === undefined ? null :
-                                        key[1].status_process === 'error' ? null : <Button title="Tạm dừng"
-                                            buttonStyle={{
-                                                backgroundColor: color.paused,
-                                                borderRadius: 3,
-                                            }}
-                                            containerStyle={{
-                                                width: 200,
-                                                marginHorizontal: 5,
-                                                marginVertical: 5,
-                                            }} onPress={() => handleUpdate(data.bill_id, item[0], key[1].id, 'pause')} />}
+                                        key[1].status_process === 'error' ? null : key[1].status_process === 'finish' ? null :
+                                            <Button title="Tạm dừng"
+                                                buttonStyle={{ backgroundColor: color.paused }}
+                                                containerStyle={Style.button}
+                                                onPress={() => handleUpdate(data.bill_id, item[0], key[1].id, 'pause')} />}
 
                                     {key[1].status_process === 'start' ? null : key[1].status_process === undefined ? null :
                                         key[1].status_process === 'finish' ? null : key[1].status_process === 'resume' ? null :
                                             <Button title="Tiếp tục"
-                                                buttonStyle={{
-                                                    backgroundColor: color.started,
-                                                    borderRadius: 3,
-                                                }}
-                                                containerStyle={{
-                                                    width: 200,
-                                                    marginHorizontal: 5,
-                                                    marginVertical: 5,
-                                                }} onPress={() => handleUpdate(data.bill_id, item[0], key[1].id, 'resume')} />}
+                                                buttonStyle={{ backgroundColor: color.started }}
+                                                containerStyle={Style.button}
+                                                onPress={() => handleUpdate(data.bill_id, item[0], key[1].id, 'resume')} />}
 
                                     {key[1].status_process === 'error' ? null : key[1].status_process === undefined ? null :
-                                        key[1].status_process === 'pause' ? null : <Button title="Gặp sự cố"
-                                            buttonStyle={{
-                                                backgroundColor: color.error,
-                                                borderRadius: 3,
-                                            }}
-                                            containerStyle={{
-                                                width: 200,
-                                                marginHorizontal: 5,
-                                                marginVertical: 5,
-                                            }} onPress={() => handleUpdate(data.bill_id, item[0], key[1].id, 'error')} />}
+                                        key[1].status_process === 'pause' ? null : key[1].status_process === 'finish' ? null :
+                                            <Button title="Gặp sự cố"
+                                                buttonStyle={{ backgroundColor: color.error }}
+                                                containerStyle={Style.button}
+                                                onPress={() => handleUpdate(data.bill_id, item[0], key[1].id, 'error')} />}
                                     {key[1].status_process === 'finish' ? null : key[1].status_process === undefined ? null : <Button title="Hoàn thành"
-                                        buttonStyle={{
-                                            backgroundColor: color.finished,
-                                            borderRadius: 3,
-                                        }}
-                                        containerStyle={{
-                                            width: 200,
-                                            marginHorizontal: 5,
-                                            marginVertical: 5,
-                                        }} onPress={() => handleUpdate(data.bill_id, item[0], key[1].id, 'finish')} />}
+                                        buttonStyle={{ backgroundColor: color.finished }}
+                                        containerStyle={Style.button} onPress={() => handleUpdate(data.bill_id, item[0], key[1].id, 'finish')} />}
                                 </View>
 
                             </Card>
@@ -145,4 +117,10 @@ const Style = StyleSheet.create({
         marginBottom: 10,
 
     },
+    button: {
+        width: 200,
+        marginHorizontal: 5,
+        marginVertical: 5,
+        borderRadius: 5,
+    }
 })

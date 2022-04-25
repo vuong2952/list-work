@@ -1,5 +1,6 @@
 /* eslint-disable prettier/prettier */
 import React, { useContext, useState } from 'react';
+import { StackActions } from '@react-navigation/native'
 import {
     View,
     Text,
@@ -60,7 +61,7 @@ const Login = ({ navigation }) => {
                 setStorage(response.data.data.token)
                 console.log(response.data.data.token)
                 setUser(response.data.data)
-                navigation.navigate("HomeApp")
+                if (response.data.data.token !== undefined) navigation.dispatch(StackActions.replace("HomeApp"))
             })
             .catch((error) => {
                 console.log("Lỗi không đăng nhập được!", error)
@@ -71,7 +72,7 @@ const Login = ({ navigation }) => {
         <ScrollView contentContainerStyle={styles.container}>
             <View style={styles.headerContainer}>
                 <Image
-                    source={require('../../components/img/NamKhanh.png')}
+                    source={require('../../components/img/NamKhanh.jpg')}
                     style={styles.logo}
                 />
                 <Text style={styles.text}>Madocar</Text>

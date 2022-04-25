@@ -28,7 +28,7 @@ const CustomHeader = ({ title, isHome, navigation }) => {
                     <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center' }}>
                         <Image
                             style={{ width: 20, height: 20, marginLeft: 5 }}
-                            source={require('../components/img/left-arrow.png')}
+                            source={require('../components/img/left-arrow.jpg')}
                             resizeMode='contain'
                         />
                         <Text>Back</Text>

@@ -39,7 +39,7 @@ const Profile = ({ navigation }) => {
                 <View style={{ padding: 10, alignItems: 'center' }}>
                     <TouchableOpacity>
                         <Image
-                            source={require('../../components/img/user.png')}
+                            source={require('../../components/img/user.jpg')}
                             style={styles.image}
 
                         />

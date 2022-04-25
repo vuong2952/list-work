@@ -22,7 +22,7 @@ const CustomDrawer = props => {
         {...props}
         contentContainerStyle={{backgroundColor: '#8200d6'}}>
         <ImageBackground
-          source={require('../assets/images/menu-bg.jpeg')}
+          // source={require('../assets/images/menu.jpeg')}
           style={{padding: 20}}>
           <Image
             source={require('../components/img/NamKhanh.png')}

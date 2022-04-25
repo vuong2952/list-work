@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { Text, Badge, ListItem, Button, Card} from '@rneui/base';
+import { Text, Badge, ListItem, Button, Card } from '@rneui/base';
 import React, { useEffect, useState, useCallback } from 'react';
 import { windowHeight, windowWidth } from '../../utils/Dimension';
 import FormButton from '../../components/FormButton';
@@ -28,18 +28,16 @@ const ListWork = ({ navigation }) => {
     useEffect(() => {
         const loadData = navigation.addListener('focus', () => {
             axios.post("/process/list")
-            .then(res => {
-                setData(res.data.data)
-                console.log("1234")
-            }).catch(err => {
-                alert("ERROR")
-                console.log(err)
-            })
-          });
-          return loadData;
+                .then(res => {
+                    setData(res.data.data)
+                }).catch(err => {
+                    alert("ERROR")
+                    console.log(err)
+                })
+        });
+        return loadData;
     }, [navigation])
 
-    console.log(data)
     return <View style={Style.container}>
         <View style={Style.badge}>
             <Badge textStyle={{ fontSize: 12 }} badgeStyle={{ backgroundColor: color.undefined, height: 20 }} value='Chưa xác nhận'></Badge>
@@ -50,27 +48,29 @@ const ListWork = ({ navigation }) => {
         </View>
         <ScrollView style={{ marginBottom: 60 }}>
             <View>
-                {data && data.map((item, index) => (
-                    <Card containerStyle={{ borderColor: 'black', borderRadius: 10 }} wrapperStyle={{}}>
-                        <Text h4 style={{ textAlign: 'center' }}>{(item.car.plate)}</Text>
-                        <Badge textStyle={{ fontSize: 14, textAlign: 'center' }}
-                            value={(item.car.attribute.name) + ' - ' + (item.car.customer.name)}></Badge>
-                        {
-                            Object.entries(item.stages).map(key => (
-                                <View style={Style.listItemInnerContentView}
-                                    backgroundColor={key[1].status_process === undefined ? color.undefined
-                                        : key[1].status_process === 'nstarted' ? color.undefined
-                                            : key[1].status_process === 'started' ? color.started
-                                                : key[1].status_process === 'paused' ? color.paused
-                                                    : key[1].status_process === 'error' ? color.error : color.finished} >
-                                    <TouchableOpacity onPress={() => navigation.navigate('ListWorkScreen', item)} style={{ width: '100%', alignItems: 'center' }}>
-                                        <Text style={Style.TextStyle} >{key[1].name}</Text>
-                                    </TouchableOpacity>
-                                </View>
-                            ))
-                        }
-                    </Card>
-                ))}
+                {
+                    data && data.map((item, index) => (
+                        <Card containerStyle={{ borderColor: 'black', borderRadius: 10, backgroundColor: '#e8e7e6' }} wrapperStyle={{}}>
+                            <Text h4 style={{ textAlign: 'center' }}>{(item.car.plate)}</Text>
+                            <Badge textStyle={{ fontSize: 14, textAlign: 'center' }}
+                                value={(item.car.attribute.name) + ' - ' + (item.car.customer.name)}></Badge>
+                            {
+                                Object.entries(item.stages).map(key => (
+                                    <View style={Style.listItemInnerContentView}
+                                        backgroundColor={key[1].status_process === undefined ? color.undefined
+                                            : key[1].status_process === 'nstarted' ? color.undefined
+                                                : key[1].status_process === 'started' ? color.started
+                                                    : key[1].status_process === 'paused' ? color.paused
+                                                        : key[1].status_process === 'error' ? color.error : color.finished} >
+                                        <TouchableOpacity onPress={() => navigation.navigate('ListWorkScreen', item)} style={{ width: '100%', alignItems: 'center' }}>
+                                            <Text style={Style.TextStyle} >{key[1].name}</Text>
+                                        </TouchableOpacity>
+                                    </View>
+                                ))
+                            }
+                        </Card>
+                    ))
+                }
             </View>
             {/* <Button title='Next' onPress={() => navigation.navigate('ListWorkScreen')}></Button> */}
         </ScrollView >
