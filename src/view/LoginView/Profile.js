@@ -67,13 +67,9 @@ const Profile = ({ navigation }) => {
                             </Text>
                         </View>
 
-                        <TextInput
-                            placeholder="name"
-                            value={data.name}
-                            // defaultValue={props.name}
+                        <Text
                             style={styles.textInput}
-                            editable={false}
-                        />
+                        >{data.name}</Text>
                     </View>
                     <View style={{ paddingVertical: 15 }}>
                         <View style={{ flexDirection: 'row', marginBottom: -5 }}>
@@ -90,12 +86,10 @@ const Profile = ({ navigation }) => {
                             </Text>
                         </View>
 
-                        <TextInput
-                            placeholder="Trống"
-                            value={data.phone}
-                            style={styles.textInput}
-                            editable={false}
-                        />
+                        <Text
+                        style={styles.textInput}
+                            // style
+                        >{data.phone}</Text>
                     </View>
                     <View style={{ paddingVertical: 15 }}>
                         <View style={{ flexDirection: 'row', marginBottom: -5 }}>
@@ -112,12 +106,9 @@ const Profile = ({ navigation }) => {
                             </Text>
                         </View>
 
-                        <TextInput
-                            placeholder="Trống"
-                            value={data.gender === 'male' ? 'nam' : 'nữ'}
+                        <Text
                             style={styles.textInput}
-                            editable={false}
-                        />
+                        >{data.gender}</Text>
                     </View>
                     <View style={{ paddingVertical: 15 }}>
                         <View style={{ flexDirection: 'row', marginBottom: -5 }}>
@@ -134,12 +125,9 @@ const Profile = ({ navigation }) => {
                             </Text>
                         </View>
 
-                        <TextInput
-                            placeholder="Trống"
-                            value={data.phone}
+                        <Text
                             style={styles.textInput}
-                            editable={false}
-                        />
+                        >{data.email}</Text>
                     </View>
                     <View style={{ paddingVertical: 15 }}>
                         <View style={{ flexDirection: 'row', marginBottom: -5 }}>
@@ -154,12 +142,11 @@ const Profile = ({ navigation }) => {
                             </Text>
                         </View>
 
-                        <TextInput
-                            placeholder="Address"
-                            value={data.address}
+                        <Text
+
                             style={styles.textInput}
                             editable={false}
-                        />
+                        >{data.address}</Text>
                     </View>
 
                 
@@ -188,18 +175,17 @@ const styles = StyleSheet.create({
         flex: 1,
         padding: 20,
         alignItems: 'center',
-        
-        
     },
     containerBody: {
         flex: 3,
         padding: 20,
-        borderTopLeftRadius: 30,
-        borderTopRightRadius: 30,
+        borderTopLeftRadius: 50,
+        // borderTopRightRadius: 30,
         backgroundColor: 'white',
     },
     textInput: {
         fontSize: 18,
+        marginTop: 15,
         borderBottomWidth: 1,
         borderColor: '#CDCDCD',
     },
