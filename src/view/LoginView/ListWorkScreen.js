@@ -8,8 +8,6 @@ import color from '../../config/color';
 import axios from 'axios'
 
 const ListWorkScreen = ({ navigation, route }) => {
-    // const [data, setData] = useState(route.params)
-    // const [stage, setStage] = useState({})
     const data = route.params
     const stage = data.stages
 
@@ -24,9 +22,6 @@ const ListWorkScreen = ({ navigation, route }) => {
             navigation.navigate("ListWork")
         })
     }
-    // useEffect(() => {
-    //     setStage(data.stages)
-    // }, [navigation, route])
 
     return <View style={Style.container}>
         <View style={Style.badge}>
@@ -42,14 +37,14 @@ const ListWorkScreen = ({ navigation, route }) => {
                     stage && Object.entries(stage).map(item =>
                         Object.entries(item[1].equipment).map(key => (
                             <Card containerStyle={{ borderColor: 'black', borderRadius: 10, backgroundColor: '#e8e7e6' }} wrapperStyle={{}} >
-                                <Card.Title h4 style={{
-                                    padding: 5, height: 40, borderRadius: 10, textAlign: 'center',
-                                    backgroundColor: (key[1].status_process === undefined ? 'gray' :
-                                        key[1].status_process === 'start' ? color.started :
-                                            key[1].status_process === 'pause' ? color.paused :
-                                                key[1].status_process === 'error' ? color.error :
-                                                    key[1].status_process === 'resume' ? color.started : color.finished)
-                                }}>{key[1].name}</Card.Title>
+                                <Text h3 style={{
+                                    padding: 5, height: 50, textAlign: 'center',
+                                    // backgroundColor: (key[1].status_process === undefined ? 'gray' :
+                                    //     key[1].status_process === 'start' ? color.started :
+                                    //         key[1].status_process === 'pause' ? color.paused :
+                                    //             key[1].status_process === 'error' ? color.error :
+                                    //                 key[1].status_process === 'resume' ? color.started : color.finished)
+                                }}>{key[1].name}</Text>
                                 <View style={Style.listItemInnerContentView}>
                                     {key[1].status_process === 'start' ? null : key[1].status_process === 'pause' ? null :
                                         key[1].status_process === 'error' ? null : key[1].status_process === 'resume' ? null :
@@ -118,9 +113,9 @@ const Style = StyleSheet.create({
 
     },
     button: {
-        width: 200,
+        width: windowWidth/2.5,
         marginHorizontal: 5,
         marginVertical: 5,
-        borderRadius: 5,
+        borderRadius: 10,
     }
 })

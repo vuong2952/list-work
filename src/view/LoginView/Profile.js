@@ -1,14 +1,16 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable react-native/no-inline-styles */
 import { Image } from "@rneui/themed";
+import { StackActions } from '@react-navigation/native'
 import React, { useEffect, useState } from "react";
 import { ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import AntDesign from "react-native-vector-icons/AntDesign"
 import SimpleLineIcons from "react-native-vector-icons/SimpleLineIcons"
 import { windowHeight, windowWidth } from "../../utils/Dimension";
-import { removeStorage } from "../../navigation/Apis";
 import AsyncStorage from "@react-native-async-storage/async-storage"
 import axios from "axios"
+import FormButton from "../../components/FormButton";
+import color from "../../config/color";
 
 const Profile = ({ navigation }) => {
     const [data, setData] = useState([])
@@ -16,8 +18,7 @@ const Profile = ({ navigation }) => {
     const handleLogout = () => {
         axios.post("/auth/logout")
             .then(res => {
-                // removeStorage()
-                navigation.navigate("Login")
+                navigation.dispatch(StackActions.replace("Login"))
             })
             .catch(err => {
                 console.log(err)
@@ -36,7 +37,7 @@ const Profile = ({ navigation }) => {
     return (
         <View>
             <ScrollView contentContainerStyle={styles.container}>
-                <View style={{ padding: 10, alignItems: 'center' }}>
+                <View style={{ padding: 10, alignItems: 'center', backgroundColor: color.orange, width: '100%' }}>
                     <TouchableOpacity>
                         <Image
                             source={require('../../components/img/user.jpg')}
@@ -48,11 +49,11 @@ const Profile = ({ navigation }) => {
                         style={{
                             color: '#3493D9',
                         }}>
-                        {/* Change profile photo */}
+                        {data.username}
                     </Text>
                 </View>
 
-                <View style={{ padding: 20 }}>
+                <View style={{ padding: 20 ,}}>
                     <View style={{ paddingVertical: 15 }}>
                         <View style={{ flexDirection: "row", marginBottom: -5 }}>
                             <AntDesign
@@ -115,13 +116,10 @@ const Profile = ({ navigation }) => {
                         />
                     </View>
                 </View>
-                <View style={{ alignItems: "center" }}>
-                    <TouchableOpacity style={styles.logoutButton}
-                        onPress={() => {
-                            handleLogout()
-                        }}>
-                        <Text style={styles.logoutButtonText}>Đăng xuất</Text>
-                    </TouchableOpacity>
+                <View style={{ alignItems: "center", width: '100%' }}>
+                    <FormButton
+                        buttonTitle='Đăng xuất'
+                        onPress={() => handleLogout()} />
                 </View>
             </ScrollView>
 
@@ -133,8 +131,10 @@ export default Profile;
 
 const styles = StyleSheet.create({
     container: {
-        width: '100%',
-        backgroundColor: 'white',
+        justifyContent: 'center',
+        alignItems: 'center',
+        padding: 20,
+        paddingTop: 50,
     },
     textInput: {
         fontSize: 18,

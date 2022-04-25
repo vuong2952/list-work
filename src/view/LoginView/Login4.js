@@ -62,6 +62,7 @@ const Login = ({ navigation }) => {
                 console.log(response.data.data.token)
                 setUser(response.data.data)
                 if (response.data.data.token !== undefined) navigation.dispatch(StackActions.replace("HomeApp"))
+
             })
             .catch((error) => {
                 console.log("Lỗi không đăng nhập được!", error)
