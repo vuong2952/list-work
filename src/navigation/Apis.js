@@ -1,7 +1,8 @@
+/* eslint-disable prettier/prettier */
 import axios from "axios"
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
 export const setStorage = async (token) => {
+  console.log('token',token);
   await AsyncStorage.setItem("token", token)
 }
 export const setUser = async (data) => {
@@ -10,6 +11,7 @@ export const setUser = async (data) => {
 
 export const removeStorage = async () => {
   await AsyncStorage.removeItem("token")
+  await AsyncStorage.removeItem("userInfo")
 }
 
 // axios.defaults.baseURL = 'http://nk.ors.vn/mobile/api'
@@ -28,3 +30,5 @@ axios.interceptors.request.use(
     return Promise.reject(error)
   }
 );
+
+

@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { StackActions } from '@react-navigation/native'
 import {
     View,
@@ -10,18 +10,17 @@ import {
     StyleSheet,
     ScrollView,
     TextInput,
+    ActivityIndicator,
+    Alert
 } from 'react-native';
-
-import FormInput from '../../components/FormInput';
 import color from '../../config/color';
 import FormButton from '../../components/FormButton';
-import FormCheckBox from '../../components/FromCheckBox';
-import SocialButton from '../../components/SocialButton';
 import { windowHeight, windowWidth } from '../../utils/Dimension';
 import * as Animatable from 'react-native-animatable';
 import Feather from 'react-native-vector-icons/Feather';
 import { setStorage, setUser } from '../../navigation/Apis'
 import axios from 'axios';
+import Spinner from 'react-native-loading-spinner-overlay/lib';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Login = ({ navigation }) => {
@@ -31,6 +30,8 @@ const Login = ({ navigation }) => {
     const [userValid, setUserValid] = useState(false);
     const [isPassValid, setIsPassValid] = useState(false);
     const [showPass, setShowPass] = useState(true);
+    const [isLoading, setIsLoading] = useState(false);
+
 
     const textInputChange = (val) => {
         if (val.length !== 0) {
@@ -52,30 +53,34 @@ const Login = ({ navigation }) => {
         }
     }
     const handleLogin = () => {
+        setIsLoading(true);
         // axios.post('http://nk.ors.vn/mobile/api/auth/login', {
         axios.post('http://192.168.1.10:8000/mobile/api/auth/login', {
             username: username,
             password: password
         })
             .then((response) => {
+                setIsLoading(false)
                 setStorage(response.data.data.token)
                 console.log(response.data.data.token)
-                setUser(response.data.data)
+                setUser(response.data.data);
                 if (response.data.data.token !== undefined) navigation.dispatch(StackActions.replace("HomeApp"))
-
             })
             .catch((error) => {
+                setIsLoading(false);
                 console.log("Lỗi không đăng nhập được!", error)
+                Alert.alert('Tài khoản không đúng!','Mời nhập lại tài khoản, mật khẩu.')
             });
     }
 
     return (
         <ScrollView contentContainerStyle={styles.container}>
+            
             <View style={styles.headerContainer}>
                 <Image
                     source={require('../../components/img/NamKhanh.jpg')}
                     style={styles.logo}
-                />
+                /><Spinner visible={isLoading}/>
                 <Text style={styles.text}>Madocar</Text>
             </View>
             <View style={styles.inputContainer}>
@@ -161,7 +166,10 @@ const Login = ({ navigation }) => {
             }
             <FormButton
                 buttonTitle="Sign In"
-                onPress={() => handleLogin()}
+                onPress={() => {
+                    handleLogin();
+                    setIsLoading(true);
+                }}
             // onPress={() => navigation.navigate('HomeApp')}
             />
 

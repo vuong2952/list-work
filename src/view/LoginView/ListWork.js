@@ -1,8 +1,7 @@
 /* eslint-disable prettier/prettier */
-import { Text, Badge, ListItem, Button, Card } from '@rneui/base';
+import { Text, Badge, Card } from '@rneui/base';
 import React, { useEffect, useState, useCallback } from 'react';
 import { windowHeight, windowWidth } from '../../utils/Dimension';
-import FormButton from '../../components/FormButton';
 import color from '../../config/color'
 
 import {
@@ -14,11 +13,8 @@ import {
     useColorScheme,
     View,
 } from 'react-native';
-import Profile from './Profile';
-import CustomHeader from '../../components/CustomHeader';
 import * as Async from '../../navigation/Apis'
 import axios from 'axios'
-import data from './Login4'
 
 
 const ListWork = ({ navigation }) => {
@@ -31,7 +27,6 @@ const ListWork = ({ navigation }) => {
                 .then(res => {
                     setData(res.data.data)
                 }).catch(err => {
-                    alert("ERROR")
                     console.log(err)
                 })
         });
@@ -72,7 +67,6 @@ const ListWork = ({ navigation }) => {
                     ))
                 }
             </View>
-            {/* <Button title='Next' onPress={() => navigation.navigate('ListWorkScreen')}></Button> */}
         </ScrollView >
     </View >
 

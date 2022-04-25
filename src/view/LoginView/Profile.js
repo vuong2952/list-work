@@ -1,16 +1,15 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable react-native/no-inline-styles */
 import { Image } from "@rneui/themed";
-import { StackActions } from '@react-navigation/native'
 import React, { useEffect, useState } from "react";
 import { ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import AntDesign from "react-native-vector-icons/AntDesign"
-import SimpleLineIcons from "react-native-vector-icons/SimpleLineIcons"
 import { windowHeight, windowWidth } from "../../utils/Dimension";
 import AsyncStorage from "@react-native-async-storage/async-storage"
 import axios from "axios"
-import FormButton from "../../components/FormButton";
+import FontAwesome from "react-native-vector-icons/FontAwesome";
 import color from "../../config/color";
+import { StackActions } from "@react-navigation/native";
 
 const Profile = ({ navigation }) => {
     const [data, setData] = useState([])
@@ -18,6 +17,7 @@ const Profile = ({ navigation }) => {
     const handleLogout = () => {
         axios.post("/auth/logout")
             .then(res => {
+                // removeStorage()
                 navigation.dispatch(StackActions.replace("Login"))
             })
             .catch(err => {
@@ -37,7 +37,7 @@ const Profile = ({ navigation }) => {
     return (
         <View>
             <ScrollView contentContainerStyle={styles.container}>
-                <View style={{ padding: 10, alignItems: 'center', backgroundColor: color.orange, width: '100%' }}>
+                <View style={styles.containerHeader}>
                     <TouchableOpacity>
                         <Image
                             source={require('../../components/img/user.jpg')}
@@ -48,17 +48,15 @@ const Profile = ({ navigation }) => {
                     <Text
                         style={{
                             color: '#3493D9',
-                        }}>
-                        {data.username}
-                    </Text>
+                        }} />
                 </View>
 
-                <View style={{ padding: 20 ,}}>
+                <View style={styles.containerBody}>
                     <View style={{ paddingVertical: 15 }}>
-                        <View style={{ flexDirection: "row", marginBottom: -5 }}>
+                        <View style={{ flexDirection: 'row', marginBottom: -5 }}>
                             <AntDesign
                                 name="user"
-                                size={22}
+                                size={20}
                                 style={{ marginRight: 5 }}
                             />
                             <Text
@@ -69,60 +67,97 @@ const Profile = ({ navigation }) => {
                             </Text>
                         </View>
 
-                        <TextInput
-                            placeholder="name"
-                            value={data.name}
+                        <Text
                             style={styles.textInput}
-                        />
+                        >{data.name}</Text>
                     </View>
                     <View style={{ paddingVertical: 15 }}>
-                        <View style={{ flexDirection: "row", marginBottom: -5 }}>
+                        <View style={{ flexDirection: 'row', marginBottom: -5 }}>
                             <AntDesign
-                                name="user"
-                                size={22}
+                                name="mobile1"
+                                size={20}
                                 style={{ marginRight: 5 }}
                             />
                             <Text
                                 style={{
                                     opacity: 0.5,
                                 }}>
-                                Username
+                                Điện thoại
                             </Text>
                         </View>
 
-                        <TextInput
-                            placeholder="Username"
-                            value={data.username}
-                            style={styles.textInput}
-                        />
+                        <Text
+                        style={styles.textInput}
+                            // style
+                        >{data.phone}</Text>
                     </View>
                     <View style={{ paddingVertical: 15 }}>
-                        <View style={{ flexDirection: "row", marginBottom: -5 }}>
-                            <AntDesign
-                                name="enviroment"
-                                size={22}
+                        <View style={{ flexDirection: 'row', marginBottom: -5 }}>
+                            <FontAwesome
+                                name="transgender"
+                                size={20}
                                 style={{ marginRight: 5 }}
                             />
                             <Text
-                                style={{ opacity: 0.5, }}>
+                                style={{
+                                    opacity: 0.5,
+                                }}>
+                                Giới tính
+                            </Text>
+                        </View>
+
+                        <Text
+                            style={styles.textInput}
+                        >{data.gender}</Text>
+                    </View>
+                    <View style={{ paddingVertical: 15 }}>
+                        <View style={{ flexDirection: 'row', marginBottom: -5 }}>
+                            <AntDesign
+                                name="mail"
+                                size={20}
+                                style={{ marginRight: 5 }}
+                            />
+                            <Text
+                                style={{
+                                    opacity: 0.5,
+                                }}>
+                                Email
+                            </Text>
+                        </View>
+
+                        <Text
+                            style={styles.textInput}
+                        >{data.email}</Text>
+                    </View>
+                    <View style={{ paddingVertical: 15 }}>
+                        <View style={{ flexDirection: 'row', marginBottom: -5 }}>
+                            <AntDesign
+                                name="enviroment"
+                                size={20}
+                                style={{ marginRight: 5 }}
+                            />
+                            <Text
+                                style={{ opacity: 0.5 }}>
                                 Address
                             </Text>
                         </View>
 
-                        <TextInput
-                            placeholder="Address"
-                            value={data.address}
-                            style={styles.textInput}
-                        />
-                    </View>
-                </View>
-                <View style={{ alignItems: "center", width: '100%' }}>
-                    <FormButton
-                        buttonTitle='Đăng xuất'
-                        onPress={() => handleLogout()} />
-                </View>
-            </ScrollView>
+                        <Text
 
+                            style={styles.textInput}
+                            editable={false}
+                        >{data.address}</Text>
+                    </View>
+
+                
+                <View style={{ alignItems: 'center', marginBottom: 60 }}>
+                    <TouchableOpacity style={styles.logoutButton} onPress={() => {
+                        handleLogout();
+                    }}>
+                        <Text style={styles.logoutButtonText}>Đăng xuất</Text>
+                    </TouchableOpacity>
+                </View></View>
+            </ScrollView>
         </View>
     )
 }
@@ -131,13 +166,26 @@ export default Profile;
 
 const styles = StyleSheet.create({
     container: {
-        justifyContent: 'center',
-        alignItems: 'center',
+        // flex: 1,
+        width: '100%',
+        // backgroundColor: 'white',
+        backgroundColor: color.orange,
+    },
+    containerHeader: {
+        flex: 1,
         padding: 20,
-        paddingTop: 50,
+        alignItems: 'center',
+    },
+    containerBody: {
+        flex: 3,
+        padding: 20,
+        borderTopLeftRadius: 50,
+        // borderTopRightRadius: 30,
+        backgroundColor: 'white',
     },
     textInput: {
         fontSize: 18,
+        marginTop: 15,
         borderBottomWidth: 1,
         borderColor: '#CDCDCD',
     },
@@ -156,6 +204,7 @@ const styles = StyleSheet.create({
         padding: 10,
         alignItems: 'center',
         justifyContent: 'center',
+        borderRadius: 10,
     },
     logoutButtonText: {
         fontSize: 18,
