@@ -25,9 +25,12 @@ export default {
   green: '#60c5a8',
   green2: '#039a83',
   light: '#EEEEEE',
-  gray: '#CCCCCC',
   red: '#ff5454',
   gold: 'gold',
   purple: 'purple',
   skyBlue: 'skyblue',
+  started: '#0dcaf0',
+  paused: '#ffc107',
+  error: '#dc3545',
+  finished: '#28a745',
 };

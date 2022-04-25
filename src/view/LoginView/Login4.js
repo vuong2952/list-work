@@ -8,6 +8,7 @@ import {
     StyleSheet,
     ScrollView,
     TextInput,
+    KeyboardAvoidingView,
 } from 'react-native';
 
 import FormInput from '../../components/FormInput';
@@ -18,12 +19,13 @@ import * as Animatable from 'react-native-animatable';
 import Feather from 'react-native-vector-icons/Feather';
 // import { AuthContext } from '../../context/AuthContext';
 // import Spinner from 'react-native-loading-spinner-overlay/lib';
-import { setStorage } from '../../navigation/Apis'
+import { setStorage, setUserInfo } from '../../navigation/Apis'
 import axios from 'axios';
 // import Spinner from 'react-native-loading-spinner-overlay/lib';
 // import { setStorage, saveDataUser } from '../../navigation/Apis'
 // import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Spinner from 'react-native-loading-spinner-overlay/lib';
 
 const Login = ({ navigation }) => {
     const [username, setUsername] = useState('');
@@ -32,6 +34,7 @@ const Login = ({ navigation }) => {
     const [userValid, setUserValid] = useState(false);
     const [isPassValid, setIsPassValid] = useState(false);
     const [showPass, setShowPass] = useState(true);
+    const [isLoading, setIsLoading] = useState(false);
     // const [userInfo, setUserInfo] = useState({});
     // const {isLoading,signIn} = useContext(AuthContext);
 
@@ -41,7 +44,7 @@ const Login = ({ navigation }) => {
             setUserValid(false);
         }
         else {
-            setCheckUser(null);
+            setCheckUser('');
             setUserValid(true);
         }
     }
@@ -56,25 +59,39 @@ const Login = ({ navigation }) => {
     }
     // console.log(val);
     const handleLogin = () => {
-        axios.post('http://nk.ors.vn/mobile/api/login', {
+        setIsLoading(true);
+        axios.post('http://192.168.1.10:8000/mobile/api/auth/login', {
             username: username,
             password: password,
         })
             .then((response) => {
-                console.log(response.data.data.token)
-                setStorage(response.data.data.token)
-                navigation.navigate("HomeApp")
+                console.log('login token', response.data.data.token);
+                setStorage(response.data.data.token);
+                AsyncStorage.setItem('userInfo', JSON.stringify(response.data.data));
+                {
+                    response.data.data.token ? navigation.navigate("HomeApp") : (
+                        navigation.navigate("Login"),
+                        setUsername(''),
+                        setPassword(''),
+                        alert('Sai tài khoản hoặc mật khẩu')
+                    )
+
+                }
+                setIsLoading(false);
+                setUsername('');
+                setPassword('');
             })
             .catch((error) => {
-                console.log("Lỗi không đăng nhập được!");
-                navigation.push("Login")
+                console.log("Lỗi không đăng nhập được!", error);
+                navigation.navigate("Login");
+                setIsLoading(false);
             });
     }
 
     return (
         <ScrollView contentContainerStyle={styles.container}>
-            {/* <Spinner visible={isLoading} /> */}
-            
+            <Spinner visible={isLoading} />
+
             <View style={styles.headerContainer}>
                 <Image
                     source={require('../../components/img/NamKhanh.png')}
@@ -100,13 +117,14 @@ const Login = ({ navigation }) => {
                         setUsername(username);
                         textInputChange(username);
                     }}
+                    returnKeyType="next"
                 />
-                <Feather
+                {/* <Feather
                     name={checkUser}
                     color={color.secondary2}
                     size={25}
                     style={styles.iconRightStyle}
-                />
+                /> */}
             </View>
             {
                 userValid ?
@@ -134,6 +152,7 @@ const Login = ({ navigation }) => {
                         setPassword(password);
                         handleChangePassWord(password);
                     }}
+                    returnKeyType="go"
                 />
                 <TouchableOpacity>
                     {
@@ -166,7 +185,7 @@ const Login = ({ navigation }) => {
             <FormButton
                 buttonTitle="Sign In"
                 onPress={() => handleLogin()}
-                // onPress={()=> {signIn(username, password)}}
+            // onPress={()=> {signIn(username, password)}}
             // onPress={() => navigation.navigate('HomeApp')}
             />
 
@@ -253,6 +272,6 @@ const styles = StyleSheet.create({
     errorMsg: {
         color: '#FF0000',
         fontSize: 14,
-        justifyContent: "flex-start",
+        justifyContent: "flex-start"
     },
 })
