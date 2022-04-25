@@ -27,7 +27,7 @@ const ListWorkScreen = ({ navigation, route }) => {
             setTimeout(() => {
                 setIsLoading(false)
                 navigation.navigate("ListWork")
-            }, 300)
+            }, 500)
             // setIsLoading(false);
             console.log("Updated success")
 
