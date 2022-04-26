@@ -47,12 +47,18 @@ const Profile = ({ navigation }) => {
 
 
                     <Card containerStyle={styles.cardHeader}>
-                        <Image
-                            source={require('../../components/img/profileimg.jpg')}
-                            style={styles.img}
-                        />
+                        {
+                            data.gender === 'male' ?
+                                <Image
+                                    source={require('../../components/img/male.jpg')}
+                                    style={styles.img}
+                                /> : <Image
+                                    source={require('../../components/img/female.png')}
+                                    style={styles.img}
+                                />
+                        }
                         {/* <Ionicons name='camera' size={30} style={styles.iconHeader} /> */}
-                        <Text style={styles.textName}>{data.username}</Text>
+                        <Text style={styles.textName}>@{data.username}</Text>
                     </Card>
                     <Card containerStyle={styles.card}>
                         <View style={{ flexDirection: "row" }}>
@@ -61,7 +67,9 @@ const Profile = ({ navigation }) => {
                                 size={28}
                                 style={styles.icon}
                             />
-                            <Text style={styles.text}>{data.name}</Text>
+                            <ScrollView horizontal style={{ width: windowHeight / 1.4 }}>
+                                <Text style={styles.text}>{data.name}</Text>
+                            </ScrollView>
                         </View>
 
                     </Card>
@@ -72,7 +80,10 @@ const Profile = ({ navigation }) => {
                                 size={30}
                                 style={styles.icon}
                             />
-                            <Text style={styles.text}>{data.gender}</Text>
+                            <ScrollView horizontal style={{ width: windowHeight / 1.4 }}>
+                                <Text style={styles.text}>{data.gender}</Text>
+                            </ScrollView>
+
                         </View>
 
                     </Card>
@@ -83,7 +94,9 @@ const Profile = ({ navigation }) => {
                                 size={28}
                                 style={styles.icon}
                             />
-                            <Text style={styles.text}>{data.mail}</Text>
+                            <ScrollView horizontal style={{ width: windowHeight / 1.4 }}>
+                                <Text style={styles.text}>{data.mail}</Text>
+                            </ScrollView>
                         </View>
 
                     </Card>
@@ -94,7 +107,9 @@ const Profile = ({ navigation }) => {
                                 size={30}
                                 style={styles.icon}
                             />
-                            <Text style={styles.text}>{data.phone}</Text>
+                            <ScrollView horizontal style={{ width: windowHeight / 1.4 }}>
+                                <Text style={styles.text}>{data.phone}</Text>
+                            </ScrollView>
                         </View>
 
                     </Card>
@@ -105,7 +120,10 @@ const Profile = ({ navigation }) => {
                                 size={28}
                                 style={styles.icon}
                             />
-                            <Text style={styles.text}>{data.address}</Text>
+                            <ScrollView horizontal style={{ width: windowHeight / 1.4 }}>
+                                <Text style={styles.text}>{data.address}</Text>
+                            </ScrollView>
+
                         </View>
 
                     </Card>
@@ -127,6 +145,7 @@ export default Profile;
 
 const styles = StyleSheet.create({
     container: {
+        flex: 1,
         // justifyContent: "center",
         alignItems: "center",
         backgroundColor: 'white',
@@ -149,15 +168,15 @@ const styles = StyleSheet.create({
         alignItems: "center",
     },
     img: {
-        borderRadius: 25,
-        height: windowHeight / 3.5,
-        width: windowWidth / 4.25,
+        borderRadius: 100,
+        height: windowHeight / 3,
+        width: windowWidth / 5.5,
         borderColor: color.orange,
         borderWidth: 2,
     },
     textName: {
         textAlign: "center",
-        marginTop: 20,
+        marginTop: 15,
         fontSize: 18
     },
     iconHeader: {
@@ -193,7 +212,6 @@ const styles = StyleSheet.create({
     text: {
         fontSize: 16,
         marginTop: 3,
-        width: '90%',
     },
     logout: {
         alignItems: 'center',
