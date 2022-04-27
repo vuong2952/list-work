@@ -35,17 +35,17 @@ const ListWork = ({ navigation }) => {
 
     return <View style={Style.container}>
         <View style={Style.badge}>
-            <Badge textStyle={{ fontSize: 12 }} badgeStyle={{ backgroundColor: color.undefined, height: 20 }} value='Chưa xác nhận'></Badge>
+            <Badge textStyle={{ fontSize: 12 }} badgeStyle={{ backgroundColor: color.undefined, height: 20, }} value='Chưa xác nhận'></Badge>
             <Badge textStyle={{ fontSize: 12 }} badgeStyle={{ backgroundColor: color.started, height: 20 }} value='Đang thực thi'></Badge>
             <Badge textStyle={{ fontSize: 12 }} badgeStyle={{ backgroundColor: color.paused, height: 20 }} value='Tạm dừng'></Badge>
             <Badge textStyle={{ fontSize: 12 }} badgeStyle={{ backgroundColor: color.error, height: 20 }} value='Gặp sự cố'></Badge>
             <Badge textStyle={{ fontSize: 12 }} badgeStyle={{ backgroundColor: color.finished, height: 20 }} value='Hoàn thành'></Badge>
         </View>
-        <ScrollView style={{ marginBottom: 60 }}>
+        <ScrollView style={{ marginBottom: 60}}>
             <View>
                 {
                     data && data.map((item, index) => (
-                        <Card containerStyle={{ borderColor: 'black', borderRadius: 10, backgroundColor: '#e8e7e6' }} wrapperStyle={{}}>
+                        <Card containerStyle={Style.card} wrapperStyle={{}}>
                             <Text h4 style={{ textAlign: 'center' }}>{(item.car.plate)}</Text>
                             <Badge textStyle={{ fontSize: 14, textAlign: 'center' }}
                                 value={(item.car.attribute.name) + ' - ' + (item.car.customer.name)}></Badge>
@@ -78,18 +78,19 @@ const Style = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: 'white',
-        padding: 10,
+        // padding: 10,
     },
     badge: {
+        flexWrap: "wrap",
+        marginTop: 10,
+        paddingHorizontal: 5,
         flexDirection: 'row',
         justifyContent: 'space-between',
         marginBottom: 10,
-
     },
     listItemInnerContentView: {
         marginTop: 18,
         width: '100%',
-        height: windowHeight / 7,
         padding: 10,
         alignItems: 'center',
         justifyContent: 'center',
@@ -99,7 +100,21 @@ const Style = StyleSheet.create({
     },
     TextStyle: {
         fontSize: 22,
+        lineHeight: 40,
         color: 'white',
         fontWeight: '400',
+    },
+    card: {
+        borderRadius: 10,
+        backgroundColor: "#fffff8",
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 5,
+        marginBottom: 5
     },
 })

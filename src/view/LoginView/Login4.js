@@ -60,11 +60,20 @@ const Login = ({ navigation }) => {
             password: password
         })
             .then((response) => {
-                setIsLoading(false)
+                console.log(isLoading);
+                setIsLoading(true);
+                setTimeout(() => {
+                    {
+                        console.log(isLoading)
+                        if (response.data.data.token !== undefined) navigation.dispatch(StackActions.replace("HomeApp"))
+                        setIsLoading(false)
+                    }
+                }, 1000);
+
                 setStorage(response.data.data.token)
                 console.log(response.data.data.token)
                 setUser(response.data.data);
-                if (response.data.data.token !== undefined) navigation.dispatch(StackActions.replace("HomeApp"))
+
             })
             .catch((error) => {
                 setIsLoading(false);
@@ -75,12 +84,13 @@ const Login = ({ navigation }) => {
 
     return (
         <ScrollView contentContainerStyle={styles.container}>
-            
+            <Spinner visible={isLoading} />
+            {console.log(isLoading)}
             <View style={styles.headerContainer}>
                 <Image
                     source={require('../../components/img/NamKhanh.jpg')}
                     style={styles.logo}
-                /><Spinner visible={isLoading}/>
+                /><Spinner visible={isLoading} />
                 <Text style={styles.text}>Madocar</Text>
             </View>
             <View style={styles.inputContainer}>
