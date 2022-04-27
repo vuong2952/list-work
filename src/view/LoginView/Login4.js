@@ -11,6 +11,7 @@ import {
     ScrollView,
     TextInput,
     ActivityIndicator,
+    Alert
 } from 'react-native';
 import color from '../../config/color';
 import FormButton from '../../components/FormButton';
@@ -77,9 +78,9 @@ const Login = ({ navigation }) => {
             .catch((error) => {
                 setIsLoading(false);
                 console.log("Lỗi không đăng nhập được!", error)
+                Alert.alert('Tài khoản không đúng!','Mời nhập lại tài khoản, mật khẩu.')
             });
     }
-    // console.log(isLoading)
 
     return (
         <ScrollView contentContainerStyle={styles.container}>

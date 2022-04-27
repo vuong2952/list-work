@@ -40,13 +40,13 @@ const ListWorkScreen = ({ navigation, route }) => {
             ) : null
         }
         < View >
-            {/* <View style={Style.badge}>
+            <View style={Style.badge}>
                 <Badge textStyle={{ fontSize: 12 }} badgeStyle={{ backgroundColor: 'gray', height: 20 }} value='Chưa xác nhận'></Badge>
                 <Badge textStyle={{ fontSize: 12 }} badgeStyle={{ backgroundColor: color.started, height: 20 }} value='Đang thực thi'></Badge>
                 <Badge textStyle={{ fontSize: 12 }} badgeStyle={{ backgroundColor: color.paused, height: 20 }} value='Tạm dừng'></Badge>
                 <Badge textStyle={{ fontSize: 12 }} badgeStyle={{ backgroundColor: color.error, height: 20 }} value='Gặp sự cố'></Badge>
                 <Badge textStyle={{ fontSize: 12 }} badgeStyle={{ backgroundColor: color.finished, height: 20 }} value='Hoàn thành'></Badge>
-            </View> */}
+            </View>
             <ScrollView style={{ marginBottom: 60 }}>
                 <View>
                     {
@@ -108,9 +108,6 @@ const ListWorkScreen = ({ navigation, route }) => {
                 </View>
             </ScrollView>
         </View>
-
-
-
     </View >
 
 
