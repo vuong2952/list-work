@@ -35,11 +35,11 @@ const ListWork = ({ navigation }) => {
 
     return <View style={Style.container}>
         <View style={Style.badge}>
-            <Badge textStyle={{ fontSize: 12 }} badgeStyle={{ backgroundColor: color.undefined, height: 20, }} value='Chưa xác nhận'></Badge>
-            <Badge textStyle={{ fontSize: 12 }} badgeStyle={{ backgroundColor: color.started, height: 20 }} value='Đang thực thi'></Badge>
-            <Badge textStyle={{ fontSize: 12 }} badgeStyle={{ backgroundColor: color.paused, height: 20 }} value='Tạm dừng'></Badge>
-            <Badge textStyle={{ fontSize: 12 }} badgeStyle={{ backgroundColor: color.error, height: 20 }} value='Gặp sự cố'></Badge>
-            <Badge textStyle={{ fontSize: 12 }} badgeStyle={{ backgroundColor: color.finished, height: 20 }} value='Hoàn thành'></Badge>
+            <Text style={{ fontSize: 13, color: 'white', backgroundColor: color.undefined, height: 20, borderRadius: 7}}>Chưa xác nhận</Text>
+            <Text style={{ fontSize: 13, color: 'white', backgroundColor: color.started, height: 20, borderRadius: 7}}>Đang thực thi</Text>
+            <Text style={{ fontSize: 13, color: 'white', backgroundColor: color.paused, height: 20, borderRadius: 7}}>Tạm dừng</Text>
+            <Text style={{ fontSize: 13, color: 'white', backgroundColor: color.error, height: 20, borderRadius: 7}}>Gặp sự cố</Text>
+            <Text style={{ fontSize: 13, color: 'white', backgroundColor: color.finished, height: 20, borderRadius: 7}}>Hoàn thành</Text>
         </View>
         <ScrollView style={{ marginBottom: 60}}>
             <View>

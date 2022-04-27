@@ -15,7 +15,7 @@ const ListWorkScreen = ({ navigation, route }) => {
 
     useEffect(() => {
         const header = () => {
-            data && navigation.setOptions({title : data.car.plate})
+            data && navigation.setOptions({ title: data.car.plate })
         }
         header()
     })
@@ -98,6 +98,14 @@ const ListWorkScreen = ({ navigation, route }) => {
                                                         containerStyle={Style.button}
                                                         titleStyle={Style.buttonText}
                                                         onPress={() => handleUpdate(data.bill_id, item[0], key[1].id, 'finish')} />}
+                                                {key[1].status_process === 'finish' ? 
+                                                    <Button title="Đã hoàn thành"
+                                                        containerStyle={Style.button}
+                                                        titleStyle={Style.buttonText}
+                                                        disabled
+                                                        disabledStyle={{backgroundColor: color.finished}}
+                                                        disabledTitleStyle={{color: 'white'}}
+                                                         /> : null}
                                             </View>
                                         </Card>
                                     )))
