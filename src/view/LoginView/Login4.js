@@ -67,7 +67,7 @@ const Login = ({ navigation }) => {
                         if (response.data.data.token !== undefined) navigation.dispatch(StackActions.replace("HomeApp"))
                         setIsLoading(false)
                     }
-                }, 1000);
+                }, 2000);
 
                 setStorage(response.data.data.token)
                 console.log(response.data.data.token)
@@ -83,8 +83,10 @@ const Login = ({ navigation }) => {
 
     return (
         <ScrollView contentContainerStyle={styles.container}>
-            <Spinner visible={isLoading} />
-            {console.log(isLoading)}
+            {
+                isLoading ? <Spinner visible={true}/> 
+                : null
+            }
             <View style={styles.headerContainer}>
                 <Image
                     source={require('../../components/img/NamKhanh.jpg')}

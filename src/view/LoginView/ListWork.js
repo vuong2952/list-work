@@ -91,7 +91,7 @@ const Style = StyleSheet.create({
     listItemInnerContentView: {
         marginTop: 18,
         width: '100%',
-        height: windowHeight / 7,
+        // height: windowHeight / 7,
         padding: 10,
         alignItems: 'center',
         justifyContent: 'center',
@@ -101,7 +101,9 @@ const Style = StyleSheet.create({
     },
     TextStyle: {
         fontSize: 22,
-        color: 'white',
-        fontWeight: '400',
+        lineHeight: 40,
+        fontWeight: 'bold',
+        color: '#ffffff',
+        fontFamily: 'Lato-Regular',
     },
 })

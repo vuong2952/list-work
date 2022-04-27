@@ -46,11 +46,7 @@ const Profile = ({ navigation }) => {
                         />
                     </TouchableOpacity>
                     <Text
-                        style={{
-                            fontSize: 15,
-                            color: 'white',
-                            marginTop: 10,
-                        }} >{data.username}</Text>
+                        style={styles.} >{data.username}</Text>
                 </View>
 
                 <View style={styles.containerBody}>
@@ -184,6 +180,9 @@ const styles = StyleSheet.create({
         borderTopLeftRadius: 50,
         // borderTopRightRadius: 30,
         backgroundColor: 'white',
+    },
+    textHeader: {
+
     },
     textInput: {
         fontSize: 18,
