@@ -76,7 +76,7 @@ const Login = ({ navigation }) => {
                             setUser(response.data.data);
                             setLogin(data);
                         }
-                    }, 2000);
+                    }, 500);
                 }
                 else {
                     console.log('5')
