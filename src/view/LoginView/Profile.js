@@ -12,6 +12,7 @@ import color from "../../config/color";
 import { StackActions } from "@react-navigation/native";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import FontAwesome5Icon from "react-native-vector-icons/FontAwesome5";
+import { removeStorage } from "../../navigation/Apis";
 
 
 
@@ -21,7 +22,7 @@ const Profile = ({ navigation }) => {
     const handleLogout = () => {
         axios.post("/auth/logout")
             .then(res => {
-                // removeStorage()
+                removeStorage()
                 navigation.dispatch(StackActions.replace("Login"))
             })
             .catch(err => {
@@ -144,15 +145,15 @@ const styles = StyleSheet.create({
         alignItems: "center",
     },
     img: {
-        borderRadius: 25,
-        height: windowHeight / 3,
-        width: windowWidth / 4,
+        borderRadius: 100,
+        height: windowWidth / 5,
+        width: windowWidth / 5,
         borderColor: color.orange,
         borderWidth: 2,
     },
     textName: {
         textAlign: "center",
-        marginTop: 20,
+        marginTop: 10,
         fontSize: 18
     },
     card: {

@@ -144,7 +144,7 @@ const Style = StyleSheet.create({
         width: '100%',
         marginHorizontal: 5,
         marginVertical: 5,
-        borderRadius: 10,
+        borderRadius: 5,
     },
     buttonText: {
         fontSize: 18,

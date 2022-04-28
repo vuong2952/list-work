@@ -18,7 +18,7 @@ import FormButton from '../../components/FormButton';
 import { windowHeight, windowWidth } from '../../utils/Dimension';
 import * as Animatable from 'react-native-animatable';
 import Feather from 'react-native-vector-icons/Feather';
-import { setStorage, setUser } from '../../navigation/Apis'
+import { setLogin, setStorage, setUser } from '../../navigation/Apis'
 import axios from 'axios';
 import Spinner from 'react-native-loading-spinner-overlay/lib';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -31,7 +31,7 @@ const Login = ({ navigation }) => {
     const [isPassValid, setIsPassValid] = useState(false);
     const [showPass, setShowPass] = useState(true);
     const [isLoading, setIsLoading] = useState(false);
-
+    const [isLogging, setIsLogging] = useState([]);
 
     const textInputChange = (val) => {
         if (val.length !== 0) {
@@ -52,40 +52,43 @@ const Login = ({ navigation }) => {
             setIsPassValid(false);
         }
     }
-    const handleLogin = () => {
+    const data = {
+        username: username,
+        password: password
+    }
+    const handleLogin = (data) => {
         setIsLoading(true);
         // axios.post('http://nk.ors.vn/mobile/api/auth/login', {
-        axios.post('http://192.168.1.10:8000/mobile/api/auth/login', {
-            username: username,
-            password: password
-        })
+        axios.post('http://192.168.1.10:8000/mobile/api/auth/login', data)
             .then((response) => {
-                console.log(isLoading);
                 setIsLoading(true);
-                setTimeout(() => {
-                    {
-                        console.log(isLoading)
-                        if (response.data.data.token !== undefined) navigation.dispatch(StackActions.replace("HomeApp"))
-                        setIsLoading(false)
-                    }
-                }, 1000);
-
-                setStorage(response.data.data.token)
-                console.log(response.data.data.token)
-                setUser(response.data.data);
-
+                if (response.data.data.token !== undefined) {
+                    navigation.dispatch(StackActions.replace("HomeApp"))
+                    setIsLoading(false)
+                    setStorage(response.data.data.token)
+                    setLogin(data)
+                    console.log(response.data.data.token)
+                    setUser(response.data.data);
+                }
+                else Alert.alert('Tài khoản không đúng!', 'Mời nhập lại tài khoản, mật khẩu.')
             })
             .catch((error) => {
                 setIsLoading(false);
                 console.log("Lỗi không đăng nhập được!", error)
-                Alert.alert('Tài khoản không đúng!','Mời nhập lại tài khoản, mật khẩu.')
             });
     }
+    useEffect(() => {
+        const isLogin = async () => {
+            let items = await AsyncStorage.getItem("login");
+            console.log('logging231', items)
+            if(items !== null) handleLogin(JSON.parse(items))
+        }
+        isLogin()
+    }, [])
 
     return (
         <ScrollView contentContainerStyle={styles.container}>
             <Spinner visible={isLoading} />
-            {console.log(isLoading)}
             <View style={styles.headerContainer}>
                 <Image
                     source={require('../../components/img/NamKhanh.jpg')}
@@ -177,7 +180,7 @@ const Login = ({ navigation }) => {
             <FormButton
                 buttonTitle="Sign In"
                 onPress={() => {
-                    handleLogin();
+                    handleLogin(data);
                     setIsLoading(true);
                 }}
             // onPress={() => navigation.navigate('HomeApp')}

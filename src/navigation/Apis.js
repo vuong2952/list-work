@@ -9,9 +9,12 @@ export const setUser = async (data) => {
   await AsyncStorage.setItem("user", JSON.stringify(data))
 }
 
+export const setLogin = async (data) => {
+  await AsyncStorage.setItem("login", JSON.stringify(data))
+}
+
 export const removeStorage = async () => {
-  await AsyncStorage.removeItem("token")
-  await AsyncStorage.removeItem("userInfo")
+  AsyncStorage.clear()
 }
 
 // axios.defaults.baseURL = 'http://nk.ors.vn/mobile/api'
