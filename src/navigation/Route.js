@@ -9,7 +9,8 @@ import { StyleSheet, TouchableOpacity, View, Text } from 'react-native';
 import Login from '../view/LoginView/Login4';
 import ListWorkScreen from '../view/LoginView/ListWorkScreen';
 import ListWork from '../view/LoginView/ListWork';
-import Profile from '../view/LoginView/Profile';
+// import Profile from '../view/LoginView/Profile';
+import Profile from '../view/LoginView/Profile2';
 import color from '../config/color';
 // import { AuthContext } from '../context/AuthContext';
 

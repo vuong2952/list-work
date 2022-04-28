@@ -18,7 +18,8 @@ import FormButton from '../../components/FormButton';
 import { windowHeight, windowWidth } from '../../utils/Dimension';
 import * as Animatable from 'react-native-animatable';
 import Feather from 'react-native-vector-icons/Feather';
-import { setStorage, setUser } from '../../navigation/Apis'
+import { setStorage, setUser, setLogin } from '../../navigation/Apis';
+import { setCustomText } from 'react-native-global-props';
 import axios from 'axios';
 import Spinner from 'react-native-loading-spinner-overlay/lib';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -31,6 +32,7 @@ const Login = ({ navigation }) => {
     const [isPassValid, setIsPassValid] = useState(false);
     const [showPass, setShowPass] = useState(true);
     const [isLoading, setIsLoading] = useState(false);
+    const [dataUser, setDataUser] = useState({});
 
 
     const textInputChange = (val) => {
@@ -52,41 +54,62 @@ const Login = ({ navigation }) => {
             setIsPassValid(false);
         }
     }
-    const handleLogin = () => {
+    const data = {
+        username: username,
+        password: password,
+    }
+    const handleLogin = (data) => {
+        console.log(4);
+        console.log('2',data);
         setIsLoading(true);
         // axios.post('http://nk.ors.vn/mobile/api/auth/login', {
-        axios.post('http://192.168.1.10:8000/mobile/api/auth/login', {
-            username: username,
-            password: password
-        })
+        axios.post('http://192.168.1.10:8000/mobile/api/auth/login', data )
             .then((response) => {
-                console.log(isLoading);
-                setIsLoading(true);
-                setTimeout(() => {
-                    {
-                        console.log(isLoading)
-                        if (response.data.data.token !== undefined) navigation.dispatch(StackActions.replace("HomeApp"))
-                        setIsLoading(false)
-                    }
-                }, 2000);
-
-                setStorage(response.data.data.token)
-                console.log(response.data.data.token)
-                setUser(response.data.data);
-
+                if (response.data.data.token !== undefined) {
+                    setIsLoading(true);
+                    setTimeout(() => {
+                        {
+                            console.log(isLoading)
+                            navigation.dispatch(StackActions.replace("HomeApp"))
+                            setIsLoading(false)
+                            setStorage(response.data.data.token);
+                            setUser(response.data.data);
+                            setLogin(data);
+                        }
+                    }, 2000);
+                }
+                else {
+                    console.log('5')
+                    setIsLoading(false);
+                    Alert.alert('Tài khoản không đúng!', 'Mời nhập lại tài khoản, mật khẩu.')
+                }
             })
             .catch((error) => {
                 setIsLoading(false);
+                Alert.alert('Tài khoản không đúng!', 'Mời nhập lại tài khoản, mật khẩu.')
                 console.log("Lỗi không đăng nhập được!", error)
-                Alert.alert('Tài khoản không đúng!','Mời nhập lại tài khoản, mật khẩu.')
+
             });
     }
+    const autoLogin = async () => {
+        console.log('6')
+        let users = await AsyncStorage.getItem('login');
+        if (users !== null) {
+            console.log(7)
+            handleLogin(JSON.parse(users));
+            console.log('1',users);
+        }
+    }
+    useEffect(() => {
+        console.log('3')
+        autoLogin();
+    }, []);
 
     return (
         <ScrollView contentContainerStyle={styles.container}>
             {
-                isLoading ? <Spinner visible={true}/> 
-                : null
+                isLoading ? <Spinner visible={true} />
+                    : null
             }
             <View style={styles.headerContainer}>
                 <Image
@@ -95,95 +118,97 @@ const Login = ({ navigation }) => {
                 /><Spinner visible={isLoading} />
                 <Text style={styles.text}>Madocar</Text>
             </View>
-            <View style={styles.inputContainer}>
-                <View style={styles.iconStyle}>
-                    <Feather
-                        name="user"
-                        color={color.orange}
-                        size={25}
+            <View style={{ marginBottom: 25 }}>
+                <View style={styles.inputContainer}>
+                    <View style={styles.iconStyle}>
+                        <Feather
+                            name="user"
+                            color={color.orange}
+                            size={25}
+                        />
+                    </View>
+                    <TextInput
+                        style={styles.input}
+                        placeholder='Username'
+                        autoCorrect={false}
+                        autoCapitalize="none"
+                        value={username}
+                        onChangeText={(username) => {
+                            setUsername(username);
+                            textInputChange(username);
+                        }}
                     />
-                </View>
-                <TextInput
-                    style={styles.input}
-                    placeholder='Username'
-                    autoCorrect={false}
-                    autoCapitalize="none"
-                    value={username}
-                    onChangeText={(username) => {
-                        setUsername(username);
-                        textInputChange(username);
-                    }}
-                />
-                {/* <Feather
+                    {/* <Feather
                     name={checkUser}
                     color={color.secondary2}
                     size={25}
                     style={styles.iconRightStyle}
                 /> */}
-            </View>
-            {
-                userValid ?
-                    <Animatable.View animation="fadeInLeft" duration={500}>
-                        <Text style={styles.errorMsg}>Phải có ít nhất 1 ký tự</Text>
-                    </Animatable.View>
-                    : null
-            }
-            <View style={styles.inputContainer}>
-                <View style={styles.iconStyle}>
-                    <Feather
-                        name="lock"
-                        color={color.orange}
-                        size={25}
-                    />
                 </View>
-                <TextInput
-                    style={styles.input}
-                    placeholder='Password'
-                    autoCorrect={false}
-                    autoCapitalize="none"
-                    secureTextEntry={showPass}
-                    value={password}
-                    onChangeText={(password) => {
-                        setPassword(password);
-                        handleChangePassWord(password);
-                    }}
-                />
-                <TouchableOpacity>
-                    {
-                        showPass === true ?
-                            <Feather
-                                onPress={() => setShowPass(!showPass)}
-                                name="eye-off"
-                                color={color.grey4}
-                                size={25}
-                                style={styles.iconRightStyle}
-                            /> :
-                            <Feather
-                                onPress={() => setShowPass(!showPass)}
-                                name="eye"
-                                color={color.grey1}
-                                size={25}
-                                style={styles.iconRightStyle}
-                            />
-                    }
-                </TouchableOpacity>
+                {
+                    userValid ?
+                        <Animatable.View animation="fadeInLeft" duration={500}>
+                            <Text style={styles.errorMsg}>Phải có ít nhất 1 ký tự</Text>
+                        </Animatable.View>
+                        : null
+                }
+                <View style={styles.inputContainer}>
+                    <View style={styles.iconStyle}>
+                        <Feather
+                            name="lock"
+                            color={color.orange}
+                            size={25}
+                        />
+                    </View>
+                    <TextInput
+                        style={styles.input}
+                        placeholder='Password'
+                        autoCorrect={false}
+                        autoCapitalize="none"
+                        secureTextEntry={showPass}
+                        value={password}
+                        onChangeText={(password) => {
+                            setPassword(password);
+                            handleChangePassWord(password);
+                        }}
+                    />
+                    <TouchableOpacity>
+                        {
+                            showPass === true ?
+                                <Feather
+                                    onPress={() => setShowPass(!showPass)}
+                                    name="eye-off"
+                                    color={color.grey4}
+                                    size={25}
+                                    style={styles.iconRightStyle}
+                                /> :
+                                <Feather
+                                    onPress={() => setShowPass(!showPass)}
+                                    name="eye"
+                                    color={color.grey1}
+                                    size={25}
+                                    style={styles.iconRightStyle}
+                                />
+                        }
+                    </TouchableOpacity>
 
+                </View>
+                {
+                    isPassValid ?
+                        <Animatable.View animation="fadeInLeft" duration={500}>
+                            <Text style={styles.errorMsg}>Phải có ít nhất 4 ký tự</Text>
+                        </Animatable.View>
+                        : null
+                }
             </View>
-            {
-                isPassValid ?
-                    <Animatable.View animation="fadeInLeft" duration={500}>
-                        <Text style={styles.errorMsg}>Phải có ít nhất 4 ký tự</Text>
-                    </Animatable.View>
-                    : null
-            }
             <FormButton
                 buttonTitle="Sign In"
                 onPress={() => {
-                    handleLogin();
+                    handleLogin(data);
                     setIsLoading(true);
                 }}
-            // onPress={() => navigation.navigate('HomeApp')}
             />
+
 
         </ScrollView>
     );
@@ -209,7 +234,7 @@ const styles = StyleSheet.create({
         resizeMode: 'cover',
     },
     text: {
-        fontFamily: 'Kufam-SemiBoldItalic',
+        fontFamily: 'BLKCHCRY',
         fontSize: 28,
         marginBottom: 10,
         color: '#ff7700',
@@ -230,7 +255,7 @@ const styles = StyleSheet.create({
         width: '100%',
         height: windowHeight / 7,
         borderColor: '#ccc',
-        borderRadius: 10,
+        borderRadius: 5,
         borderWidth: 1,
         flexDirection: 'row',
         alignItems: 'center',

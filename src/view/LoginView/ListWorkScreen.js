@@ -9,11 +9,16 @@ import axios from 'axios'
 import Spinner from 'react-native-loading-spinner-overlay/lib';
 
 const ListWorkScreen = ({ navigation, route }) => {
-    // const [data, setData] = useState(route.params)
     const [isLoading, setIsLoading] = useState(false)
     const data = route.params
     const stage = data.stages
 
+    useEffect(() => {
+        const header = () => {
+            data && navigation.setOptions({ title: data.car.plate })
+        }
+        header()
+    })
 
     const handleUpdate = (bill_id, stage_id, equipment_id, code) => {
         // setIsLoading(true);
@@ -33,6 +38,7 @@ const ListWorkScreen = ({ navigation, route }) => {
 
         })
     }
+
     return <View style={Style.container}>
         {
             isLoading ? (
@@ -40,27 +46,13 @@ const ListWorkScreen = ({ navigation, route }) => {
             ) : null
         }
         < View >
-            <View style={Style.badge}>
-                <Badge textStyle={{ fontSize: 12 }} badgeStyle={{ backgroundColor: 'gray', height: 20 }} value='Chưa xác nhận'></Badge>
-                <Badge textStyle={{ fontSize: 12 }} badgeStyle={{ backgroundColor: color.started, height: 20 }} value='Đang thực thi'></Badge>
-                <Badge textStyle={{ fontSize: 12 }} badgeStyle={{ backgroundColor: color.paused, height: 20 }} value='Tạm dừng'></Badge>
-                <Badge textStyle={{ fontSize: 12 }} badgeStyle={{ backgroundColor: color.error, height: 20 }} value='Gặp sự cố'></Badge>
-                <Badge textStyle={{ fontSize: 12 }} badgeStyle={{ backgroundColor: color.finished, height: 20 }} value='Hoàn thành'></Badge>
-            </View>
-            <ScrollView style={{ marginBottom: 60 }}>
-                <View>
+            < ScrollView style={{ marginBottom: 60 }}>
+                <View style={{ flex: 1 }}>
                     {
                         stage && Object.entries(stage).map(item =>
                             Object.entries(item[1].equipment).map(key => (
-                                <Card containerStyle={{ borderColor: 'black', borderRadius: 10, backgroundColor: '#e8e7e6' }} wrapperStyle={{}} >
-                                    <Text h3 style={{
-                                        padding: 5, height: 50, textAlign: 'center',
-                                        // backgroundColor: (key[1].status_process === undefined ? 'gray' :
-                                        //     key[1].status_process === 'start' ? color.started :
-                                        //         key[1].status_process === 'pause' ? color.paused :
-                                        //             key[1].status_process === 'error' ? color.error :
-                                        //                 key[1].status_process === 'resume' ? color.started : color.finished)
-                                    }}>{key[1].name}</Text>
+                                <Card containerStyle={Style.card} wrapperStyle={{}} >
+                                    <Text h3 style={{ padding: 5, height: 50, textAlign: 'center' }}>{key[1].name}</Text>
                                     <View style={Style.listItemInnerContentView}>
                                         {key[1].status_process === 'start' ? null : key[1].status_process === 'pause' ? null :
                                             key[1].status_process === 'error' ? null : key[1].status_process === 'resume' ? null :
@@ -97,17 +89,27 @@ const ListWorkScreen = ({ navigation, route }) => {
                                         {key[1].status_process === 'finish' ? null : key[1].status_process === undefined ? null :
                                             <Button title="Hoàn thành"
                                                 buttonStyle={{ backgroundColor: color.finished }}
-                                                titleStyle={Style.buttonText}
                                                 containerStyle={Style.button}
+                                                titleStyle={Style.buttonText}
                                                 onPress={() => handleUpdate(data.bill_id, item[0], key[1].id, 'finish')} />}
+                                        {key[1].status_process === 'finish' ?
+                                            <Button title="Đã hoàn thành"
+                                                containerStyle={Style.button}
+                                                titleStyle={Style.buttonText}
+                                                disabled
+                                                disabledStyle={{ backgroundColor: color.finished }}
+                                                disabledTitleStyle={{ color: 'white' }}
+                                            /> : null}
                                     </View>
-
                                 </Card>
                             )))
                     }
                 </View>
             </ScrollView>
-        </View>
+        </View >
+
+
+
     </View >
 
 
@@ -123,30 +125,39 @@ const Style = StyleSheet.create({
     listItemInnerContentView: {
         marginTop: 18,
         width: '100%',
-        padding: 10,
         alignItems: 'center',
         justifyContent: 'center',
-        borderRadius: 10,
-        flex: 1,
         alignContent: 'center',
     },
     badge: {
         flexDirection: 'row',
         justifyContent: 'space-between',
         marginBottom: 10,
-
     },
     button: {
-        width: windowWidth / 2.5,
+        width: '100%',
         marginHorizontal: 5,
         marginVertical: 5,
-        borderRadius: 10,
+        borderRadius: 5,
     },
     buttonText: {
-        ontSize: 18,
+        fontSize: 18,
         lineHeight: 35,
         fontWeight: 'bold',
         color: '#ffffff',
         fontFamily: 'Lato-Regular',
     },
-});
+    card: {
+        borderRadius: 10,
+        backgroundColor: "#fffff8",
+        shadowColor: "#000000",
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.3,
+        shadowRadius: 3.84,
+        elevation: 5,
+        marginBottom: 5
+    },
+})
