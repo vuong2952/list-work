@@ -7,6 +7,7 @@ export const setStorage = async (token) => {
 }
 export const setUser = async (data) => {
   await AsyncStorage.setItem("user", JSON.stringify(data))
+  console.log(data);
 }
 
 export const setLogin = async (data) => {

@@ -31,7 +31,6 @@ const Login = ({ navigation }) => {
     const [isPassValid, setIsPassValid] = useState(false);
     const [showPass, setShowPass] = useState(true);
     const [isLoading, setIsLoading] = useState(false);
-    const [isLogging, setIsLogging] = useState([]);
 
     const textInputChange = (val) => {
         if (val.length !== 0) {
@@ -74,6 +73,7 @@ const Login = ({ navigation }) => {
             })
             .catch((error) => {
                 setIsLoading(false);
+                Alert.alert('Tài khoản không đúng!', 'Mời nhập lại tài khoản, mật khẩu.')
                 console.log("Lỗi không đăng nhập được!", error)
             });
     }
@@ -96,95 +96,97 @@ const Login = ({ navigation }) => {
                 /><Spinner visible={isLoading} />
                 <Text style={styles.text}>Madocar</Text>
             </View>
-            <View style={styles.inputContainer}>
-                <View style={styles.iconStyle}>
-                    <Feather
-                        name="user"
-                        color={color.orange}
-                        size={25}
+            <View style={{ marginBottom: 25 }}>
+                <View style={styles.inputContainer}>
+                    <View style={styles.iconStyle}>
+                        <Feather
+                            name="user"
+                            color={color.orange}
+                            size={25}
+                        />
+                    </View>
+                    <TextInput
+                        style={styles.input}
+                        placeholder='Username'
+                        autoCorrect={false}
+                        autoCapitalize="none"
+                        value={username}
+                        onChangeText={(username) => {
+                            setUsername(username);
+                            textInputChange(username);
+                        }}
                     />
-                </View>
-                <TextInput
-                    style={styles.input}
-                    placeholder='Username'
-                    autoCorrect={false}
-                    autoCapitalize="none"
-                    value={username}
-                    onChangeText={(username) => {
-                        setUsername(username);
-                        textInputChange(username);
-                    }}
-                />
-                {/* <Feather
+                    {/* <Feather
                     name={checkUser}
                     color={color.secondary2}
                     size={25}
                     style={styles.iconRightStyle}
                 /> */}
-            </View>
-            {
-                userValid ?
-                    <Animatable.View animation="fadeInLeft" duration={500}>
-                        <Text style={styles.errorMsg}>Phải có ít nhất 1 ký tự</Text>
-                    </Animatable.View>
-                    : null
-            }
-            <View style={styles.inputContainer}>
-                <View style={styles.iconStyle}>
-                    <Feather
-                        name="lock"
-                        color={color.orange}
-                        size={25}
-                    />
                 </View>
-                <TextInput
-                    style={styles.input}
-                    placeholder='Password'
-                    autoCorrect={false}
-                    autoCapitalize="none"
-                    secureTextEntry={showPass}
-                    value={password}
-                    onChangeText={(password) => {
-                        setPassword(password);
-                        handleChangePassWord(password);
-                    }}
-                />
-                <TouchableOpacity>
-                    {
-                        showPass === true ?
-                            <Feather
-                                onPress={() => setShowPass(!showPass)}
-                                name="eye-off"
-                                color={color.grey4}
-                                size={25}
-                                style={styles.iconRightStyle}
-                            /> :
-                            <Feather
-                                onPress={() => setShowPass(!showPass)}
-                                name="eye"
-                                color={color.grey1}
-                                size={25}
-                                style={styles.iconRightStyle}
-                            />
-                    }
-                </TouchableOpacity>
+                {
+                    userValid ?
+                        <Animatable.View animation="fadeInLeft" duration={500}>
+                            <Text style={styles.errorMsg}>Phải có ít nhất 1 ký tự</Text>
+                        </Animatable.View>
+                        : null
+                }
+                <View style={styles.inputContainer}>
+                    <View style={styles.iconStyle}>
+                        <Feather
+                            name="lock"
+                            color={color.orange}
+                            size={25}
+                        />
+                    </View>
+                    <TextInput
+                        style={styles.input}
+                        placeholder='Password'
+                        autoCorrect={false}
+                        autoCapitalize="none"
+                        secureTextEntry={showPass}
+                        value={password}
+                        onChangeText={(password) => {
+                            setPassword(password);
+                            handleChangePassWord(password);
+                        }}
+                    />
+                    <TouchableOpacity>
+                        {
+                            showPass === true ?
+                                <Feather
+                                    onPress={() => setShowPass(!showPass)}
+                                    name="eye-off"
+                                    color={color.grey4}
+                                    size={25}
+                                    style={styles.iconRightStyle}
+                                /> :
+                                <Feather
+                                    onPress={() => setShowPass(!showPass)}
+                                    name="eye"
+                                    color={color.grey1}
+                                    size={25}
+                                    style={styles.iconRightStyle}
+                                />
+                        }
+                    </TouchableOpacity>
 
+                </View>
+                {
+                    isPassValid ?
+                        <Animatable.View animation="fadeInLeft" duration={500}>
+                            <Text style={styles.errorMsg}>Phải có ít nhất 4 ký tự</Text>
+                        </Animatable.View>
+                        : null
+                }
             </View>
-            {
-                isPassValid ?
-                    <Animatable.View animation="fadeInLeft" duration={500}>
-                        <Text style={styles.errorMsg}>Phải có ít nhất 4 ký tự</Text>
-                    </Animatable.View>
-                    : null
-            }
             <FormButton
                 buttonTitle="Sign In"
                 onPress={() => {
                     handleLogin(data);
                     setIsLoading(true);
                 }}
-            // onPress={() => navigation.navigate('HomeApp')}
             />
+
 
         </ScrollView>
     );
@@ -210,7 +212,7 @@ const styles = StyleSheet.create({
         resizeMode: 'cover',
     },
     text: {
-        fontFamily: 'Kufam-SemiBoldItalic',
+        fontFamily: 'BLKCHCRY',
         fontSize: 28,
         marginBottom: 10,
         color: '#ff7700',
@@ -231,7 +233,7 @@ const styles = StyleSheet.create({
         width: '100%',
         height: windowHeight / 7,
         borderColor: '#ccc',
-        borderRadius: 10,
+        borderRadius: 5,
         borderWidth: 1,
         flexDirection: 'row',
         alignItems: 'center',

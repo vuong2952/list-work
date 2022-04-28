@@ -94,7 +94,7 @@ const Style = StyleSheet.create({
         padding: 10,
         alignItems: 'center',
         justifyContent: 'center',
-        borderRadius: 7,
+        borderRadius: 5,
         flex: 1,
         alignContent: 'center',
     },

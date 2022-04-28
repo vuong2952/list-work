@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable react-native/no-inline-styles */
-import { Card, withTheme } from "@rneui/themed";
+import { Avatar, Card, withTheme } from "@rneui/themed";
 import React, { useEffect, useState } from "react";
 import { ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View, Image } from "react-native";
 import AntDesign from "react-native-vector-icons/AntDesign"
@@ -41,17 +41,26 @@ const Profile = ({ navigation }) => {
     return (
         // <View style={styles.container}>
         <ScrollView style={styles.container}>
-            <View style={{ backgroundColor: color.orange, height: 200 }}>
-                <Card containerStyle={styles.cardHeader}>
+            <View style={{ backgroundColor: color.orange, height: 140, }}>
+                {/* <Card containerStyle={styles.cardHeader}>
                     <Image
                         source={require('../../components/img/garage.jpg')}
                         style={styles.img}
                     />
                     <Text style={styles.textName}>{data.username}</Text>
-                </Card>
+                </Card> */}
+                <View style={{ marginTop: 40, flexDirection: "row", justifyContent: "center" }}>
+                    <Avatar
+                        size={160}
+                        source={require('../../components/img/user1.jpg')}
+                        rounded
+                        containerStyle={styles.img}
+                    />
+                </View>
+
 
             </View>
-            <View style={{  }}>
+            <View style={{ marginTop: 30 }}>
                 <Card containerStyle={styles.card1}>
                     <View style={{ flexDirection: "row" }}>
                         <FontAwesome
@@ -129,27 +138,39 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         flex: 1,
     },
-    cardHeader: {
-        padding: 10,
-        height: 200,
-        borderRadius: 10,
+    // cardHeader: {
+    //     padding: 10,
+    //     height: 250,
+    //     borderRadius: 10,
+    //     shadowColor: "#000",
+    //     shadowOffset: {
+    //         width: 0,
+    //         height: 1,
+    //     },
+    //     shadowOpacity: 0.22,
+    //     shadowRadius: 2.22,
+    //     elevation: 3,
+    //     marginTop: 40,
+    //     alignItems: "center",
+    // },
+    img: {
+
+        borderColor: color.orange,
+        borderWidth: 4,
         shadowColor: "#000",
         shadowOffset: {
             width: 0,
-            height: 1,
+            height: 3,
         },
-        shadowOpacity: 0.22,
-        shadowRadius: 2.22,
-        elevation: 3,
-        marginTop: 40,
-        alignItems: "center",
-    },
-    img: {
-        borderRadius: 100,
-        height: windowWidth / 5,
-        width: windowWidth / 5,
-        borderColor: color.orange,
-        borderWidth: 2,
+        shadowOpacity: 0.29,
+        shadowRadius: 4.65,
+
+        elevation: 7,
+        // borderRadius: 25,
+        // height: windowHeight / 3,
+        // width: windowWidth / 4,
+        // borderColor: color.orange,
+        // borderWidth: 2,
     },
     textName: {
         textAlign: "center",
@@ -157,7 +178,7 @@ const styles = StyleSheet.create({
         fontSize: 18
     },
     card: {
-        height: 60,
+        // height: 60,
         borderRadius: 10,
         shadowColor: "#000",
         shadowOffset: {
@@ -197,6 +218,7 @@ const styles = StyleSheet.create({
         marginBottom: 70,
         marginTop: 20,
         padding: 15,
+
     },
     logoutButton: {
         width: '100%',
@@ -205,6 +227,14 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         borderRadius: 10,
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 1,
+        },
+        shadowOpacity: 0.22,
+        shadowRadius: 2.22,
+        elevation: 3,
     },
     logoutButtonText: {
         fontSize: 18,
