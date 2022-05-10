@@ -57,7 +57,7 @@ const ListWork = ({ navigation }) => {
                                                 : val[1].status_process === 'started' ? color.started
                                                     : val[1].status_process === 'paused' ? color.paused
                                                         : val[1].status_process === 'error' ? color.error : color.finished} >
-                                        <TouchableOpacity onPress={() => navigation.navigate('ListWorkScreen', item)} style={{ width: '100%', alignItems: 'center' }}>
+                                        <TouchableOpacity onPress={() => navigation.navigate('ListWorkScreen', {val, item})} style={{ width: '100%', alignItems: 'center' }}>
                                             <Text style={Style.TextStyle} >{val[1].name}</Text>
                                         </TouchableOpacity>
                                     </View>

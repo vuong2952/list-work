@@ -10,8 +10,9 @@ import Spinner from 'react-native-loading-spinner-overlay/lib';
 
 const ListWorkScreen = ({ navigation, route }) => {
     const [isLoading, setIsLoading] = useState(false)
-    const data = route.params
-    const stage = data.stages
+    console.log('route', route)
+    const data = route.params.item
+    const stage = route.params.val
 
     useEffect(() => {
         const header = () => {
@@ -49,60 +50,59 @@ const ListWorkScreen = ({ navigation, route }) => {
             < ScrollView style={{ marginBottom: 60 }}>
                 <View style={{ flex: 1 }}>
                     {
-                        stage && Object.entries(stage).map(item =>
-                            Object.entries(item[1].equipment).map(key => (
-                                <Card containerStyle={Style.card} wrapperStyle={{}} >
-                                    <Text h3 style={{ padding: 5, height: 50, textAlign: 'center' }}>{key[1].name}</Text>
-                                    <View style={Style.listItemInnerContentView}>
-                                        {key[1].status_process === 'start' ? null : key[1].status_process === 'pause' ? null :
-                                            key[1].status_process === 'error' ? null : key[1].status_process === 'resume' ? null :
-                                                key[1].status_process === 'finish' ? null :
-                                                    < Button title="Bắt đầu thực thi"
-                                                        buttonStyle={{ backgroundColor: color.started }}
-                                                        containerStyle={Style.button}
-                                                        titleStyle={Style.buttonText}
-                                                        onPress={() => handleUpdate(data.bill_id, item[0], key[1].id, 'start')} />}
-
-                                        {key[1].status_process === 'pause' ? null : key[1].status_process === undefined ? null :
-                                            key[1].status_process === 'error' ? null : key[1].status_process === 'finish' ? null :
-                                                <Button title="Tạm dừng"
-                                                    buttonStyle={{ backgroundColor: color.paused }}
-                                                    containerStyle={Style.button}
-                                                    titleStyle={Style.buttonText}
-                                                    onPress={() => handleUpdate(data.bill_id, item[0], key[1].id, 'pause')} />}
-
-                                        {key[1].status_process === 'start' ? null : key[1].status_process === undefined ? null :
-                                            key[1].status_process === 'finish' ? null : key[1].status_process === 'resume' ? null :
-                                                <Button title="Tiếp tục"
+                        Object.entries(stage[1].equipment).map(key => (
+                            <Card containerStyle={Style.card} wrapperStyle={{}} >
+                                <Text h3 style={{ padding: 5, height: 50, textAlign: 'center' }}>{key[1].name}</Text>
+                                <View style={Style.listItemInnerContentView}>
+                                    {key[1].status_process === 'start' ? null : key[1].status_process === 'pause' ? null :
+                                        key[1].status_process === 'error' ? null : key[1].status_process === 'resume' ? null :
+                                            key[1].status_process === 'finish' ? null :
+                                                < Button title="Bắt đầu thực thi"
                                                     buttonStyle={{ backgroundColor: color.started }}
                                                     containerStyle={Style.button}
                                                     titleStyle={Style.buttonText}
-                                                    onPress={() => handleUpdate(data.bill_id, item[0], key[1].id, 'resume')} />}
+                                                    onPress={() => handleUpdate(data.bill_id, item[0], key[1].id, 'start')} />}
 
-                                        {key[1].status_process === 'error' ? null : key[1].status_process === undefined ? null :
-                                            key[1].status_process === 'pause' ? null : key[1].status_process === 'finish' ? null :
-                                                <Button title="Gặp sự cố"
-                                                    buttonStyle={{ backgroundColor: color.error }}
-                                                    containerStyle={Style.button}
-                                                    titleStyle={Style.buttonText}
-                                                    onPress={() => handleUpdate(data.bill_id, item[0], key[1].id, 'error')} />}
-                                        {key[1].status_process === 'finish' ? null : key[1].status_process === undefined ? null :
-                                            <Button title="Hoàn thành"
-                                                buttonStyle={{ backgroundColor: color.finished }}
+                                    {key[1].status_process === 'pause' ? null : key[1].status_process === undefined ? null :
+                                        key[1].status_process === 'error' ? null : key[1].status_process === 'finish' ? null :
+                                            <Button title="Tạm dừng"
+                                                buttonStyle={{ backgroundColor: color.paused }}
                                                 containerStyle={Style.button}
                                                 titleStyle={Style.buttonText}
-                                                onPress={() => handleUpdate(data.bill_id, item[0], key[1].id, 'finish')} />}
-                                        {key[1].status_process === 'finish' ?
-                                            <Button title="Đã hoàn thành"
+                                                onPress={() => handleUpdate(data.bill_id, item[0], key[1].id, 'pause')} />}
+
+                                    {key[1].status_process === 'start' ? null : key[1].status_process === undefined ? null :
+                                        key[1].status_process === 'finish' ? null : key[1].status_process === 'resume' ? null :
+                                            <Button title="Tiếp tục"
+                                                buttonStyle={{ backgroundColor: color.started }}
                                                 containerStyle={Style.button}
                                                 titleStyle={Style.buttonText}
-                                                disabled
-                                                disabledStyle={{ backgroundColor: color.finished }}
-                                                disabledTitleStyle={{ color: 'white' }}
-                                            /> : null}
-                                    </View>
-                                </Card>
-                            )))
+                                                onPress={() => handleUpdate(data.bill_id, item[0], key[1].id, 'resume')} />}
+
+                                    {key[1].status_process === 'error' ? null : key[1].status_process === undefined ? null :
+                                        key[1].status_process === 'pause' ? null : key[1].status_process === 'finish' ? null :
+                                            <Button title="Gặp sự cố"
+                                                buttonStyle={{ backgroundColor: color.error }}
+                                                containerStyle={Style.button}
+                                                titleStyle={Style.buttonText}
+                                                onPress={() => handleUpdate(data.bill_id, item[0], key[1].id, 'error')} />}
+                                    {key[1].status_process === 'finish' ? null : key[1].status_process === undefined ? null :
+                                        <Button title="Hoàn thành"
+                                            buttonStyle={{ backgroundColor: color.finished }}
+                                            containerStyle={Style.button}
+                                            titleStyle={Style.buttonText}
+                                            onPress={() => handleUpdate(data.bill_id, item[0], key[1].id, 'finish')} />}
+                                    {key[1].status_process === 'finish' ?
+                                        <Button title="Đã hoàn thành"
+                                            containerStyle={Style.button}
+                                            titleStyle={Style.buttonText}
+                                            disabled
+                                            disabledStyle={{ backgroundColor: color.finished }}
+                                            disabledTitleStyle={{ color: 'white' }}
+                                        /> : null}
+                                </View>
+                            </Card>
+                        ))
                     }
                 </View>
             </ScrollView>

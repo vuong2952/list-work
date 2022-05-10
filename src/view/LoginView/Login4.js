@@ -3,7 +3,6 @@ import React, { useContext, useEffect, useState } from 'react';
 import { StackActions } from '@react-navigation/native'
 import {
     View,
-    Text,
     TouchableOpacity,
     Image,
     Platform,
@@ -13,6 +12,7 @@ import {
     ActivityIndicator,
     Alert
 } from 'react-native';
+import { Text } from '@rneui/themed';
 import color from '../../config/color';
 import FormButton from '../../components/FormButton';
 import { windowHeight, windowWidth } from '../../utils/Dimension';
@@ -62,14 +62,23 @@ const Login = ({ navigation }) => {
             .then((response) => {
                 setIsLoading(true);
                 if (response.data.data.token !== undefined) {
-                    navigation.dispatch(StackActions.replace("HomeApp"))
-                    setIsLoading(false)
-                    setStorage(response.data.data.token)
-                    setLogin(data)
-                    console.log(response.data.data.token)
-                    setUser(response.data.data);
+                    setIsLoading(true);
+                    setTimeout(() => {
+                        {
+                            console.log(isLoading)
+                            navigation.dispatch(StackActions.replace("HomeApp"))
+                            setIsLoading(false)
+                            setStorage(response.data.data.token);
+                            setUser(response.data.data);
+                            setLogin(data);
+                        }
+                    }, 500);
                 }
-                else Alert.alert('Tài khoản không đúng!', 'Mời nhập lại tài khoản, mật khẩu.')
+                else {
+                    setIsLoading(false);
+                    Alert.alert('Tài khoản không đúng!', 'Mời nhập lại tài khoản, mật khẩu.')
+                }
+                
             })
             .catch((error) => {
                 setIsLoading(false);
@@ -116,12 +125,6 @@ const Login = ({ navigation }) => {
                             textInputChange(username);
                         }}
                     />
-                    {/* <Feather
-                    name={checkUser}
-                    color={color.secondary2}
-                    size={25}
-                    style={styles.iconRightStyle}
-                /> */}
                 </View>
                 {
                     userValid ?
