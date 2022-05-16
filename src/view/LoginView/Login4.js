@@ -58,7 +58,7 @@ const Login = ({ navigation }) => {
     const handleLogin = (data) => {
         setIsLoading(true);
         // axios.post('http://nk.ors.vn/mobile/api/auth/login', {
-        axios.post('http://192.168.1.10:8000/mobile/api/auth/login', data)
+        axios.post('http://192.168.1.14:8000/mobile/api/auth/login', data)
             .then((response) => {
                 setIsLoading(true);
                 if (response.data.data.token !== undefined) {
@@ -82,7 +82,7 @@ const Login = ({ navigation }) => {
             })
             .catch((error) => {
                 setIsLoading(false);
-                Alert.alert('Tài khoản không đúng!', 'Mời nhập lại tài khoản, mật khẩu.')
+                // Alert.alert('Tài khoản không đúng!', 'Mời nhập lại tài khoản, mật khẩu.')
                 console.log("Lỗi không đăng nhập được!", error)
             });
     }

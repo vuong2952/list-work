@@ -11,9 +11,8 @@ import color from '../../config/color';
 
 const SplashScreen = ({ navigation }) => {
     const handleLogin = (data) => {
-        console.log('2', data);
         // axios.post('http://nk.ors.vn/mobile/api/auth/login', {
-        axios.post('http://192.168.1.10:8000/mobile/api/auth/login', data)
+        axios.post('http://192.168.1.14:8000/mobile/api/auth/login', data)
             .then((response) => {
                 if (response.data.data.token !== undefined) {
                     setTimeout(() => {
@@ -25,12 +24,9 @@ const SplashScreen = ({ navigation }) => {
                         }
                     }, 1000);
                 }
-                else {
-                    Alert.alert('Tài khoản không đúng!', 'Mời nhập lại tài khoản, mật khẩu.')
-                }
             })
             .catch((error) => {
-                Alert.alert('Tài khoản không đúng!', 'Mời nhập lại tài khoản, mật khẩu.')
+                navigation.dispatch(StackActions.replace("Login"))
                 console.log("Lỗi không đăng nhập được!", error)
 
             });
