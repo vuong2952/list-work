@@ -40,7 +40,7 @@ const Profile = ({ navigation }) => {
 
     return (
         <ScrollView style={styles.container}>
-            <View style={{ backgroundColor: color.orange, height: 140, }}>
+            <View style={{ backgroundColor: '#ff7700', height: 140, }}>
                 <View style={{ marginTop: 40, flexDirection: "row", justifyContent: "center" }}>
                     <Avatar
                         size={160}
@@ -130,7 +130,7 @@ const styles = StyleSheet.create({
     },
     img: {
 
-        borderColor: color.orange,
+        borderColor: '#ff7700',
         borderWidth: 4,
         shadowColor: "#000",
         shadowOffset: {
@@ -173,7 +173,7 @@ const styles = StyleSheet.create({
         marginTop: 65,
     },
     icon: {
-        color: color.orange,
+        color: '#ff7700',
         flexDirection: "row",
         justifyContent: "flex-start",
         marginRight: 15,

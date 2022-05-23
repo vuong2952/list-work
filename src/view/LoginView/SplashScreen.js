@@ -12,11 +12,7 @@ import Indi from '../../components/indicators'
 
 const SplashScreen = ({ navigation }) => {
     const handleLogin = (data) => {
-<<<<<<< HEAD
         Indi.show()
-        console.log('2', data);
-=======
->>>>>>> main
         // axios.post('http://nk.ors.vn/mobile/api/auth/login', {
         axios.post('http://192.168.1.14:8000/mobile/api/auth/login', data)
             .then((response) => {
@@ -24,14 +20,13 @@ const SplashScreen = ({ navigation }) => {
                     setTimeout(() => {
                         {
                             Indi.show(false)
-                            navigation.dispatch(StackActions.replace("HomeApp"))
+                            navigation.dispatch(StackActions.replace("Dashboard"))
                             setStorage(response.data.data.token);
                             setUser(response.data.data);
                             setLogin(data);
                         }
                     }, 1000);
                 }
-<<<<<<< HEAD
                 else {
                     Indi.show(false)
                     console.log('5')
@@ -40,10 +35,6 @@ const SplashScreen = ({ navigation }) => {
             })
             .catch((error) => {
                 Indi.show(false)
-=======
-            })
-            .catch((error) => {
->>>>>>> main
                 navigation.dispatch(StackActions.replace("Login"))
                 console.log("Lỗi không đăng nhập được!", error)
 
