@@ -10,14 +10,10 @@ import Login from '../view/LoginView/Login4';
 import ListWorkScreen from '../view/LoginView/ListWorkScreen';
 import ListWork from '../view/LoginView/ListWork';
 import Profile from '../view/LoginView/Profile';
-// import Profile from '../view/LoginView/Profile2';
 import color from '../config/color';
 import SplashScreen from '../view/LoginView/SplashScreen';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import Indi from '../components/indicators';
 import Indicator from '../components/indicators/Indicator';
-// import { AuthContext } from '../context/AuthContext';
-
 import { NotificationListen, requestUserPermission } from './Apis';
 import { navigationRef,isReadyRef } from '../../rootNavigation';
 

@@ -49,8 +49,6 @@ const Profile = ({ navigation }) => {
                         containerStyle={styles.img}
                     />
                 </View>
-
-
             </View>
             <View style={{ marginTop: 30 }}>
                 <Card containerStyle={styles.card1}>

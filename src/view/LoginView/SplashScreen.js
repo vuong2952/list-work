@@ -12,8 +12,11 @@ import Indi from '../../components/indicators'
 
 const SplashScreen = ({ navigation }) => {
     const handleLogin = (data) => {
+<<<<<<< HEAD
         Indi.show()
         console.log('2', data);
+=======
+>>>>>>> main
         // axios.post('http://nk.ors.vn/mobile/api/auth/login', {
         axios.post('http://192.168.1.14:8000/mobile/api/auth/login', data)
             .then((response) => {
@@ -28,6 +31,7 @@ const SplashScreen = ({ navigation }) => {
                         }
                     }, 1000);
                 }
+<<<<<<< HEAD
                 else {
                     Indi.show(false)
                     console.log('5')
@@ -36,6 +40,10 @@ const SplashScreen = ({ navigation }) => {
             })
             .catch((error) => {
                 Indi.show(false)
+=======
+            })
+            .catch((error) => {
+>>>>>>> main
                 navigation.dispatch(StackActions.replace("Login"))
                 console.log("Lỗi không đăng nhập được!", error)
 
@@ -45,9 +53,7 @@ const SplashScreen = ({ navigation }) => {
         console.log('6')
         let users = await AsyncStorage.getItem('login');
         if (users !== null) {
-            console.log(7)
             handleLogin(JSON.parse(users));
-            console.log('1', users);
         }
         else {
             navigation.dispatch(StackActions.replace("Login"));

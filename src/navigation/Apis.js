@@ -11,15 +11,12 @@ export const setUser = async (data) => {
   console.log(data);
 }
 
-export const removeStorage = async () => {
-  // await AsyncStorage.removeItem("token")
-  // await AsyncStorage.removeItem("userInfo")
-  // await AsyncStorage.removeItem("login")
-  AsyncStorage.clear();
+export const setLogin = async (data) => {
+  await AsyncStorage.setItem("login", JSON.stringify(data))
 }
 
-export const setLogin = async (data) => {
-  await AsyncStorage.setItem("login", JSON.stringify(data));
+export const removeStorage = async () => {
+  AsyncStorage.clear()
 }
 
 // axios.defaults.baseURL = 'http://nk.ors.vn/mobile/api'

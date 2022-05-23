@@ -3,7 +3,6 @@ import React, { useContext, useEffect, useState } from 'react';
 import { StackActions } from '@react-navigation/native'
 import {
     View,
-    Text,
     TouchableOpacity,
     Image,
     Platform,
@@ -13,13 +12,18 @@ import {
     ActivityIndicator,
     Alert
 } from 'react-native';
+import { Text } from '@rneui/themed';
 import color from '../../config/color';
 import FormButton from '../../components/FormButton';
 import { windowHeight, windowWidth } from '../../utils/Dimension';
 import * as Animatable from 'react-native-animatable';
 import Feather from 'react-native-vector-icons/Feather';
+<<<<<<< HEAD
 import { setStorage, setUser, setLogin } from '../../navigation/Apis';
 import GlobalFont from 'react-native-global-font';
+=======
+import { setLogin, setStorage, setUser } from '../../navigation/Apis'
+>>>>>>> main
 import axios from 'axios';
 // import Spinner from 'react-native-loading-spinner-overlay/lib';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -33,8 +37,6 @@ const Login = ({ navigation }) => {
     const [isPassValid, setIsPassValid] = useState(false);
     const [showPass, setShowPass] = useState(true);
     const [isLoading, setIsLoading] = useState(false);
-    const [dataUser, setDataUser] = useState({});
-
 
     const textInputChange = (val) => {
         if (val.length !== 0) {
@@ -57,14 +59,21 @@ const Login = ({ navigation }) => {
     }
     const data = {
         username: username,
-        password: password,
+        password: password
     }
     const handleLogin = (data) => {
+<<<<<<< HEAD
         Indi.show()
         console.log('2',data);
         // axios.post('http://nk.ors.vn/mobile/api/auth/login', data)
         axios.post('http://192.168.1.14:8000/mobile/api/auth/login', data )
+=======
+        setIsLoading(true);
+        // axios.post('http://nk.ors.vn/mobile/api/auth/login', {
+        axios.post('http://192.168.1.14:8000/mobile/api/auth/login', data)
+>>>>>>> main
             .then((response) => {
+                setIsLoading(true);
                 if (response.data.data.token !== undefined) {
                     setTimeout(() => {
                         {
@@ -78,19 +87,28 @@ const Login = ({ navigation }) => {
                     }, 1000);
                 }
                 else {
+<<<<<<< HEAD
                     Indi.show(false)
                     console.log('5')
+=======
+                    setIsLoading(false);
+>>>>>>> main
                     Alert.alert('Tài khoản không đúng!', 'Mời nhập lại tài khoản, mật khẩu.')
                     navigation.dispatch(StackActions.replace("Login"))
                 }
+                
             })
             .catch((error) => {
+<<<<<<< HEAD
                 Indi.show(false)
+=======
+                setIsLoading(false);
+>>>>>>> main
                 // Alert.alert('Tài khoản không đúng!', 'Mời nhập lại tài khoản, mật khẩu.')
                 console.log("Lỗi không đăng nhập được!", error)
-
             });
     }
+<<<<<<< HEAD
     // const autoLogin = async () => {
     //     let users = await AsyncStorage.getItem('login');
     //     if (users !== null) {
@@ -108,6 +126,20 @@ const Login = ({ navigation }) => {
                 isLoading ? <Spinner visible={true} />
                     : null
             } */}
+=======
+    useEffect(() => {
+        const isLogin = async () => {
+            let items = await AsyncStorage.getItem("login");
+            console.log('logging231', items)
+            if(items !== null) handleLogin(JSON.parse(items))
+        }
+        isLogin()
+    }, [])
+
+    return (
+        <ScrollView contentContainerStyle={styles.container}>
+            <Spinner visible={isLoading} />
+>>>>>>> main
             <View style={styles.headerContainer}>
                 <Image
                     source={require('../../components/img/NamKhanh.jpg')}
@@ -135,12 +167,6 @@ const Login = ({ navigation }) => {
                             textInputChange(username);
                         }}
                     />
-                    {/* <Feather
-                    name={checkUser}
-                    color={color.secondary2}
-                    size={25}
-                    style={styles.iconRightStyle}
-                /> */}
                 </View>
                 {
                     userValid ?
