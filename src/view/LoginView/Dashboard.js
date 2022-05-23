@@ -19,13 +19,13 @@ import { removeStorage } from "../../navigation/Apis";
 const Dashboard = ({ navigation }) => {
     const [data, setData] = useState([])
 
-    useEffect(() => {
-        const storage = async () => {
-            let items = await AsyncStorage.getItem("user");
-            setData(JSON.parse(items))
-        }
-        storage()
-    }, [])
+    // useEffect(() => {
+    //     const storage = async () => {
+    //         let items = await AsyncStorage.getItem("user");
+    //         setData(JSON.parse(items))
+    //     }
+    //     storage()
+    // }, [])
 
     const [dataList, setDataList] = useState([])
 
@@ -38,6 +38,12 @@ const Dashboard = ({ navigation }) => {
                     console.log('Error ...', err)
                 })
         });
+
+        const storage = async () => {
+            let items = await AsyncStorage.getItem("user");
+            setData(JSON.parse(items))
+        }
+        storage()
         return loadData;
     }, [navigation])
 
@@ -74,7 +80,7 @@ const Dashboard = ({ navigation }) => {
                                 style={styles.icon}
                             />
                             <View>
-                            <Text style={styles.text}>Công việc</Text>
+                                <Text style={styles.text}>Công việc</Text>
                                 <Text style={styles.badge}>{dataList.length}</Text>
                             </View>
                         </View>
@@ -121,15 +127,15 @@ const styles = StyleSheet.create({
         color: 'white'
     },
     badge: {
-       position: 'absolute',
-       top: 2,
-       right: 2,
-       backgroundColor: '#ff7700',
-       borderRadius: 5,
-       padding: 2,
-       paddingHorizontal: 2,
-       fontWeight:'bold',
-       fontSize: 15
+        position: 'absolute',
+        top: 2,
+        right: 2,
+        backgroundColor: '#ff7700',
+        borderRadius: 5,
+        padding: 2,
+        paddingHorizontal: 2,
+        fontWeight: 'bold',
+        fontSize: 15
     },
     card1: {
         height: 160,

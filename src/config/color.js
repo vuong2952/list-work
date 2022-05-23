@@ -15,7 +15,7 @@ export default {
   // grey5: '#e1e8ee',
   // dkGreyBg: '#232323',
   // greyOutline: '#cbd2d9',
-  // orange: '#ff7700',
+  orange: '#ff7700',
   // orange2: '#e66b00',
   // blue1: '#0066ff',
   // orange1: '#ffcc00',
