@@ -20,8 +20,9 @@ import * as Animatable from 'react-native-animatable';
 import Feather from 'react-native-vector-icons/Feather';
 import { setLogin, setStorage, setUser } from '../../navigation/Apis'
 import axios from 'axios';
-import Spinner from 'react-native-loading-spinner-overlay/lib';
+// import Spinner from 'react-native-loading-spinner-overlay/lib';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Indi from "../../components/indicators"
 
 const Login = ({ navigation }) => {
     const [username, setUsername] = useState('');
@@ -56,51 +57,46 @@ const Login = ({ navigation }) => {
         password: password
     }
     const handleLogin = (data) => {
-        setIsLoading(true);
-        // axios.post('http://nk.ors.vn/mobile/api/auth/login', {
-        axios.post('http://192.168.1.14:8000/mobile/api/auth/login', data)
+        Indi.show()
+        console.log('2',data);
+        // axios.post('http://nk.ors.vn/mobile/api/auth/login', data)
+        axios.post('http://192.168.1.14:8000/mobile/api/auth/login', data )
             .then((response) => {
                 setIsLoading(true);
                 if (response.data.data.token !== undefined) {
-                    setIsLoading(true);
                     setTimeout(() => {
                         {
+                            Indi.show(false)
+                            console.log(isLoading)
                             navigation.dispatch(StackActions.replace("Dashboard"))
-                            setIsLoading(false)
                             setStorage(response.data.data.token);
                             setUser(response.data.data);
                             setLogin(data);
                         }
-                    }, 500);
+                    }, 1000);
                 }
                 else {
-                    setIsLoading(false);
+                    Indi.show(false)
+                    console.log('5')
                     Alert.alert('Tài khoản không đúng!', 'Mời nhập lại tài khoản, mật khẩu.')
+                    navigation.dispatch(StackActions.replace("Login"))
                 }
                 
             })
             .catch((error) => {
-                setIsLoading(false);
+                Indi.show(false)
                 // Alert.alert('Tài khoản không đúng!', 'Mời nhập lại tài khoản, mật khẩu.')
                 console.log("Lỗi không đăng nhập được!", error)
             });
     }
-    useEffect(() => {
-        const isLogin = async () => {
-            let items = await AsyncStorage.getItem("login");
-            if(items !== null) handleLogin(JSON.parse(items))
-        }
-        isLogin()
-    }, [])
 
     return (
         <ScrollView contentContainerStyle={styles.container}>
-            <Spinner visible={isLoading} />
             <View style={styles.headerContainer}>
                 <Image
                     source={require('../../components/img/NamKhanh.jpg')}
                     style={styles.logo}
-                /><Spinner visible={isLoading} />
+                />
                 <Text style={styles.text}>NK3C</Text>
             </View>
             <View style={{ marginBottom: 25 }}>
@@ -184,7 +180,6 @@ const Login = ({ navigation }) => {
                 buttonTitle="Sign In"
                 onPress={() => {
                     handleLogin(data);
-                    setIsLoading(true);
                 }}
             />
 
@@ -213,7 +208,7 @@ const styles = StyleSheet.create({
         resizeMode: 'cover',
     },
     text: {
-        fontFamily: 'BLKCHCRY',
+        // fontFamily: 'BLKCHCRY',
         fontSize: 28,
         marginBottom: 10,
         color: '#ff7700',

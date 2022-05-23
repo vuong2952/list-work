@@ -39,7 +39,6 @@ const Profile = ({ navigation }) => {
     }, [])
 
     return (
-        // <View style={styles.container}>
         <ScrollView style={styles.container}>
             <View style={{ backgroundColor: '#ff7700', height: 140, }}>
                 <View style={{ marginTop: 40, flexDirection: "row", justifyContent: "center" }}>
@@ -50,8 +49,6 @@ const Profile = ({ navigation }) => {
                         containerStyle={styles.img}
                     />
                 </View>
-
-
             </View>
             <View style={{ marginTop: 30 }}>
                 <Card containerStyle={styles.card1}>
@@ -147,7 +144,7 @@ const styles = StyleSheet.create({
     },
     textName: {
         textAlign: "center",
-        marginTop: 10,
+        marginTop: 20,
         fontSize: 18
     },
     card: {

@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { Text, Badge, Card, ListItem } from '@rneui/themed';
+import { Text, Badge, Card } from '@rneui/base';
 import React, { useEffect, useState, useCallback } from 'react';
 import { windowHeight, windowWidth } from '../../utils/Dimension';
 import color from '../../config/color'
@@ -36,16 +36,16 @@ const ListWork = ({ navigation }) => {
 
     return <View style={Style.container}>
         <View style={Style.badge}>
-            <Text style={{ fontSize: 15, color: 'white', backgroundColor: color.red, height: 20, borderRadius: 3, paddingHorizontal: 5, height: 23, marginBottom: 4}}>Gặp sự cố</Text>
-            <Text style={{ fontSize: 15, color: 'white', backgroundColor: color.success, height: 20, borderRadius: 3, paddingHorizontal: 5, height: 23, marginBottom: 4 }}>Hoàn thành</Text>
-            <Text style={{ fontSize: 15, color: 'white', backgroundColor: color.yellow, height: 20, borderRadius: 3, paddingHorizontal: 5, height: 23, marginBottom: 4 }}>Tạm dừng</Text>
-            <Text style={{ fontSize: 15, color: 'white', backgroundColor: color.grey1, height: 20, borderRadius: 3, paddingHorizontal: 5, height: 23, marginBottom: 4}}>Chưa xác nhận</Text>
-            <Text style={{ fontSize: 15, color: 'white', backgroundColor: color.blue, height: 20, borderRadius: 3, paddingHorizontal: 5, height: 23, marginBottom: 4 }}>Đang thực thi</Text>
+            <Text style={{ fontSize: 15, color: 'white', backgroundColor: color.red, height: 20, borderRadius: 3, paddingHorizontal: 7, height: 25, marginBottom: 5, paddingVertical: 1.5}}>Gặp sự cố</Text>
+            <Text style={{ fontSize: 15, color: 'white', backgroundColor: color.success, height: 20, borderRadius: 3, paddingHorizontal: 7, height: 25, marginBottom: 5, paddingVertical: 1.5}}>Hoàn thành</Text>
+            <Text style={{ fontSize: 15, color: 'white', backgroundColor: color.yellow, height: 20, borderRadius: 3, paddingHorizontal: 7, height: 25, marginBottom: 5, paddingVertical: 1.5}}>Tạm dừng</Text>
+            <Text style={{ fontSize: 15, color: 'white', backgroundColor: color.grey1, height: 20, borderRadius: 3, paddingHorizontal: 7, height: 25, marginBottom: 5, paddingVertical: 1.5}}>Chưa xác nhận</Text>
+            <Text style={{ fontSize: 15, color: 'white', backgroundColor: color.blue, height: 20, borderRadius: 3, paddingHorizontal: 7, height: 25, marginBottom: 5, paddingVertical: 1.5}}>Bắt đầu</Text>
         </View>
         <ScrollView style={{ marginBottom: 60 }}>
             <View>
                 {
-                    data && data.map((item, index) => (
+                    data !== null && data !== undefined && data.map((item, index) => (
                         <Card containerStyle={Style.card} key={index}>
                             <TouchableOpacity style={{ backgroundColor: color.grey }} onPress={() => {
                                 setExpanded(index === expanded ? "" : index)
