@@ -73,10 +73,8 @@ const Dashboard = ({ navigation }) => {
                                 size={80}
                                 style={styles.icon}
                             />
-                            <View>
                             <Text style={styles.text}>Công việc</Text>
-                                <Text style={styles.badge}>{dataList.length}</Text>
-                            </View>
+                            <Text style={styles.badge}>{dataList.length > 0 ? dataList.length : 0}</Text>
                         </View>
                     </TouchableOpacity>
 
@@ -120,15 +118,18 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
     },
     badge: {
-       position: 'absolute',
-       top: 2,
-       right: 2,
-       backgroundColor: '#ff7700',
-       borderRadius: 5,
-       padding: 2,
-       paddingHorizontal: 2,
-       fontWeight:'bold',
-       fontSize: 15
+        position: 'absolute',
+        textAlign: 'center',
+        top: -5,
+        right: -7,
+        backgroundColor: '#ff7700',
+        borderRadius: 100,
+        height: 33,
+        width: 33,
+        padding: 2,
+        paddingHorizontal: 2,
+        fontWeight: 'bold',
+        fontSize: 20
     },
     card1: {
         height: 160,

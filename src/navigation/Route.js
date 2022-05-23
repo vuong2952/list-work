@@ -62,7 +62,7 @@ const TabNavigation = () => {
                             <FontAwesome5
                                 name="home"
                                 size={25}
-                                color={focused ? color.orange : color.gray}
+                                color={focused ? '#ff7700' : color.grey1}
                             />
                         </View>
                     ),
@@ -79,7 +79,7 @@ const TabNavigation = () => {
                             <FontAwesome5
                                 name="user-alt"
                                 size={25}
-                                color={focused ? color.orange : color.gray}
+                                color={focused ? '#ff7700' : color.grey1}
                             />
                         </View>
                     ),

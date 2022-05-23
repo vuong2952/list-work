@@ -36,13 +36,11 @@ const ListWork = ({ navigation }) => {
 
     return <View style={Style.container}>
         <View style={Style.badge}>
-            <Text style={{ fontSize: 15, color: 'white', backgroundColor: color.red, height: 20, borderRadius: 3, paddingHorizontal: 2.5 }}>Gặp sự cố</Text>
-            <Text style={{ fontSize: 15, color: 'white', backgroundColor: color.success, height: 20, borderRadius: 3, paddingHorizontal: 2.5 }}>Hoàn thành</Text>
-            <Text style={{ fontSize: 15, color: 'white', backgroundColor: color.yellow, height: 20, borderRadius: 3, paddingHorizontal: 2.5 }}>Tạm dừng</Text>
-        </View>
-        <View style={Style.badge}>
-            <Text style={{ fontSize: 15, color: 'white', backgroundColor: color.grey1, height: 20, borderRadius: 3, paddingHorizontal: 2.5, }}>Chưa xác nhận</Text>
-            <Text style={{ fontSize: 15, color: 'white', backgroundColor: color.blue, height: 20, borderRadius: 3, paddingHorizontal: 2.5 }}>Đang thực thi</Text>
+            <Text style={{ fontSize: 15, color: 'white', backgroundColor: color.red, height: 20, borderRadius: 3, paddingHorizontal: 5, height: 23, marginBottom: 4}}>Gặp sự cố</Text>
+            <Text style={{ fontSize: 15, color: 'white', backgroundColor: color.success, height: 20, borderRadius: 3, paddingHorizontal: 5, height: 23, marginBottom: 4 }}>Hoàn thành</Text>
+            <Text style={{ fontSize: 15, color: 'white', backgroundColor: color.yellow, height: 20, borderRadius: 3, paddingHorizontal: 5, height: 23, marginBottom: 4 }}>Tạm dừng</Text>
+            <Text style={{ fontSize: 15, color: 'white', backgroundColor: color.grey1, height: 20, borderRadius: 3, paddingHorizontal: 5, height: 23, marginBottom: 4}}>Chưa xác nhận</Text>
+            <Text style={{ fontSize: 15, color: 'white', backgroundColor: color.blue, height: 20, borderRadius: 3, paddingHorizontal: 5, height: 23, marginBottom: 4 }}>Đang thực thi</Text>
         </View>
         <ScrollView style={{ marginBottom: 60 }}>
             <View>
@@ -92,9 +90,9 @@ const Style = StyleSheet.create({
     badge: {
         flexWrap: "wrap",
         marginTop: 10,
-        paddingHorizontal: 5,
+        paddingHorizontal: 2,
         flexDirection: 'row',
-        justifyContent: 'space-around',
+        justifyContent: 'space-between',
         marginBottom: 10,
     },
     listItemInnerContentView: {
