@@ -7,20 +7,24 @@ import { windowHeight, windowWidth } from '../../utils/Dimension';
 import color from '../../config/color';
 import axios from 'axios'
 import Spinner from 'react-native-loading-spinner-overlay/lib';
+import Indi from '../../components/indicators'
 
 const ListWorkScreen = ({ navigation, route }) => {
     const [isLoading, setIsLoading] = useState(false)
-    const data = route.params
-    const stage = data.stages
+    const {data, bill_id, car } = route.params;
+    // const stage = data.stages;
+    console.log('data', data);
+    console.log('bill_id',bill_id);
 
     useEffect(() => {
         const header = () => {
-            data && navigation.setOptions({ title: data.car.plate })
+            data && navigation.setOptions({ title: car.plate })
         }
         header()
     })
 
     const handleUpdate = (bill_id, stage_id, equipment_id, code) => {
+        Indi.show()
         // setIsLoading(true);
         axios.post('/process/list/update', {
             bill_id: bill_id,
@@ -28,9 +32,9 @@ const ListWorkScreen = ({ navigation, route }) => {
             equipment_id: equipment_id,
             code: code
         }).then(res => {
-            setIsLoading(true)
+            Indi.show()
             setTimeout(() => {
-                setIsLoading(false)
+                Indi.show(false)
                 navigation.navigate("ListWork")
             }, 500)
             // setIsLoading(false);
@@ -40,17 +44,13 @@ const ListWorkScreen = ({ navigation, route }) => {
     }
 
     return <View style={Style.container}>
-        {
-            isLoading ? (
-                <Spinner visible={true} />
-            ) : null
-        }
         < View >
             < ScrollView style={{ marginBottom: 60 }}>
                 <View style={{ flex: 1 }}>
                     {
-                        stage && Object.entries(stage).map(item =>
-                            Object.entries(item[1].equipment).map(key => (
+                        // stage && Object.entries(stage).map(item =>
+                            Object.entries(data[1].equipment).map(key => (
+                                console.log('key',key[1].id),
                                 <Card containerStyle={Style.card} wrapperStyle={{}} >
                                     <Text h3 style={{ padding: 5, height: 50, textAlign: 'center' }}>{key[1].name}</Text>
                                     <View style={Style.listItemInnerContentView}>
@@ -61,7 +61,7 @@ const ListWorkScreen = ({ navigation, route }) => {
                                                         buttonStyle={{ backgroundColor: color.started }}
                                                         containerStyle={Style.button}
                                                         titleStyle={Style.buttonText}
-                                                        onPress={() => handleUpdate(data.bill_id, item[0], key[1].id, 'start')} />}
+                                                        onPress={() => handleUpdate(bill_id, data[0], key[1].id, 'start')} />}
 
                                         {key[1].status_process === 'pause' ? null : key[1].status_process === undefined ? null :
                                             key[1].status_process === 'error' ? null : key[1].status_process === 'finish' ? null :
@@ -69,7 +69,7 @@ const ListWorkScreen = ({ navigation, route }) => {
                                                     buttonStyle={{ backgroundColor: color.paused }}
                                                     containerStyle={Style.button}
                                                     titleStyle={Style.buttonText}
-                                                    onPress={() => handleUpdate(data.bill_id, item[0], key[1].id, 'pause')} />}
+                                                    onPress={() => handleUpdate(bill_id, data[0], key[1].id, 'pause')} />}
 
                                         {key[1].status_process === 'start' ? null : key[1].status_process === undefined ? null :
                                             key[1].status_process === 'finish' ? null : key[1].status_process === 'resume' ? null :
@@ -77,7 +77,7 @@ const ListWorkScreen = ({ navigation, route }) => {
                                                     buttonStyle={{ backgroundColor: color.started }}
                                                     containerStyle={Style.button}
                                                     titleStyle={Style.buttonText}
-                                                    onPress={() => handleUpdate(data.bill_id, item[0], key[1].id, 'resume')} />}
+                                                    onPress={() => handleUpdate(bill_id, data[0], key[1].id, 'resume')} />}
 
                                         {key[1].status_process === 'error' ? null : key[1].status_process === undefined ? null :
                                             key[1].status_process === 'pause' ? null : key[1].status_process === 'finish' ? null :
@@ -85,14 +85,14 @@ const ListWorkScreen = ({ navigation, route }) => {
                                                     buttonStyle={{ backgroundColor: color.error }}
                                                     containerStyle={Style.button}
                                                     titleStyle={Style.buttonText}
-                                                    onPress={() => handleUpdate(data.bill_id, item[0], key[1].id, 'error')} />}
+                                                    onPress={() => handleUpdate(bill_id, data[0], key[1].id, 'error')} />}
                                         {key[1].status_process === 'finish' ? null : key[1].status_process === undefined ? null :
                                             <Button title="Hoàn thành"
                                                 buttonStyle={{ backgroundColor: color.finished }}
                                                 containerStyle={Style.button}
                                                 titleStyle={Style.buttonText}
-                                                onPress={() => handleUpdate(data.bill_id, item[0], key[1].id, 'finish')} />}
-                                        {key[1].status_process === 'finish' ?
+                                                onPress={() => handleUpdate(bill_id, data[0], key[1].id, 'finish')} />}
+                                        {key[1].status_process === 'finish'?
                                             <Button title="Đã hoàn thành"
                                                 containerStyle={Style.button}
                                                 titleStyle={Style.buttonText}
@@ -102,17 +102,13 @@ const ListWorkScreen = ({ navigation, route }) => {
                                             /> : null}
                                     </View>
                                 </Card>
-                            )))
+                            ))
+                            // )
                     }
                 </View>
             </ScrollView>
         </View >
-
-
-
     </View >
-
-
 }
 export default ListWorkScreen
 

@@ -40,10 +40,8 @@ const Profile = ({ navigation }) => {
 
     return (
         <View style={styles.container}>
-            {/* <ScrollView> */}
                 <View>
                     <View style={styles.header}>
-                        {/* <View style={styles.cardHeader}> */}
 
                     </View>
                 </View>

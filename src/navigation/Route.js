@@ -4,16 +4,22 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import React, { useContext, useEffect, useState } from 'react';
-import { StyleSheet, TouchableOpacity, View, Text } from 'react-native';
+import { StyleSheet, TouchableOpacity, View, Text, ActivityIndicator } from 'react-native';
 
 import Login from '../view/LoginView/Login4';
 import ListWorkScreen from '../view/LoginView/ListWorkScreen';
 import ListWork from '../view/LoginView/ListWork';
-// import Profile from '../view/LoginView/Profile';
-import Profile from '../view/LoginView/Profile2';
+import Profile from '../view/LoginView/Profile';
+// import Profile from '../view/LoginView/Profile2';
 import color from '../config/color';
 import SplashScreen from '../view/LoginView/SplashScreen';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import Indi from '../components/indicators';
+import Indicator from '../components/indicators/Indicator';
 // import { AuthContext } from '../context/AuthContext';
+
+import { NotificationListen, requestUserPermission } from './Apis';
+import { navigationRef,isReadyRef } from '../../rootNavigation';
 
 
 const Stack = createNativeStackNavigator();
@@ -48,9 +54,9 @@ const TabNavigation = () => {
                     height: 55,
                     position: "absolute",
                     right: 1,
-                    left: 1
+                    left: 1,
                 },
-                position: 'absolute'
+                position: 'absolute',
             }}
             initialRouteName="LWScreen">
             <Tab.Screen
@@ -66,12 +72,15 @@ const TabNavigation = () => {
                             />
                         </View>
                     ),
-                    tabBarShowLabel: false
+                    // tabBarLabelStyle: {
+                    //     ma
+                    // }
+                    // tabBarShowLabel: false
 
 
                 }} />
             <Tab.Screen
-                name="ProfileScreen"
+                name="Profile"
                 component={ProfileScreen}
                 options={{
                     tabBarIcon: ({ focused }) => (
@@ -83,13 +92,24 @@ const TabNavigation = () => {
                             />
                         </View>
                     ),
-                    tabBarShowLabel: false
+                    // tabBarShowLabel: false
                 }} />
         </Tab.Navigator>
     )
 }
 
 const Route = () => {
+
+    const [isLoading, setIsLoading] = useState(false);
+
+    useEffect(() => {
+        Indi.setShow(setIsLoading);
+        requestUserPermission();
+        NotificationListen();
+        // return () => {
+        //     isReadyRef.current = false;
+        // }
+    }, [])
     return (
         <NavigationContainer>
             <Stack.Navigator initialRouteName="SplashScreen" >
@@ -97,18 +117,8 @@ const Route = () => {
                 <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
                 <Stack.Screen name="HomeApp" component={TabNavigation} options={{ headerShown: false }} />
             </Stack.Navigator>
+            {isLoading && <Indicator />}
         </NavigationContainer>
-        // <NavigationContainer>
-        //     <Stack.Navigator initialRouteName="Login">
-        //         { 
-        //             userInfo.data?.token ? (
-        //                 <Stack.Screen name="HomeApp" component={TabNavigation} options={{ headerShown: false }} />
-        //             ) : (
-        //                 <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
-        //             )
-        //         }
-        //     </Stack.Navigator>
-        // </NavigationContainer>
     )
 }
 

@@ -12,6 +12,7 @@ import color from "../../config/color";
 import { StackActions } from "@react-navigation/native";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import FontAwesome5Icon from "react-native-vector-icons/FontAwesome5";
+import { removeStorage } from "../../navigation/Apis";
 
 
 
@@ -21,7 +22,7 @@ const Profile = ({ navigation }) => {
     const handleLogout = () => {
         axios.post("/auth/logout")
             .then(res => {
-                // removeStorage()
+                removeStorage()
                 navigation.dispatch(StackActions.replace("Login"))
             })
             .catch(err => {
@@ -38,16 +39,8 @@ const Profile = ({ navigation }) => {
     }, [])
 
     return (
-        // <View style={styles.container}>
         <ScrollView style={styles.container}>
             <View style={{ backgroundColor: color.orange, height: 140, }}>
-                {/* <Card containerStyle={styles.cardHeader}>
-                    <Image
-                        source={require('../../components/img/garage.jpg')}
-                        style={styles.img}
-                    />
-                    <Text style={styles.textName}>{data.username}</Text>
-                </Card> */}
                 <View style={{ marginTop: 40, flexDirection: "row", justifyContent: "center" }}>
                     <Avatar
                         size={160}
@@ -137,21 +130,6 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         flex: 1,
     },
-    // cardHeader: {
-    //     padding: 10,
-    //     height: 250,
-    //     borderRadius: 10,
-    //     shadowColor: "#000",
-    //     shadowOffset: {
-    //         width: 0,
-    //         height: 1,
-    //     },
-    //     shadowOpacity: 0.22,
-    //     shadowRadius: 2.22,
-    //     elevation: 3,
-    //     marginTop: 40,
-    //     alignItems: "center",
-    // },
     img: {
 
         borderColor: color.orange,
@@ -165,11 +143,6 @@ const styles = StyleSheet.create({
         shadowRadius: 4.65,
 
         elevation: 7,
-        // borderRadius: 25,
-        // height: windowHeight / 3,
-        // width: windowWidth / 4,
-        // borderColor: color.orange,
-        // borderWidth: 2,
     },
     textName: {
         textAlign: "center",

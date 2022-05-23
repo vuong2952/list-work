@@ -19,10 +19,11 @@ import { windowHeight, windowWidth } from '../../utils/Dimension';
 import * as Animatable from 'react-native-animatable';
 import Feather from 'react-native-vector-icons/Feather';
 import { setStorage, setUser, setLogin } from '../../navigation/Apis';
-import { setCustomText } from 'react-native-global-props';
+import GlobalFont from 'react-native-global-font';
 import axios from 'axios';
-import Spinner from 'react-native-loading-spinner-overlay/lib';
+// import Spinner from 'react-native-loading-spinner-overlay/lib';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Indi from "../../components/indicators"
 
 const Login = ({ navigation }) => {
     const [username, setUsername] = useState('');
@@ -59,63 +60,59 @@ const Login = ({ navigation }) => {
         password: password,
     }
     const handleLogin = (data) => {
-        console.log(4);
+        Indi.show()
         console.log('2',data);
-        setIsLoading(true);
-        // axios.post('http://nk.ors.vn/mobile/api/auth/login', {
-        axios.post('http://192.168.1.10:8000/mobile/api/auth/login', data )
+        // axios.post('http://nk.ors.vn/mobile/api/auth/login', data)
+        axios.post('http://192.168.1.14:8000/mobile/api/auth/login', data )
             .then((response) => {
                 if (response.data.data.token !== undefined) {
-                    setIsLoading(true);
                     setTimeout(() => {
                         {
+                            Indi.show(false)
                             console.log(isLoading)
                             navigation.dispatch(StackActions.replace("HomeApp"))
-                            setIsLoading(false)
                             setStorage(response.data.data.token);
                             setUser(response.data.data);
                             setLogin(data);
                         }
-                    }, 500);
+                    }, 1000);
                 }
                 else {
+                    Indi.show(false)
                     console.log('5')
-                    setIsLoading(false);
                     Alert.alert('Tài khoản không đúng!', 'Mời nhập lại tài khoản, mật khẩu.')
+                    navigation.dispatch(StackActions.replace("Login"))
                 }
             })
             .catch((error) => {
-                setIsLoading(false);
-                Alert.alert('Tài khoản không đúng!', 'Mời nhập lại tài khoản, mật khẩu.')
+                Indi.show(false)
+                // Alert.alert('Tài khoản không đúng!', 'Mời nhập lại tài khoản, mật khẩu.')
                 console.log("Lỗi không đăng nhập được!", error)
 
             });
     }
-    const autoLogin = async () => {
-        console.log('6')
-        let users = await AsyncStorage.getItem('login');
-        if (users !== null) {
-            console.log(7)
-            handleLogin(JSON.parse(users));
-            console.log('1',users);
-        }
-    }
-    useEffect(() => {
-        console.log('3')
-        autoLogin();
-    }, []);
+    // const autoLogin = async () => {
+    //     let users = await AsyncStorage.getItem('login');
+    //     if (users !== null) {
+    //         handleLogin(JSON.parse(users));
+    //     }
+    // }
+    // useEffect(() => {
+    //     GlobalFont.applyGlobal('BLKCHCRY');
+    //     autoLogin();
+    // }, []);
 
     return (
         <ScrollView contentContainerStyle={styles.container}>
-            {
+            {/* {
                 isLoading ? <Spinner visible={true} />
                     : null
-            }
+            } */}
             <View style={styles.headerContainer}>
                 <Image
                     source={require('../../components/img/NamKhanh.jpg')}
                     style={styles.logo}
-                /><Spinner visible={isLoading} />
+                />
                 <Text style={styles.text}>Madocar</Text>
             </View>
             <View style={{ marginBottom: 25 }}>
@@ -205,7 +202,6 @@ const Login = ({ navigation }) => {
                 buttonTitle="Sign In"
                 onPress={() => {
                     handleLogin(data);
-                    setIsLoading(true);
                 }}
             />
 
@@ -234,7 +230,7 @@ const styles = StyleSheet.create({
         resizeMode: 'cover',
     },
     text: {
-        fontFamily: 'BLKCHCRY',
+        // fontFamily: 'BLKCHCRY',
         fontSize: 28,
         marginBottom: 10,
         color: '#ff7700',

@@ -1,23 +1,26 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Alert, StyleSheet, Text, View } from 'react-native'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { StackActions } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import { setLogin, setStorage, setUser } from '../../navigation/Apis';
 import { Image } from '@rneui/themed';
 import color from '../../config/color';
+import Indi from '../../components/indicators'
 
 const SplashScreen = ({ navigation }) => {
     const handleLogin = (data) => {
+        Indi.show()
         console.log('2', data);
         // axios.post('http://nk.ors.vn/mobile/api/auth/login', {
-        axios.post('http://192.168.1.10:8000/mobile/api/auth/login', data)
+        axios.post('http://192.168.1.14:8000/mobile/api/auth/login', data)
             .then((response) => {
                 if (response.data.data.token !== undefined) {
                     setTimeout(() => {
                         {
+                            Indi.show(false)
                             navigation.dispatch(StackActions.replace("HomeApp"))
                             setStorage(response.data.data.token);
                             setUser(response.data.data);
@@ -26,12 +29,14 @@ const SplashScreen = ({ navigation }) => {
                     }, 1000);
                 }
                 else {
+                    Indi.show(false)
                     console.log('5')
-                    Alert.alert('Tài khoản không đúng!', 'Mời nhập lại tài khoản, mật khẩu.')
+                    navigation.dispatch(StackActions.replace("Login"))
                 }
             })
             .catch((error) => {
-                Alert.alert('Tài khoản không đúng!', 'Mời nhập lại tài khoản, mật khẩu.')
+                Indi.show(false)
+                navigation.dispatch(StackActions.replace("Login"))
                 console.log("Lỗi không đăng nhập được!", error)
 
             });
@@ -45,9 +50,7 @@ const SplashScreen = ({ navigation }) => {
             console.log('1', users);
         }
         else {
-
             navigation.dispatch(StackActions.replace("Login"));
-
         }
     }
     useEffect(() => {

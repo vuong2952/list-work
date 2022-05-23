@@ -20,12 +20,15 @@ import axios from 'axios'
 const ListWork = ({ navigation }) => {
 
     const [data, setData] = useState([])
+    const [car, setCar] = useState({})
 
     useEffect(() => {
         const loadData = navigation.addListener('focus', () => {
             axios.post("/process/list")
                 .then(res => {
                     setData(res.data.data)
+                    setCar(res.data.data[0].car)
+                    // console.log('car',res.data.data[0].car)
                 }).catch(err => {
                     console.log(err)
                 })
@@ -57,7 +60,13 @@ const ListWork = ({ navigation }) => {
                                                 : key[1].status_process === 'started' ? color.started
                                                     : key[1].status_process === 'paused' ? color.paused
                                                         : key[1].status_process === 'error' ? color.error : color.finished} >
-                                        <TouchableOpacity onPress={() => navigation.navigate('ListWorkScreen', item)} style={{ width: '100%', alignItems: 'center' }}>
+                                        <TouchableOpacity onPress={() => navigation.navigate('ListWorkScreen',
+                                        {
+                                            data: key,
+                                            bill_id: data[0].bill_id,
+                                            car: car
+                                        }
+                                        )} style={{ width: '100%', alignItems: 'center' }}>
                                             <Text style={Style.TextStyle} >{key[1].name}</Text>
                                         </TouchableOpacity>
                                     </View>
