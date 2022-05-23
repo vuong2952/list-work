@@ -54,26 +54,25 @@ const TabNavigation = () => {
                     right: 1,
                     left: 1,
                 },
-                position: 'absolute',
+                // position: 'absolute',
             }}
             initialRouteName="DashboardScreen">
             <Tab.Screen
                 name="DashboardScreen"
                 component={DashboardScreen}
                 options={{
+                    // title: 'Home',
                     tabBarIcon: ({ focused }) => (
-                        <View>
+                        <View style={{alignItems: 'center'}}>
                             <FontAwesome5
                                 name="home"
                                 size={25}
-                                color={focused ? color.orange : color.gray}
+                                color={focused ? color.yellow : color.grey1}
                             />
+                            <Text style={{color: focused ? color.yellow : color. grey1, fontSize:12}}>Home</Text>
                         </View>
                     ),
-                    // tabBarLabelStyle: {
-                    //     ma
-                    // }
-                    // tabBarShowLabel: false
+                    tabBarShowLabel: false
 
 
                 }} />
@@ -81,16 +80,19 @@ const TabNavigation = () => {
                 name="Profile"
                 component={ProfileScreen}
                 options={{
+                    title: 'Profile',
                     tabBarIcon: ({ focused }) => (
-                        <View>
+                        <View style={{alignItems: 'center'}}>
                             <FontAwesome5
                                 name="user-alt"
                                 size={25}
-                                color={focused ? color.orange : color.gray}
+                                color={focused ? color.yellow : color.grey1}
                             />
+                            <Text style={{color: focused ? color.yellow : color. grey1, fontSize: 12}}>Profile</Text>
                         </View>
                     ),
-                    // tabBarShowLabel: false
+                    tabBarShowLabel: false
+                    
                 }} />
         </Tab.Navigator>
     )

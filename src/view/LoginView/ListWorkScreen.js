@@ -11,33 +11,28 @@ import Indi from '../../components/indicators'
 
 const ListWorkScreen = ({ navigation, route }) => {
     const [isLoading, setIsLoading] = useState(false)
-    const {data, bill_id, car } = route.params;
-    // const stage = data.stages;
-    console.log('data', data);
-    console.log('bill_id',bill_id);
+    const data = route.params.item
+    const stage = route.params.val
 
     useEffect(() => {
         const header = () => {
-            data && navigation.setOptions({ title: car.plate })
+            data && navigation.setOptions({ title: data.car.plate })
         }
         header()
-    })
+    },[])
 
     const handleUpdate = (bill_id, stage_id, equipment_id, code) => {
         Indi.show()
-        // setIsLoading(true);
         axios.post('/process/list/update', {
             bill_id: bill_id,
             stage_id: stage_id,
             equipment_id: equipment_id,
             code: code
         }).then(res => {
-            Indi.show()
             setTimeout(() => {
                 Indi.show(false)
                 navigation.navigate("ListWork")
             }, 500)
-            // setIsLoading(false);
             console.log("Updated success")
 
         })
@@ -48,67 +43,71 @@ const ListWorkScreen = ({ navigation, route }) => {
             < ScrollView style={{ marginBottom: 60 }}>
                 <View style={{ flex: 1 }}>
                     {
-                        // stage && Object.entries(stage).map(item =>
-                            Object.entries(data[1].equipment).map(key => (
-                                console.log('key',key[1].id),
-                                <Card containerStyle={Style.card} wrapperStyle={{}} >
-                                    <Text h3 style={{ padding: 5, height: 50, textAlign: 'center' }}>{key[1].name}</Text>
-                                    <View style={Style.listItemInnerContentView}>
+                        Object.entries(stage[1].equipment).map(key => (
+                            <Card containerStyle={Style.card} wrapperStyle={{}} key={key[0]}>
+                                
+                                    <Text h3 style={{ flex: 1, textAlign: 'center', backgroundColor: color.grey, padding: 10, paddingVertical: 10}}>{key[1].name}</Text>
+                                    <View style={{paddingVertical: 10}}>
                                         {key[1].status_process === 'start' ? null : key[1].status_process === 'pause' ? null :
                                             key[1].status_process === 'error' ? null : key[1].status_process === 'resume' ? null :
                                                 key[1].status_process === 'finish' ? null :
-                                                    < Button title="Bắt đầu thực thi"
-                                                        buttonStyle={{ backgroundColor: color.started }}
+                                                    < Button title="Bắt đầu"
+                                                        buttonStyle={{ backgroundColor: color.blue }}
                                                         containerStyle={Style.button}
                                                         titleStyle={Style.buttonText}
-                                                        onPress={() => handleUpdate(bill_id, data[0], key[1].id, 'start')} />}
+                                                        onPress={() => handleUpdate(data.bill_id, stage[0], key[1].id, 'start')} />}
 
                                         {key[1].status_process === 'pause' ? null : key[1].status_process === undefined ? null :
                                             key[1].status_process === 'error' ? null : key[1].status_process === 'finish' ? null :
                                                 <Button title="Tạm dừng"
-                                                    buttonStyle={{ backgroundColor: color.paused }}
+                                                    buttonStyle={{ backgroundColor: color.yellow }}
                                                     containerStyle={Style.button}
                                                     titleStyle={Style.buttonText}
-                                                    onPress={() => handleUpdate(bill_id, data[0], key[1].id, 'pause')} />}
+                                                    onPress={() => handleUpdate(data.bill_id, stage[0], key[1].id, 'pause')} />}
 
                                         {key[1].status_process === 'start' ? null : key[1].status_process === undefined ? null :
                                             key[1].status_process === 'finish' ? null : key[1].status_process === 'resume' ? null :
                                                 <Button title="Tiếp tục"
-                                                    buttonStyle={{ backgroundColor: color.started }}
+                                                    buttonStyle={{ backgroundColor: color.blue }}
                                                     containerStyle={Style.button}
                                                     titleStyle={Style.buttonText}
-                                                    onPress={() => handleUpdate(bill_id, data[0], key[1].id, 'resume')} />}
+                                                    onPress={() => handleUpdate(data.bill_id, stage[0], key[1].id, 'resume')} />}
 
                                         {key[1].status_process === 'error' ? null : key[1].status_process === undefined ? null :
                                             key[1].status_process === 'pause' ? null : key[1].status_process === 'finish' ? null :
                                                 <Button title="Gặp sự cố"
-                                                    buttonStyle={{ backgroundColor: color.error }}
+                                                    buttonStyle={{ backgroundColor: color.red }}
                                                     containerStyle={Style.button}
                                                     titleStyle={Style.buttonText}
-                                                    onPress={() => handleUpdate(bill_id, data[0], key[1].id, 'error')} />}
+                                                    onPress={() => handleUpdate(data.bill_id, stage[0], key[1].id, 'error')} />}
                                         {key[1].status_process === 'finish' ? null : key[1].status_process === undefined ? null :
                                             <Button title="Hoàn thành"
-                                                buttonStyle={{ backgroundColor: color.finished }}
+                                                buttonStyle={{ backgroundColor: color.success }}
                                                 containerStyle={Style.button}
                                                 titleStyle={Style.buttonText}
-                                                onPress={() => handleUpdate(bill_id, data[0], key[1].id, 'finish')} />}
-                                        {key[1].status_process === 'finish'?
+                                                onPress={() => handleUpdate(data.bill_id, stage[0], key[1].id, 'finish')} />}
+                                        {key[1].status_process === 'finish' ?
                                             <Button title="Đã hoàn thành"
                                                 containerStyle={Style.button}
                                                 titleStyle={Style.buttonText}
                                                 disabled
-                                                disabledStyle={{ backgroundColor: color.finished }}
+                                                disabledStyle={{ backgroundColor: color.success }}
                                                 disabledTitleStyle={{ color: 'white' }}
                                             /> : null}
                                     </View>
-                                </Card>
-                            ))
-                            // )
+                                
+                            </Card>
+                        ))
                     }
                 </View>
             </ScrollView>
         </View >
+
+
+
     </View >
+
+
 }
 export default ListWorkScreen
 
@@ -119,6 +118,9 @@ const Style = StyleSheet.create({
         padding: 10,
     },
     listItemInnerContentView: {
+        flex: 1,
+        flexWrap: 'wrap',
+        flexDirection: 'row',
         marginTop: 18,
         width: '100%',
         alignItems: 'center',
@@ -131,7 +133,7 @@ const Style = StyleSheet.create({
         marginBottom: 10,
     },
     button: {
-        width: '100%',
+        // width: '100%',
         marginHorizontal: 5,
         marginVertical: 5,
         borderRadius: 5,
@@ -144,6 +146,7 @@ const Style = StyleSheet.create({
         fontFamily: 'Lato-Regular',
     },
     card: {
+
         borderRadius: 10,
         backgroundColor: "#fffff8",
         shadowColor: "#000000",

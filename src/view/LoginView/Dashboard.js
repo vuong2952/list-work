@@ -118,6 +118,7 @@ const styles = StyleSheet.create({
         fontFamily: 'Montserrat-Light',
         fontWeight: 'bold',
         alignSelf: 'center',
+        color: 'white'
     },
     badge: {
        position: 'absolute',
