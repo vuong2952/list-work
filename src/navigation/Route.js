@@ -10,6 +10,7 @@ import Login from '../view/LoginView/Login4';
 import ListWorkScreen from '../view/LoginView/ListWorkScreen';
 import ListWork from '../view/LoginView/ListWork';
 import Profile from '../view/LoginView/Profile';
+import Dashboard from '../view/LoginView/Dashboard';
 import color from '../config/color';
 import SplashScreen from '../view/LoginView/SplashScreen';
 
@@ -18,9 +19,10 @@ const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
 const HomeStack = createNativeStackNavigator();
-const LWScreen = () => {
+const DashboardScreen = () => {
     return (
-        <HomeStack.Navigator initialRouteName="ListWork">
+        <HomeStack.Navigator initialRouteName="Dashboard">
+            <HomeStack.Screen name="Dashboard" component={Dashboard} options={{ headerShown: false }} />
             <HomeStack.Screen name="ListWork" component={ListWork} options={{ headerShown: false }} />
             <HomeStack.Screen name="ListWorkScreen" component={ListWorkScreen} options={{ title: '' }} />
         </HomeStack.Navigator>
@@ -50,10 +52,10 @@ const TabNavigation = () => {
                 },
                 position: 'absolute'
             }}
-            initialRouteName="LWScreen">
+            initialRouteName="DashboardScreen">
             <Tab.Screen
-                name="Home"
-                component={LWScreen}
+                name="DashboardScreen"
+                component={DashboardScreen}
                 options={{
                     tabBarIcon: ({ focused }) => (
                         <View>
@@ -93,7 +95,7 @@ const Route = () => {
             <Stack.Navigator initialRouteName="SplashScreen" >
                 <Stack.Screen name="SplashScreen" component={SplashScreen} options={{ headerShown: false }} />
                 <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
-                <Stack.Screen name="HomeApp" component={TabNavigation} options={{ headerShown: false }} />
+                <Stack.Screen name="Dashboard" component={TabNavigation} options={{headerShown: false}} />
             </Stack.Navigator>
         </NavigationContainer>
     )

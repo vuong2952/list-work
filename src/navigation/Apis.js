@@ -2,12 +2,10 @@
 import axios from "axios"
 import AsyncStorage from '@react-native-async-storage/async-storage';
 export const setStorage = async (token) => {
-  console.log('token',token);
   await AsyncStorage.setItem("token", token)
 }
 export const setUser = async (data) => {
   await AsyncStorage.setItem("user", JSON.stringify(data))
-  console.log(data);
 }
 
 export const setLogin = async (data) => {

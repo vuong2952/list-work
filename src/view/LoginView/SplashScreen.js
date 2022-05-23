@@ -17,7 +17,7 @@ const SplashScreen = ({ navigation }) => {
                 if (response.data.data.token !== undefined) {
                     setTimeout(() => {
                         {
-                            navigation.dispatch(StackActions.replace("HomeApp"))
+                            navigation.dispatch(StackActions.replace("Dashboard"))
                             setStorage(response.data.data.token);
                             setUser(response.data.data);
                             setLogin(data);

@@ -65,8 +65,7 @@ const Login = ({ navigation }) => {
                     setIsLoading(true);
                     setTimeout(() => {
                         {
-                            console.log(isLoading)
-                            navigation.dispatch(StackActions.replace("HomeApp"))
+                            navigation.dispatch(StackActions.replace("Dashboard"))
                             setIsLoading(false)
                             setStorage(response.data.data.token);
                             setUser(response.data.data);
@@ -89,7 +88,6 @@ const Login = ({ navigation }) => {
     useEffect(() => {
         const isLogin = async () => {
             let items = await AsyncStorage.getItem("login");
-            console.log('logging231', items)
             if(items !== null) handleLogin(JSON.parse(items))
         }
         isLogin()
@@ -103,7 +101,7 @@ const Login = ({ navigation }) => {
                     source={require('../../components/img/NamKhanh.jpg')}
                     style={styles.logo}
                 /><Spinner visible={isLoading} />
-                <Text style={styles.text}>Madocar</Text>
+                <Text style={styles.text}>NK3C</Text>
             </View>
             <View style={{ marginBottom: 25 }}>
                 <View style={styles.inputContainer}>
