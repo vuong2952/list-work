@@ -61,8 +61,6 @@ const Dashboard = ({ navigation }) => {
                         containerStyle={styles.img}
                     />
                 </View>
-
-
             </View>
             <View style={{ marginTop: 100, flex: 4 }}>
                 <Card containerStyle={styles.card1}>

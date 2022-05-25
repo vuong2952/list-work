@@ -14,7 +14,7 @@ const SplashScreen = ({ navigation }) => {
     const handleLogin = (data) => {
         Indi.show()
         // axios.post('http://nk.ors.vn/mobile/api/auth/login', {
-        axios.post('http://192.168.1.14:8000/mobile/api/auth/login', data)
+        axios.post('http://192.168.1.10:8000/mobile/api/auth/login', data)
             .then((response) => {
                 if (response.data.data.token !== undefined) {
                     setTimeout(() => {

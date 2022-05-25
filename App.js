@@ -6,17 +6,13 @@
  * @format
  * @flow strict-local
  */
-import React from 'react';
+import React, { useEffect } from 'react';
 import Route from './src/navigation/Route';
-import AuthProvider from './src/context/AuthContext';
 
 
 function App() {
   return (
-    // <AuthProvider>
-      <Route />
-    // </AuthProvider>
-
+    <Route />
   );
 }
 
