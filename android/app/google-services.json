@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "887600038986",
-    "project_id": "pushnotification-cb34a",
-    "storage_bucket": "pushnotification-cb34a.appspot.com"
+    "project_number": "1006895656727",
+    "project_id": "test2-e0d46",
+    "storage_bucket": "test2-e0d46.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:887600038986:android:587cef9f5991f8fd9352b3",
+        "mobilesdk_app_id": "1:1006895656727:android:68f79fb43a74bd24a31152",
         "android_client_info": {
           "package_name": "com.listwork"
         }
       },
       "oauth_client": [
         {
-          "client_id": "887600038986-kuqd0abk3qmp7s16i8c8h5nm78g210ah.apps.googleusercontent.com",
+          "client_id": "1006895656727-u6gm45q2347oqgm7e5futfg6r48c4gkk.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDVpQgfcWQtUttj48oR_i2U0lN_FnZtCaM"
+          "current_key": "AIzaSyCW16vs2FOC9DWvLgWCqr0WsLZ-czuz7U4"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "887600038986-kuqd0abk3qmp7s16i8c8h5nm78g210ah.apps.googleusercontent.com",
+              "client_id": "1006895656727-u6gm45q2347oqgm7e5futfg6r48c4gkk.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

@@ -20,17 +20,15 @@ import axios from 'axios'
 const ListWork = ({ navigation }) => {
 
     const [data, setData] = useState([])
-    const [car, setCar] = useState({})
+    const [expanded, setExpanded] = useState(null);
 
     useEffect(() => {
         const loadData = navigation.addListener('focus', () => {
             axios.post("/process/list")
                 .then(res => {
                     setData(res.data.data)
-                    setCar(res.data.data[0].car)
-                    // console.log('car',res.data.data[0].car)
                 }).catch(err => {
-                    console.log(err)
+                    console.log('Error ...', err)
                 })
         });
         return loadData;
@@ -38,40 +36,40 @@ const ListWork = ({ navigation }) => {
 
     return <View style={Style.container}>
         <View style={Style.badge}>
-            <Text style={{ fontSize: 13, color: 'white', backgroundColor: color.undefined, height: 20, borderRadius: 7}}>Chưa xác nhận</Text>
-            <Text style={{ fontSize: 13, color: 'white', backgroundColor: color.started, height: 20, borderRadius: 7}}>Đang thực thi</Text>
-            <Text style={{ fontSize: 13, color: 'white', backgroundColor: color.paused, height: 20, borderRadius: 7}}>Tạm dừng</Text>
-            <Text style={{ fontSize: 13, color: 'white', backgroundColor: color.error, height: 20, borderRadius: 7}}>Gặp sự cố</Text>
-            <Text style={{ fontSize: 13, color: 'white', backgroundColor: color.finished, height: 20, borderRadius: 7}}>Hoàn thành</Text>
+            <Text style={{ fontSize: 15, color: 'white', backgroundColor: color.red, height: 20, borderRadius: 3, paddingHorizontal: 7, height: 25, marginBottom: 5, paddingVertical: 1.5}}>Gặp sự cố</Text>
+            <Text style={{ fontSize: 15, color: 'white', backgroundColor: color.success, height: 20, borderRadius: 3, paddingHorizontal: 7, height: 25, marginBottom: 5, paddingVertical: 1.5}}>Hoàn thành</Text>
+            <Text style={{ fontSize: 15, color: 'white', backgroundColor: color.yellow, height: 20, borderRadius: 3, paddingHorizontal: 7, height: 25, marginBottom: 5, paddingVertical: 1.5}}>Tạm dừng</Text>
+            <Text style={{ fontSize: 15, color: 'white', backgroundColor: color.grey1, height: 20, borderRadius: 3, paddingHorizontal: 7, height: 25, marginBottom: 5, paddingVertical: 1.5}}>Chưa xác nhận</Text>
+            <Text style={{ fontSize: 15, color: 'white', backgroundColor: color.blue, height: 20, borderRadius: 3, paddingHorizontal: 7, height: 25, marginBottom: 5, paddingVertical: 1.5}}>Bắt đầu</Text>
         </View>
-        <ScrollView style={{ marginBottom: 60}}>
+        <ScrollView style={{ marginBottom: 60 }}>
             <View>
                 {
-                    data && data.map((item, index) => (
-                        <Card containerStyle={Style.card} wrapperStyle={{}}>
-                            <Text h4 style={{ textAlign: 'center' }}>{(item.car.plate)}</Text>
-                            <Badge textStyle={{ fontSize: 14, textAlign: 'center' }}
-                                value={(item.car.attribute.name) + ' - ' + (item.car.customer.name)}></Badge>
-                            {
-                                Object.entries(item.stages).map(key => (
-                                    <View style={Style.listItemInnerContentView}
-                                        backgroundColor={key[1].status_process === undefined ? color.undefined
-                                            : key[1].status_process === 'nstarted' ? color.undefined
-                                                : key[1].status_process === 'started' ? color.started
-                                                    : key[1].status_process === 'paused' ? color.paused
-                                                        : key[1].status_process === 'error' ? color.error : color.finished} >
-                                        <TouchableOpacity onPress={() => navigation.navigate('ListWorkScreen',
-                                        {
-                                            data: key,
-                                            bill_id: data[0].bill_id,
-                                            car: car
-                                        }
-                                        )} style={{ width: '100%', alignItems: 'center' }}>
-                                            <Text style={Style.TextStyle} >{key[1].name}</Text>
-                                        </TouchableOpacity>
-                                    </View>
-                                ))
-                            }
+                    data !== null && data !== undefined && data.map((item, index) => (
+                        <Card containerStyle={Style.card} key={index}>
+                            <TouchableOpacity style={{ backgroundColor: color.grey }} onPress={() => {
+                                setExpanded(index === expanded ? "" : index)
+                            }}>
+                                <Text h3 style={{ textAlign: 'center', color: color.primary, padding: 5 }}>{item.car.plate}</Text>
+                                <Text style={{ color: 'white', fontSize: 18, textAlign: 'center', backgroundColor: color.primary, paddingHorizontal: 10, borderRadius: 2, padding: 5 }}
+                                >{(item.car.attribute.name) + ' - ' + (item.car.customer.name)}</Text>
+                            </TouchableOpacity>
+                            <View style={{ paddingHorizontal: 10 }}>
+                                {
+                                    Object.entries(item.stages).map(val => (
+                                        index === expanded ? <View style={Style.listItemInnerContentView} key={val[0]}
+                                            backgroundColor={val[1].status_process === undefined ? color.grey1
+                                                : val[1].status_process === 'nstarted' ? color.grey1
+                                                    : val[1].status_process === 'started' ? color.blue
+                                                        : val[1].status_process === 'paused' ? color.yellow
+                                                            : val[1].status_process === 'error' ? color.red : color.success} >
+
+                                            <TouchableOpacity onPress={() => navigation.navigate('ListWorkScreen', { val, item })} style={{ width: '100%', alignItems: 'center' }}>
+                                                <Text style={Style.TextStyle} >{val[1].name}</Text>
+                                            </TouchableOpacity>
+                                        </View> : null
+                                    ))
+                                }</View>
                         </Card>
                     ))
                 }
@@ -92,7 +90,7 @@ const Style = StyleSheet.create({
     badge: {
         flexWrap: "wrap",
         marginTop: 10,
-        paddingHorizontal: 5,
+        paddingHorizontal: 2,
         flexDirection: 'row',
         justifyContent: 'space-between',
         marginBottom: 10,

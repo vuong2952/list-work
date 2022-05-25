@@ -45,7 +45,6 @@ const ListWorkScreen = ({ navigation, route }) => {
                     {
                         Object.entries(stage[1].equipment).map(key => (
                             <Card containerStyle={Style.card} wrapperStyle={{}} key={key[0]}>
-                                
                                     <Text h3 style={{ flex: 1, textAlign: 'center', backgroundColor: color.grey, padding: 10, paddingVertical: 10}}>{key[1].name}</Text>
                                     <View style={{paddingVertical: 10}}>
                                         {key[1].status_process === 'start' ? null : key[1].status_process === 'pause' ? null :

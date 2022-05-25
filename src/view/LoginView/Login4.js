@@ -60,7 +60,7 @@ const Login = ({ navigation }) => {
         Indi.show()
         console.log('2',data);
         // axios.post('http://nk.ors.vn/mobile/api/auth/login', data)
-        axios.post('http://192.168.1.14:8000/mobile/api/auth/login', data )
+        axios.post('http://192.168.1.10:8000/mobile/api/auth/login', data )
             .then((response) => {
                 setIsLoading(true);
                 if (response.data.data.token !== undefined) {
@@ -85,17 +85,10 @@ const Login = ({ navigation }) => {
             })
             .catch((error) => {
                 Indi.show(false)
-                // Alert.alert('Tài khoản không đúng!', 'Mời nhập lại tài khoản, mật khẩu.')
+                Alert.alert('Tài khoản không đúng!', 'Mời nhập lại tài khoản, mật khẩu.')
                 console.log("Lỗi không đăng nhập được!", error)
             });
     }
-    // useEffect(() => {
-    //     const isLogin = async () => {
-    //         let items = await AsyncStorage.getItem("login");
-    //         if(items !== null) handleLogin(JSON.parse(items))
-    //     }
-    //     isLogin()
-    // }, [])
 
     return (
         <ScrollView contentContainerStyle={styles.container}>

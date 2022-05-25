@@ -11,7 +11,7 @@ import messaging from '@react-native-firebase/messaging';
 import Login from '../view/LoginView/Login4';
 import ListWorkScreen from '../view/LoginView/ListWorkScreen';
 import ListWork from '../view/LoginView/ListWork';
-import Profile2 from '../view/LoginView/Profile2';
+import Profile from '../view/LoginView/Profile';
 import Dashboard from '../view/LoginView/Dashboard';
 import Dashboard2 from '../view/LoginView/Dashboard2';
 
@@ -20,8 +20,21 @@ import SplashScreen from '../view/LoginView/SplashScreen';
 import Indi from '../components/indicators';
 import Indicator from '../components/indicators/Indicator';
 import { NotificationListen, requestUserPermission } from './Apis';
-import { navigationRef, isReadyRef } from '../../rootNavigation';
-import Navigation from '../Navigation';
+
+
+import { createNavigationContainerRef } from '@react-navigation/native';
+
+const navigationRef = createNavigationContainerRef()
+
+function navigate(name, params) {
+  if (navigationRef.isReady()) {
+    navigationRef.navigate(name, params);
+  }
+}
+// import Navigation from '../../rootNavigation';
+// import Navigation from '../Navigation';
+// import { fcmService } from '../components/notification/FCMservice';
+// import { localNotificationService } from '../components/notification/LocalNotificationService';
 
 
 
@@ -45,7 +58,7 @@ const ProfileStack = createNativeStackNavigator();
 const ProfileScreen = () => {
     return (
         <ProfileStack.Navigator>
-            <ProfileStack.Screen name="Profile2" component={Profile2} options={{ headerShown: false }} />
+            <ProfileStack.Screen name="Profile2" component={Profile} options={{ headerShown: false }} />
         </ProfileStack.Navigator>
     )
 }
@@ -61,7 +74,6 @@ const TabNavigation = () => {
                     right: 1,
                     left: 1,
                 },
-                // position: 'absolute',
             }}
             initialRouteName="DashboardScreen">
             <Tab.Screen
@@ -74,7 +86,7 @@ const TabNavigation = () => {
                             <FontAwesome5
                                 name="home"
                                 size={25}
-                                color={focused ? color.orange : color.grey1}
+                                color={focused ? '#ff7700' : color.grey1}
                             />
                             <Text style={{ color: focused ? color.orange : color.grey1, fontSize: 12 }}>Home</Text>
                         </View>
@@ -93,7 +105,7 @@ const TabNavigation = () => {
                             <FontAwesome5
                                 name="user-alt"
                                 size={25}
-                                color={focused ? color.orange : color.grey1}
+                                color={focused ? '#ff7700' : color.grey1}
                             />
                             <Text style={{ color: focused ? color.orange : color.grey1, fontSize: 12 }}>Profile</Text>
                         </View>
@@ -108,9 +120,6 @@ const TabNavigation = () => {
 const Route = () => {
 
     const [isLoading, setIsLoading] = useState(false);
-    const routeNameRef = React.useRef();
-    // const navigationRef = React.useRef();
-    // const navigation = useNavigation();
     const [loading, setLoading] = useState(true);
     const [initialRoute, setInitialRoute] = useState('SplashScreen');
 
@@ -118,10 +127,10 @@ const Route = () => {
         messaging().onNotificationOpenedApp(remoteMessage => {
             console.log(
                 '1 Notification caused app to open from background state:',
-                remoteMessage.notification,'-',
+                remoteMessage.notification, '-',
                 remoteMessage.data.type,
             );
-            remoteMessage.data.type && Navigation.navigate(remoteMessage.data.type);
+            remoteMessage.data.type && navigate(remoteMessage.data.type);
         });
         messaging()
             .getInitialNotification()
@@ -129,11 +138,11 @@ const Route = () => {
                 if (remoteMessage) {
                     console.log(
                         '2 Notification caused app to open from quit state:',
-                        remoteMessage.notification,'-type:  ',
+                        remoteMessage.notification, '-type:  ',
                         remoteMessage.data.type
                     );
                     remoteMessage.data.type && setInitialRoute(remoteMessage.data.type);
-                    console.log('3',remoteMessage.data.type);
+                    console.log('3', remoteMessage.data.type);
                 }
             });
         messaging().onMessage(async remoteMessage => {
@@ -144,23 +153,17 @@ const Route = () => {
         Indi.setShow(setIsLoading);
         requestUserPermission();
         NotificationListen();
-        return () => {
-            isReadyRef.current = false;
-        }
+        console.log('initialRoute', initialRoute)
+
     }, [])
     return (
         <NavigationContainer
             ref={navigationRef}
-            onReady={() => {
-                isReadyRef.current = true;
-            }}
         >
             <Stack.Navigator
                 initialRouteName={initialRoute}
-                screenOptions={{
-                    gestureEnabled: true,
 
-                }} >
+                >
                 <Stack.Screen name="SplashScreen" component={SplashScreen} options={{ headerShown: false }} />
                 <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
                 <Stack.Screen name="Dashboard" component={TabNavigation} options={{ headerShown: false }} />

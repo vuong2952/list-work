@@ -74,20 +74,20 @@ const Dashboard = ({ navigation }) => {
                 <Card containerStyle={styles.card1}>
                     <TouchableOpacity onPress={() => navigation.navigate("ListWork")}>
                         <View style={{ flexDirection: "column" }}>
-                            <FontAwesome
+                            {/* <FontAwesome
                                 name='list-alt'
                                 size={80}
                                 style={styles.icon}
+                            /> */}
+                            <Image
+                                source={require('../../components/img/To_do_list.png')}
+                                style={{ width: 70, height: 100, alignSelf: 'center' }}
                             />
-                            <View>
-                                <Text style={styles.text}>Công việc</Text>
-                                <Text style={styles.badge}>{dataList.length}</Text>
-                            </View>
+                            <Text style={styles.text}>Công việc</Text>
+                            <Text style={dataList !== undefined && dataList.length > 0 ? styles.badge : null}>{dataList !== undefined && dataList.length > 0 ? dataList.length : null}</Text>
                         </View>
                     </TouchableOpacity>
-
                 </Card>
-
             </View>
         </ScrollView >
         // </View>
@@ -106,8 +106,8 @@ const styles = StyleSheet.create({
         position: 'absolute',
         right: 7,
         alignSelf: 'center',
-        borderColor: '#ff7700',
-        borderWidth: 4,
+        // borderColor: color.grey1,
+        // borderWidth: 4,
         shadowColor: "#000",
         shadowOffset: {
             width: 0,
@@ -138,9 +138,10 @@ const styles = StyleSheet.create({
         fontSize: 15
     },
     card1: {
-        height: 160,
+        height: 180,
         width: 180,
         borderRadius: 10,
+        marginBottom: 3,
         shadowColor: "#000",
         shadowOffset: {
             width: 0,
@@ -150,10 +151,6 @@ const styles = StyleSheet.create({
         shadowRadius: 2.22,
         elevation: 3,
         marginTop: 65,
-    },
-    icon: {
-        color: '#ff7700',
-        alignSelf: "center",
     },
     text: {
         fontSize: 24,
