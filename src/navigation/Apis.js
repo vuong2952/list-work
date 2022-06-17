@@ -7,6 +7,7 @@ export const setStorage = async (token) => {
 }
 export const setUser = async (data) => {
   await AsyncStorage.setItem("user", JSON.stringify(data))
+  console.log(await AsyncStorage.getItem("user"));
 }
 
 export const setLogin = async (data) => {
@@ -17,8 +18,8 @@ export const removeStorage = async () => {
   AsyncStorage.clear()
 }
 
-// axios.defaults.baseURL = 'http://nk.ors.vn/mobile/api'
-axios.defaults.baseURL = 'http://192.168.1.10:8000/mobile/api'
+axios.defaults.baseURL = 'http://nk.ors.vn/mobile/api'
+// axios.defaults.baseURL = 'http://192.168.1.14:8000/mobile/api'
 axios.defaults.timeout = 1000
 
 axios.interceptors.request.use(

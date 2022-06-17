@@ -13,8 +13,8 @@ import Indi from '../../components/indicators'
 const SplashScreen = ({ navigation }) => {
     const handleLogin = (data) => {
         Indi.show()
-        // axios.post('http://nk.ors.vn/mobile/api/auth/login', {
-        axios.post('http://192.168.1.10:8000/mobile/api/auth/login', data)
+        axios.post('http://nk.ors.vn/mobile/api/auth/login', data)
+        // axios.post('http://192.168.1.10:8000/mobile/api/auth/login', data)
             .then((response) => {
                 if (response.data.data.token !== undefined) {
                     setTimeout(() => {
@@ -29,8 +29,8 @@ const SplashScreen = ({ navigation }) => {
                 }
                 else {
                     Indi.show(false)
-                    console.log('5')
                     navigation.dispatch(StackActions.replace("Login"))
+                    alert('sai tai khoan hoac mat khau')
                 }
             })
             .catch((error) => {
@@ -41,8 +41,8 @@ const SplashScreen = ({ navigation }) => {
             });
     }
     const autoLogin = async () => {
-        console.log('6')
         let users = await AsyncStorage.getItem('login');
+        console.log('6',users)
         if (users !== null) {
             handleLogin(JSON.parse(users));
         }

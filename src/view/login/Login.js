@@ -59,8 +59,8 @@ const Login = ({ navigation }) => {
     const handleLogin = (data) => {
         Indi.show()
         console.log('2',data);
-        // axios.post('http://nk.ors.vn/mobile/api/auth/login', data)
-        axios.post('http://192.168.1.10:8000/mobile/api/auth/login', data )
+        axios.post('http://nk.ors.vn/mobile/api/auth/login', data)
+        // axios.post('http://192.168.1.10:8000/mobile/api/auth/login', data )
             .then((response) => {
                 setIsLoading(true);
                 if (response.data.data.token !== undefined) {
